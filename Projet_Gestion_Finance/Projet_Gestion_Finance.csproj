@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Models\" />
     <Folder Include="Ressource\" />
     <Folder Include="Views\" />
   </ItemGroup>
