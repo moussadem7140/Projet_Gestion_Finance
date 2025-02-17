@@ -10,6 +10,13 @@
         <TabControl>
             <TabItem Header="Liste des dépenses" FontWeight="Bold">
                 <StackPanel>
+                    <StackPanel Margin="0,0,75,0" x:Name="spAjouterProduit" Orientation="Horizontal" >
+                        <TextBox x:Name="txtRechercher" Width="250" Height="25" Margin="10"  />
+                        <ComboBox x:Name="cboCategories" Width="150" Margin="10"/>
+                        <Button x:Name="btnRechercherProduit" Margin="10" BorderThickness="0" Background="White">
+                            <Image Source="/Ressource/search.png" Width="25" Margin="5" />
+                        </Button>
+                    </StackPanel>
                     <StackPanel  Orientation="Horizontal">
                         <TextBlock  Text="NOM" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,265,0" />
                         <TextBlock  Text="Coût" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,150,0" />
