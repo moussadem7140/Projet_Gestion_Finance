@@ -9,8 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Ressource\depenses.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Ressource\depenses.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Ressource\" />
     <Folder Include="Views\" />
   </ItemGroup>
 

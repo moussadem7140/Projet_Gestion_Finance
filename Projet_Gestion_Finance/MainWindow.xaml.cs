@@ -20,5 +20,31 @@ namespace Projet_Gestion_Finance
         {
             InitializeComponent();
         }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void AfficherListeDepenses()
+        {
+
+        }
+
+        private void btnNouveau_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+
+        }
+
+        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
     }
 }

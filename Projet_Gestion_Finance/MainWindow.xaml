@@ -5,8 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="Gestion de Finance" Height="360" Width="820" Loaded="Window_Loaded">
+    <StackPanel Margin="10">
+        <TabControl>
+            <TabItem Header="Liste des dépenses" FontWeight="Bold">
+                <StackPanel>
+                    <StackPanel  Orientation="Horizontal">
+                        <TextBlock  Text="NOM" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,265,0" />
+                        <TextBlock  Text="Coût" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,150,0" />
+                        <TextBlock  Text="Date" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,130,0"/>
+                        <TextBlock  Text="Categorie" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,50,0" />
+                    </StackPanel>
+                    <StackPanel >
+                        <ListBox x:Name="lstDepenses"   Width="740" Height="200" VerticalAlignment="top" Margin="0,0,10,0" HorizontalAlignment="Left" FontFamily="Courier New"></ListBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10">
+                        <Button x:Name="btnAjouterDepense"  Content="Ajouter"  Width="100" Height="25" Click="btnNouveau_Click"/>
+                        <Button x:Name="btnModifierDepense"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifier_Click"/>
+                        <Button x:Name="btnSupprimerDepense"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimer_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Gestion des Categories" FontWeight="Bold">
+                <StackPanel>
+                    <StackPanel  Orientation="Horizontal">
+                        <TextBlock  Text="NOM" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,265,0" />
+                        <TextBlock  Text="Limite_Depenses" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,50,0" />
+                    </StackPanel>
+                    <StackPanel >
+                        <ListBox x:Name="lstCategorie"   Width="740" Height="200" VerticalAlignment="top" Margin="0,0,10,0" HorizontalAlignment="Left" FontFamily="Courier New"></ListBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10">
+                        <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnNouveau_Click"/>
+                        <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifier_Click"/>
+                        <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimer_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
 </Window>
