@@ -6,7 +6,23 @@
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
         Title="FormCategorie" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Margin="10">
+        <TextBlock Name="Titre" HorizontalAlignment="Center" Margin="10" FontWeight="Bold" Foreground="Blue">Création d'une catégorie</TextBlock>
+        <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+            <Label Width="75" FontWeight="Bold">Nom</Label>
+            <TextBox x:Name="txtNom" Width="70"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+            <Label Width="75" FontWeight="Bold">Limite</Label>
+            <TextBox x:Name="txtLimite" Width="250" ></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+            <Label Width="75" Height="50" FontWeight="Bold">Description</Label>
+            <TextBox x:Name="txtDescription" Width="250"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <Button x:Name="btnCreer" Width="100"  Margin="5,10" Click="btnCreer_Click">Creer</Button>
+             <Button x:Name="btnAnnuler" Width="100" Margin="5,10" Click="btnAnnuler_Click">Annuler</Button>
+        </StackPanel>
+    </StackPanel>
 </Window>

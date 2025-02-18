@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Projet_Gestion_Finance.Models;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -28,22 +29,12 @@ namespace Projet_Gestion_Finance
         {
 
         }
-
-        private void btnNouveau_Click(object sender, RoutedEventArgs e)
+        private void AfficherListeCategories()
         {
-            
         }
 
-        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        private void btnCreerCategorie_Click(object sender, RoutedEventArgs e)
         {
-            
-
-
-        }
-
-        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
-        {
-            
 
         }
     }
