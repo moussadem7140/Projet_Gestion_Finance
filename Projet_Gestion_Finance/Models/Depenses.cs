@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Projet_Gestion_Finance.Classes;
+using Projet_Gestion_Finance.classes;
 namespace Projet_Gestion_Finance.Classes
 {
     public class Depenses: IComparable
@@ -12,7 +14,8 @@ namespace Projet_Gestion_Finance.Classes
         {
             Hebdomadaire,
             Mensuel,
-            Annuel
+            Annuel,
+            Occasionnel
         }
         private string _nom;
 
@@ -21,7 +24,14 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _nom; }
 			set { _nom = value; }
 		}
-		private decimal _cout;
+        private int _id;
+
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        private decimal _cout;
 		private Categorie _categorie;
 
 		public Categorie Categorie
@@ -35,7 +45,18 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _cout; }
 			set { _cout = value; }
 		}
-		private DateTime _date;
+        private decimal _coutMensuel;
+        public decimal CoutMensuel
+        {
+            get
+            {
+                if (Frequence == TypeFrequence.Hebdomadaire)
+                    return 5*Cout;
+                return Cout;
+
+            }
+        }
+        private DateTime _date;
 
 		public DateTime Date
 		{
@@ -56,12 +77,10 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _obligatoire; }
 			set { _obligatoire = value; }
 		}
-		public Depenses()
-		{
 
-		}
-        public Depenses(string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+        public Depenses(int id, string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
         {
+            Id = id;
             Nom = nom;
             Categorie = cat;
             Cout = cout;
@@ -69,13 +88,23 @@ namespace Projet_Gestion_Finance.Classes
             Frequence = frequence;
             Obligatoire = obligatoire;
         }
+        public Depenses(Depenses depense, DateTime date)   
+        {
+            Id = depense.Id;
+            Nom = depense.Nom;
+            Categorie = depense.Categorie;
+            Cout = depense.Cout;
+            Date = date;
+            Frequence = depense.Frequence;
+            Obligatoire = depense.Obligatoire;
+        }
 
         public int CompareTo(object? obj)
         {
 			if (obj == null)
                 return 1;
             if (!(obj is Depenses))
-                throw new ArgumentException("obj is not a Depenses");
+                throw new ArgumentException("obj is not a Depense");
 			
             return Date.CompareTo(((Depenses)obj).Date);	
         }

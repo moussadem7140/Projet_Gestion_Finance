@@ -8,32 +8,110 @@ using Projet_Gestion_Finance.Models;
 using Microsoft.Extensions.Configuration;
 using MySqlConnector;
 using Projet_Gestion_Finance.Classes;
+using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
+using Microsoft.VisualBasic;
 namespace Projet_Gestion_Finance.Models
 {
-   
+
     public static class Dal
     {
-    public const string APPSTTINGS_FILE = "appsettings.json";
-    public const string CONNECTION_STRING = "DefaultConnection";
-    private static IConfiguration _configuration;
+        public const string APPSTTINGS_FILE = "appsettings.json";
+        public const string CONNECTION_STRING = "DefaultConnection";
+        private static IConfiguration _configuration;
 
-    /// <summary>
-    /// Constructeur static permettant de charger les configurations de l'application
-    /// </summary>
-    static Dal()
-    {
-        _configuration = new ConfigurationBuilder().AddJsonFile(APPSTTINGS_FILE, false, true).Build();
+        /// <summary>
+        /// Constructeur static permettant de charger les configurations de l'application
+        /// </summary>
+        static Dal()
+        {
+            _configuration = new ConfigurationBuilder().AddJsonFile(APPSTTINGS_FILE, false, true).Build();
 
-    }
+        }
+        public static List<Categorie> ObtenirListeCategories(DateTime? mois=null)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            List<Categorie> Categories = new List<Categorie>();
+            try
+            {
+                cn.Open();
+                //  public Depenses(string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+
+                string requete = "SELECT c.Id, c.Nom, Limite, Description FROM categorie c order by Id";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                if (mois is null)
+                {
+                    while (dr.Read())
+                    {
+                        Categorie Categorie = new Categorie(dr.GetUInt16(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                        Categories.Add(Categorie);
+                    }
+                }
+                else
+                {
+                    while (dr.Read())
+                    {
+                        Categorie Categorie = new Categorie(dr.GetUInt16(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                        Categorie.CoutTotal = totalCategorie(Categorie, mois.Value);
+                        Categories.Add(Categorie);
+                    }
+                }
+                dr.Close();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return Categories;
+        }
+        public static List<Depenses> ObtenirListeDepenses(DateTime depart, DateTime arrive)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            List<Depenses> depenses = new List<Depenses>();
+            try
+            {
+                cn.Open();
+                //  public Depenses(string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+
+                string requete = "SELECT d.Nom, d.Categorie, d.Cout, d.Date, d.Frequence, d.Obligatoire, d.Id FROM depenses d Order by Date";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                    depenses.Add(depense);
+                }
+                dr.Close();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return DepensesPeriodes(depenses, depart, arrive);
+        }
+
         public static void CreerCategorie(Categorie categorie)
         {
             if (categorie is null)
-                throw new ArgumentNullException(nameof(categorie), "Le produit ne peut être null");
+                throw new ArgumentNullException(nameof(categorie), "La categorie ne peut être null");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
                 cn.Open();
-                string requete = "INSERT INTO categorie VALUES(@nom, @limite, @description)";
+                string requete = "INSERT INTO categorie VALUES(null, @nom, @limite, @description)";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@nom", categorie.Nom);
@@ -53,5 +131,304 @@ namespace Projet_Gestion_Finance.Models
 
         }
 
-    }
-}
+        public static void ModifierCategorie(Categorie categorie)
+        {
+            if (categorie is null)
+                throw new ArgumentNullException(nameof(categorie), "Veillez choisir une Categorie");
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+            try
+            {
+                cn.Open();
+                string requete2 = "UPDATE categorie SET Nom=@nom, Limite=@limite, Description=@description Where id= @id";
+                MySqlCommand cmd = new MySqlCommand(requete2, cn);
+                cmd = new MySqlCommand(requete2, cn);
+                cmd.Parameters.AddWithValue("@id", categorie.Id);
+                cmd.Parameters.AddWithValue("@nom", categorie.Nom);
+                cmd.Parameters.AddWithValue("@limite", categorie.LimiteDepenses);
+                cmd.Parameters.AddWithValue("@description", categorie.Description);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+        }
+        public static bool SupprimerCategorie(Categorie categorie)
+        {
+            if (categorie is null)
+                throw new ArgumentNullException(nameof(categorie), "Veillez choisir une categorie");
+            if(ObtenirlesDepensesCategorie(categorie).Count > 0)
+            {
+                throw new InvalidOperationException("La catégorie contient des dépenses");
+            }
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+            try
+            {
+                cn.Open();
+                string requete = "DELETE FROM categorie WHERE Id = @id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", categorie.Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return true;
+        }
+        public static void AjouterDepense(Depenses depense)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            try
+            {
+                if (depense is null)
+                throw new ArgumentNullException(nameof(depense), "La depenses ne peut être null");
+            if(totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1)) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
+                throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
+           
+                cn.Open();
+                //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+                string requete = "INSERT INTO depenses VALUES(@id, @nom, @cout, @categorie, @date, @frequence, @obligatoire)";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", depense.Id);
+                cmd.Parameters.AddWithValue("@nom", depense.Nom);
+                cmd.Parameters.AddWithValue("@categorie", depense.Categorie.Id);
+                cmd.Parameters.AddWithValue("@cout", depense.Cout);
+                cmd.Parameters.AddWithValue("@date", depense.Date);
+                cmd.Parameters.AddWithValue("@frequence", depense.Frequence);
+                cmd.Parameters.AddWithValue("@obligatoire", depense.Obligatoire);
+                cmd.ExecuteNonQuery();
+                ModifierCategorie(new Categorie(depense.Categorie.Id, depense.Categorie.Nom, depense.Categorie.LimiteDepenses, depense.Categorie.Description));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+
+        }
+
+        public static void ModifierDepense(Depenses depense)
+        {
+            if (depense is null)
+                throw new ArgumentNullException(nameof(depense), "Veillez choisir une depense");
+            if (totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1)) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
+                throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+            try
+            {
+                cn.Open();
+                string requete2 = "UPDATE depenses SET Nom=@nom, Categorie=@categorie, Cout=@cout, Date=@date, Frequence= @frequence, Obligatoire=@obligatoire  Where Id=@id";
+                MySqlCommand cmd = new MySqlCommand(requete2, cn);
+                cmd = new MySqlCommand(requete2, cn);
+                cmd.Parameters.AddWithValue("@id", depense.Id);
+                cmd.Parameters.AddWithValue("@nom", depense.Nom);
+                cmd.Parameters.AddWithValue("@categorie", depense.Categorie.Id);
+                cmd.Parameters.AddWithValue("@cout", depense.Cout);
+                cmd.Parameters.AddWithValue("@date", depense.Date);
+                cmd.Parameters.AddWithValue("@frequence", depense.Frequence);
+                cmd.Parameters.AddWithValue("@obligatoire", depense.Obligatoire);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+        }
+        public static bool Supprimerdepense(Depenses depense)
+        {
+            if (depense is null)
+                throw new ArgumentNullException(nameof(depense), "Veillez choisir une categoie");
+
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+            try
+            {
+                cn.Open();
+                string requete = "DELETE FROM depenses WHERE Id = @id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", depense.Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return true;
+        }
+
+
+        public static Categorie ObtenirCategorie(int id)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            Categorie c = null;
+            try
+            {
+                cn.Open();
+                String requete = "SELECT Id, Nom, Limite, Description FROM categorie WHERE Id=@id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", id);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    c = new Categorie(dr.GetInt32(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return c;
+
+        }
+        public static List<Depenses> ObtenirlesDepensesCategorie(Categorie categorie)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            List<Depenses> depenses = new List<Depenses>();
+            try
+            {
+                cn.Open();
+                string requete = "SELECT d.Nom, d.Categorie, d.Cout, d.Date, d.Frequence, d.Obligatoire, d.Id FROM depenses d where Categorie=@id Order by Date";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", categorie.Id);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                    depenses.Add(depense);
+                }
+                dr.Close();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return depenses;
+        }
+        private static decimal totalCategorie(Categorie Categorie, DateTime mois)
+        {
+            
+            decimal total = 0;
+            foreach (Depenses depense in DepensesPeriodes(ObtenirlesDepensesCategorie(Categorie), mois, new DateTime(mois.Year, mois.Month, DateTime.DaysInMonth(mois.Year, mois.Month))))
+            {
+                total += depense.Cout;
+            }
+            return total;
+        }
+        public static List<Depenses> DepensesPeriodes(List<Depenses> d, DateTime depart, DateTime arrive)
+        {
+            List<Depenses> depenses = new List<Depenses>();
+            foreach (Depenses depense in d)
+            {
+
+                DateTime departSemaine = depart;
+                DateTime arriveSemaine = arrive;
+                DateTime debut = depense.Date;
+                if (depense.Frequence== Depenses.TypeFrequence.Hebdomadaire)
+                {
+                    int i = 0;
+                    while(debut.AddDays(i * 7).Date <= arriveSemaine.Date)
+                    {
+                        if(debut.AddDays(i*7).Date>=departSemaine.Date)
+                            depenses.Add(new Depenses(depense, debut.AddDays(i*7)));
+                        i++;
+                    }
+                }
+                else if(depense.Frequence == Depenses.TypeFrequence.Mensuel)
+                {
+                    int i = 0;
+                    while (debut.AddMonths(i).Date <= arriveSemaine.Date)
+                    {
+                        if (debut.AddDays(i).Date >= departSemaine.Date)
+                            depenses.Add(new Depenses(depense, debut.AddMonths(i)));
+                        i++;
+                    }
+                }
+                else if (depense.Frequence == Depenses.TypeFrequence.Occasionnel)
+                {
+                    if (depense.Date.Date >= depart.Date && depense.Date.Date <= arrive.Date)
+                    {
+                        depenses.Add(depense);
+                    }
+                }
+                else 
+                {
+                    int i = 0;
+                    while (debut.AddYears(i).Date <= arriveSemaine.Date)
+                    {
+                        if (debut.AddYears(i).Date >= departSemaine.Date)
+                            depenses.Add(new Depenses(depense, debut.AddYears(i)));
+                        i++;
+                    }
+                }
+                
+            }
+            return depenses;
+
+        }
+        
+        //public static void AjusterCategorie(Categorie categorie)
+        //{
+        //    if (categorie is null)
+        //        throw new ArgumentNullException(nameof(categorie), "La categorie ne peut être null");
+        //    decimal total = 0;
+        //    foreach (Depenses depense in ObtenirlesDepensesCategorie(categorie))
+        //    {
+        //       total += depense.Cout;
+        //    }
+        //    if(total > categorie.LimiteDepenses)
+        //    {
+        //        categorie.LimiteDepenses = total;
+        //        ModifierCategorie(categorie);
+        //    }
+
+        //    MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+        //}
+    } }

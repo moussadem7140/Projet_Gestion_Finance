@@ -1,0 +1,202 @@
+﻿using Projet_Gestion_Finance.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using Microsoft.VisualBasic;
+using Projet_Gestion_Finance.classes;
+using System.Xml;
+namespace Projet_Gestion_Finance.Models
+{
+    /// <summary>
+    /// Logique d'interaction pour FormDepense.xaml
+    /// </summary>
+    public partial class FormDepense : Window
+    {
+        private Depenses _depense;
+
+        public Depenses Depense
+        {
+            get { return _depense; }
+            set { _depense = value; }
+        }
+        private EtatFormulaire _etat;
+
+        public EtatFormulaire Etat
+        {
+            get { return _etat; }
+            set { _etat = value; }
+        }
+
+        public FormDepense(Depenses depense, EtatFormulaire etat)
+        {
+            InitializeComponent();
+            Depense = depense;
+            Etat = etat;
+        }
+        private void ChargerCbx()
+        {
+            string[] vect1 = UtilEnum.GetAllDescriptions<Depenses.TypeFrequence>();
+            List<Categorie> cat = Dal.ObtenirListeCategories();
+            for (int i = 0; i < cat.Count; i++)
+            {
+                cbxCategorie.Items.Add(cat[i].Nom);
+            }
+            for (int i = 0; i < vect1.Length; i++)
+            {
+                cbxFrequence.Items.Add(vect1[i]);
+            }
+        }
+        //private void Windows_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ChargerCbx();
+        //        Titre.Text = $"{Etat} une Depense";
+        //        btnModifier.Content = $"{Etat}";
+        //        if (Etat != EtatFormulaire.Ajouter)
+        //        {
+        //            txtNom.Text = Depense.Nom.ToString();
+        //            txtCout.Text = Depense.Cout.ToString();
+        //            dtpDate.SelectedDate = Depense.Date;
+        //            cbxFrequence.SelectedIndex = (int)Depense.Frequence;
+        //            cbxCategorie.SelectedIndex = cbxCategorie.Items.IndexOf(Depense.Categorie.Nom);
+        //            chkOblig.IsChecked = Depense.Obligatoire;
+        //            if (Etat == EtatFormulaire.Supprimer)
+        //            {
+        //                txtNom.IsEnabled = false;
+        //                txtCout.IsEnabled = false;
+        //                dtpDate.IsEnabled = false;
+        //                cbxFrequence.IsEnabled = false;
+        //                cbxCategorie.IsEnabled = false;
+        //                chkOblig.IsEnabled = false;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        //    }
+
+        //}
+        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                switch (Etat)
+                {
+                    case EtatFormulaire.Ajouter:
+                       
+                        if (validerDepense())
+                        {
+                            Dal.AjouterDepense(new Depenses(0, txtNom.Text, Dal.ObtenirCategorie(cbxCategorie.SelectedIndex + 1), decimal.Parse(txtCout.Text), dtpDate.SelectedDate.Value, (Depenses.TypeFrequence)cbxFrequence.SelectedIndex, chkOblig.IsChecked.Value));
+                            DialogResult = true;
+                        }
+                        break;
+                    case EtatFormulaire.Modifier:
+                        if (validerDepense())
+                        {
+                            Dal.ModifierDepense(new Depenses(Depense.Id, txtNom.Text, Dal.ObtenirCategorie(cbxCategorie.SelectedIndex+1), decimal.Parse(txtCout.Text), dtpDate.SelectedDate.Value, (Depenses.TypeFrequence)cbxFrequence.SelectedIndex, chkOblig.IsChecked.Value));
+                            DialogResult = true;
+                        }
+                        break;
+                    case EtatFormulaire.Supprimer:
+                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
+                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            Dal.Supprimerdepense(Depense);
+                            DialogResult = true;
+                        }
+                        else
+                            DialogResult = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
+
+        }
+
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+        private bool validerDepense()
+        {
+            bool valide = true;
+            if (string.IsNullOrEmpty(txtNom.Text))
+            {
+                txtNomErreur.Content = "Saisissez un nom";
+                txtNom.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else
+            {
+                txtNomErreur.Content = "";
+                txtNom.BorderBrush = null;
+
+            }
+            if (String.IsNullOrEmpty(txtCout.Text))
+            {
+                txtCoutErreur.Content = "Saisiser un cout";
+                txtCout.BorderBrush = Brushes.Red;
+                valide = false;
+
+            }
+            else
+            {
+                txtCoutErreur.Content = ""; 
+                txtCout.BorderBrush = null;
+            }
+            if (dtpDate.SelectedDate == null)
+            {
+                dtpDateErreur.Content = "Sasisez une date";
+                dtpDate.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else if (dtpDate.SelectedDate.Value.Date < DateTime.Now.Date)
+            {
+                dtpDateErreur.Content = "La date ne peut pas être dans le passé";
+                dtpDate.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else
+            {
+                dtpDateErreur.Content = ""; 
+                dtpDate.BorderBrush = null;
+            }
+            if (cbxFrequence.SelectedIndex == -1)
+            {
+                cbxFrequenceErreur.Content = "Choisissez une frequence";
+                cbxFrequence.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else
+                cbxFrequenceErreur.Content = "";
+            if (cbxCategorie.SelectedIndex == -1)
+            {
+                txtCategorieErreur.Content = "Choisissez une categorie";
+                cbxCategorie.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else
+                txtCategorieErreur.Content = "";
+            return valide;
+        }
+    }
+}
+

@@ -4,49 +4,130 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance"
+        xmlns:locals="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
-        Title="Gestion de Finance" Height="360" Width="820" Loaded="Window_Loaded">
+        WindowState="Maximized"
+        Title="Gestion de Finance" Height="835" Width="1280" Loaded="Window_Loaded" >
     <StackPanel Margin="10">
-        <TabControl>
+        <TabControl Height="924" Width="1280">
             <TabItem Header="Liste des dépenses" FontWeight="Bold">
-                <StackPanel>
+                <StackPanel Height="919" Margin="0,0,-16,0">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
+                    </StackPanel.Background>
                     <StackPanel Margin="0,0,75,0" x:Name="spAjouterProduit" Orientation="Horizontal" >
                         <TextBox x:Name="txtRechercher" Width="250" Height="25" Margin="10"  />
                         <ComboBox x:Name="cboCategories" Width="150" Margin="10"/>
-                        <Button x:Name="btnRechercherProduit" Margin="10" BorderThickness="0" Background="White">
+                        <Button x:Name="btnRechercherDepense" Margin="10" BorderThickness="0" Click="btnRechercherDepense_Click">
                             <Image Source="/Ressource/search.png" Width="25" Margin="5" />
                         </Button>
-                    </StackPanel>
-                    <StackPanel  Orientation="Horizontal">
-                        <TextBlock  Text="NOM" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,265,0" />
-                        <TextBlock  Text="Coût" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,150,0" />
-                        <TextBlock  Text="Date" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,130,0"/>
-                        <TextBlock  Text="Categorie" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,50,0" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Left">
+                                <Label Width="70" Content="A partir du "/>
+                                <DatePicker Width="105" x:Name="dtpDebutPeriode" Height="26"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Left">
+                                <Label Width="60" Content="Jusqu'au  "/>
+                                <DatePicker Width="100"  Name="dtpFinPeriode" Height="29"/>
+                            </StackPanel>
+
+                            <Button x:Name="btnImprimerDepense" HorizontalAlignment="Right" Margin="10" BorderThickness="0" Click="btnImprimerDepense_Click" >
+                                <Image Name="print" Source="/Ressource/Print.jpg" Width="130" Height="47" />
+                            </Button>
+                        </StackPanel>
+
                     </StackPanel>
                     <StackPanel >
-                        <ListBox x:Name="lstDepenses"   Width="740" Height="200" VerticalAlignment="top" Margin="0,0,10,0" HorizontalAlignment="Left" FontFamily="Courier New"></ListBox>
+                        <ListView x:Name="lstDepenses"  Width="1000" Height="300" Background="AliceBlue">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn  Header="NOM" DisplayMemberBinding="{Binding Nom}" Width="150"/>
+                                    <GridViewColumn Header="Coût"  Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Cout, StringFormat=\{0:C2\}}" Foreground="Green" TextAlignment="Right" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn  Header="Date" DisplayMemberBinding="{Binding Date, StringFormat=\{0:dd/MM/yyyy\}}" Width="150"/>
+                                    <GridViewColumn  Header="Categorie" DisplayMemberBinding="{Binding Categorie.Nom}" Width="150"/>
+                                    <GridViewColumn  Header="Frequence" DisplayMemberBinding="{Binding Frequence}" Width="150"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <Button x:Name="btnAjouterDepense"  Content="Ajouter"  Width="100" Height="25" />
-                        <Button x:Name="btnModifierDepense"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" />
-                        <Button x:Name="btnSupprimerDepense"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
+                        <Button x:Name="btnAjouterDepense"  Content="Ajouter"  Width="100" Height="25" Click="btnAjouterDepense_Click" />
+                        <Button x:Name="btnModifierDepense"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierDepense_Click" />
+                        <Button x:Name="btnSupprimerDepense"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerDepense_Click" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Gestion des Categories" FontWeight="Bold">
+
                 <StackPanel>
-                    <StackPanel  Orientation="Horizontal">
-                        <TextBlock  Text="NOM" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,265,0" />
-                        <TextBlock  Text="Limite_Depenses" FontWeight="Bold"  HorizontalAlignment="Left" Margin="0,0,50,0" />
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
+                    </StackPanel.Background>
+                    <TextBlock FontWeight="Bold"  Name="moisCategorie">Categorie pour le mois de</TextBlock>
+                    <StackPanel Margin="0,0,75,0" Orientation="Horizontal" HorizontalAlignment="Right" Width="327">
+                        <ComboBox Name="ComboMois" Width="150" Height="34"></ComboBox>
+                        <ComboBox x:Name="CombosAnnee" Width="81" Height="34"/>
+                        <Button x:Name="btnRefresh" Click="btn" Margin="10" BorderThickness="0" Height="26" Width="79">
+                            <Image Source="/Ressource/refresh.png" Width="56" Height="25"/>
+                        </Button>
                     </StackPanel>
-                    <StackPanel >
-                        <ListBox x:Name="lstCategorie"   Width="740" Height="200" VerticalAlignment="top" Margin="0,0,10,0" HorizontalAlignment="Left" FontFamily="Courier New"></ListBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
-                        <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" />
-                        <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0"/>
-                    </StackPanel>
+
+                    <GroupBox Header="Liste des categories">
+                        <StackPanel Height="867" Margin="0,0,-70,0">
+                            <StackPanel >
+                                <ListView Background="AliceBlue" x:Name="lstCategorie" Width="740" Height="200">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn  Header="NOM" DisplayMemberBinding="{Binding Nom}" Width="150"/>
+                                            <GridViewColumn Header="Total des Depenses"  Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding CoutTotal, StringFormat=\{0:C2\}}" Foreground="Green" TextAlignment="Right" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Limite des Depenses" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                            <TextBlock Text="{Binding LimiteDepenses, StringFormat=\{0:C2\}}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="{x:Type TextBlock}">
+                                                                        <Setter Property="Foreground" Value="Red"/>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Marge disponible"  Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Marge, StringFormat=\{0:C2\}}" Foreground="Green" TextAlignment="Right" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
+                                <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
+                                <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click" />
+                                <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerCategorie_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
             </TabItem>
         </TabControl>

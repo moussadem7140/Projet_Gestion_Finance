@@ -10,11 +10,24 @@
 
   <ItemGroup>
     <None Remove="Ressource\depenses.jpg" />
+    <None Remove="Ressource\fondImage.jpg" />
+    <None Remove="Ressource\imagedefond.jpg" />
+    <None Remove="Ressource\Print.jpg" />
+    <None Remove="Ressource\refresh.png" />
     <None Remove="Ressource\search.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Ressource\depenses.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\fondImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\imagedefond.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\refresh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Ressource\search.png">
@@ -23,8 +36,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Ressource\Print.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>

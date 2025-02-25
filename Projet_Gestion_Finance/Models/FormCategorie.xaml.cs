@@ -60,47 +60,47 @@ namespace Projet_Gestion_Finance.Models
                 }
             }
         }   
-        private void btnCreer_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                switch (Etat)
-                {
-                    case EtatFormulaire.Créer:
-                        if (validerCategorie())
-                        {
-                            Dal.CreerCategorie(new Categorie(0, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
-                            DialogResult = true;
-                        }
-                        break;
-                    case EtatFormulaire.Modifier:
-                        //string message1 = ValiderCourse();
-                        if (validerCategorie())
-                        {
-                        
-                        Dal.ModifierCategorie(new Categorie(Categorie.Id, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
-                        DialogResult = true;
-                        }
-                        
-                        break;
-                    case EtatFormulaire.Supprimer:
-                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
-                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                        if (messageBoxResult == MessageBoxResult.Yes)
-                        {
-                            Dal.SupprimerCategorie(Categorie);
-                            DialogResult = true;
-                        }
-                        else
-                            DialogResult = false;
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
+        //private void btnCreer_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        switch (Etat)
+        //        {
+        //            case EtatFormulaire.Créer:
+        //                if (validerCategorie())
+        //                {
+        //                    Dal.CreerCategorie(new Categorie(0, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+        //                    DialogResult = true;
+        //                }
+        //                break;
+        //            case EtatFormulaire.Modifier:
+        //                //string message1 = ValiderCourse();
+        //                if (validerCategorie())
+        //                {
+
+            //                Dal.ModifierCategorie(new Categorie(Categorie.Id, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+            //                DialogResult = true;
+            //                }
+
+            //                break;
+            //            case EtatFormulaire.Supprimer:
+            //                MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
+            //                   "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            //                if (messageBoxResult == MessageBoxResult.Yes)
+            //                {
+            //                    Dal.SupprimerCategorie(Categorie);
+            //                    DialogResult = true;
+            //                }
+            //                else
+            //                    DialogResult = false;
+            //                break;
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            //    }
+            //}
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
