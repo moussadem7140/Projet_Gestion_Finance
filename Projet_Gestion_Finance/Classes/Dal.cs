@@ -11,6 +11,7 @@ using Projet_Gestion_Finance.Classes;
 using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
 using Microsoft.VisualBasic;
+using Projet_Gestion_Finance.classes;
 namespace Projet_Gestion_Finance.Models
 {
 
@@ -54,7 +55,7 @@ namespace Projet_Gestion_Finance.Models
                     while (dr.Read())
                     {
                         Categorie Categorie = new Categorie(dr.GetUInt16(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
-                        Categorie.CoutTotal = totalCategorie(Categorie, mois.Value);
+                        Categorie.CoutTotal = totalCategorie(Categorie, mois.Value, 0);
                         Categories.Add(Categorie);
                     }
                 }
@@ -195,11 +196,13 @@ namespace Projet_Gestion_Finance.Models
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
-                if (depense is null)
+            int p = depense.Frequence== Depenses.TypeFrequence.Hebdomadaire? UtilEnum.GetSemainesRestantes(depense.Date) : 1;
+            if (depense is null)
                 throw new ArgumentNullException(nameof(depense), "La depenses ne peut être null");
-            if(totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1)) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
+            if(totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), 0) + p*depense.Cout> depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
-           
+            if(ObtenirDepensesGénéralesMensuel(depense.Categorie, 0) + depense.CoutMensuel> depense.Categorie.LimiteDepenses)
+                    throw new InvalidOperationException("La depense dépassera la limite de la categorie \n\rElle n'est pas tenable sur le long terme.");
                 cn.Open();
                 //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
                 string requete = "INSERT INTO depenses VALUES(@id, @nom, @cout, @categorie, @date, @frequence, @obligatoire)";
@@ -229,10 +232,13 @@ namespace Projet_Gestion_Finance.Models
 
         public static void ModifierDepense(Depenses depense)
         {
+            int p = depense.Frequence == Depenses.TypeFrequence.Hebdomadaire ? UtilEnum.GetSemainesRestantes(depense.Date) : 1;
             if (depense is null)
                 throw new ArgumentNullException(nameof(depense), "Veillez choisir une depense");
-            if (totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1)) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
+            if (totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), depense.Id) + p*depense.Cout > depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
+            if (ObtenirDepensesGénéralesMensuel(depense.Categorie, depense.Id) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
+                throw new InvalidOperationException("La depense dépassera la limite de la categorie\n\rElle n'est pas tenable sur le long terme.");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
 
@@ -350,13 +356,15 @@ namespace Projet_Gestion_Finance.Models
             }
             return depenses;
         }
-        private static decimal totalCategorie(Categorie Categorie, DateTime mois)
+       
+        private static decimal totalCategorie(Categorie Categorie, DateTime mois, int Id)
         {
-            
+
             decimal total = 0;
             foreach (Depenses depense in DepensesPeriodes(ObtenirlesDepensesCategorie(Categorie), mois, new DateTime(mois.Year, mois.Month, DateTime.DaysInMonth(mois.Year, mois.Month))))
             {
-                total += depense.Cout;
+                if(Id !=  depense.Id) 
+                    total += depense.Cout;
             }
             return total;
         }
@@ -411,7 +419,23 @@ namespace Projet_Gestion_Finance.Models
             return depenses;
 
         }
-        
+        public static decimal ObtenirDepensesGénéralesMensuel(Categorie categorie, int Id)
+        {
+            List<Depenses> liste= ObtenirlesDepensesCategorie(categorie);
+            decimal total= 0;
+            foreach(Depenses depense in liste)
+            {
+                if(depense.Id != Id && depense.Frequence!=Depenses.TypeFrequence.Occasionnel)
+                {
+                    if (depense.Frequence == Depenses.TypeFrequence.Hebdomadaire)
+                        total += 5 * depense.Cout;
+                    else
+                        total += depense.Cout;
+                }
+            }
+            return total;
+        }
+
         //public static void AjusterCategorie(Categorie categorie)
         //{
         //    if (categorie is null)

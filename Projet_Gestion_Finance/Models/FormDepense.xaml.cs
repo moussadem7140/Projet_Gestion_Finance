@@ -56,38 +56,38 @@ namespace Projet_Gestion_Finance.Models
                 cbxFrequence.Items.Add(vect1[i]);
             }
         }
-        //private void Windows_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        ChargerCbx();
-        //        Titre.Text = $"{Etat} une Depense";
-        //        btnModifier.Content = $"{Etat}";
-        //        if (Etat != EtatFormulaire.Ajouter)
-        //        {
-        //            txtNom.Text = Depense.Nom.ToString();
-        //            txtCout.Text = Depense.Cout.ToString();
-        //            dtpDate.SelectedDate = Depense.Date;
-        //            cbxFrequence.SelectedIndex = (int)Depense.Frequence;
-        //            cbxCategorie.SelectedIndex = cbxCategorie.Items.IndexOf(Depense.Categorie.Nom);
-        //            chkOblig.IsChecked = Depense.Obligatoire;
-        //            if (Etat == EtatFormulaire.Supprimer)
-        //            {
-        //                txtNom.IsEnabled = false;
-        //                txtCout.IsEnabled = false;
-        //                dtpDate.IsEnabled = false;
-        //                cbxFrequence.IsEnabled = false;
-        //                cbxCategorie.IsEnabled = false;
-        //                chkOblig.IsEnabled = false;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-        //    }
+        private void Windows_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ChargerCbx();
+                Titre.Text = $"{Etat} une Depense";
+                btnModifier.Content = $"{Etat}";
+                if (Etat != EtatFormulaire.Ajouter)
+                {
+                    txtNom.Text = Depense.Nom.ToString();
+                    txtCout.Text = Depense.Cout.ToString();
+                    dtpDate.SelectedDate = Depense.Date;
+                    cbxFrequence.SelectedIndex = (int)Depense.Frequence;
+                    cbxCategorie.SelectedIndex = cbxCategorie.Items.IndexOf(Depense.Categorie.Nom);
+                    chkOblig.IsChecked = Depense.Obligatoire;
+                    if (Etat == EtatFormulaire.Supprimer)
+                    {
+                        txtNom.IsEnabled = false;
+                        txtCout.IsEnabled = false;
+                        dtpDate.IsEnabled = false;
+                        cbxFrequence.IsEnabled = false;
+                        cbxCategorie.IsEnabled = false;
+                        chkOblig.IsEnabled = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
-        //}
+        }
         private void btnModifier_Click(object sender, RoutedEventArgs e)
         {
             try

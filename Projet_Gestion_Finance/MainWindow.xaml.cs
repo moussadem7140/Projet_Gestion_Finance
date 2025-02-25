@@ -167,37 +167,49 @@ namespace Projet_Gestion_Finance
 
         private void btnRechercherDepense_Click(object sender, RoutedEventArgs e)
         {
-            lstDepenses.ItemsSource = null;
-            List<Depenses> r = new List<Depenses>();
-            List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value);
-            if (cboCategories.SelectedItem is null && txtRechercher is null)
-                chargerListes();
-            else if (cboCategories.SelectedItem is null || cboCategories.SelectedItem.ToString()== "Toutes")
+            try
             {
-                foreach (Depenses d in dep)
+                if (dtpFinPeriode.SelectedDate.Value.Date <= dtpDebutPeriode.SelectedDate.Value.Date)
                 {
-                    if (d.Nom.ToLower().Contains(txtRechercher.Text))
-                        r.Add(d);
+                    throw new InvalidOperationException("La date de fin doit être postérieure à la date de début");
                 }
+                lstDepenses.ItemsSource = null;
+                List<Depenses> r = new List<Depenses>();
+                List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value);
+                if (cboCategories.SelectedItem is null && txtRechercher is null)
+                    chargerListes();
+                else if (cboCategories.SelectedItem is null || cboCategories.SelectedItem.ToString() == "Toutes")
+                {
+                    foreach (Depenses d in dep)
+                    {
+                        if (d.Nom.ToLower().Contains(txtRechercher.Text))
+                            r.Add(d);
+                    }
 
-            }
-            else if (txtRechercher.Text is null)
-            {
-                foreach (Depenses d in dep)
-                {
-                    if (d.Categorie.Nom == cboCategories.SelectedItem.ToString())
-                        r.Add(d);
                 }
-            }
-            else
-            {
-                foreach (Depenses d in dep)
+                else if (txtRechercher.Text is null)
                 {
-                    if (d.Categorie.Nom == cboCategories.SelectedItem.ToString() && d.Nom.ToLower().Contains(txtRechercher.Text))
-                        r.Add(d);
+                    foreach (Depenses d in dep)
+                    {
+                        if (d.Categorie.Nom == cboCategories.SelectedItem.ToString())
+                            r.Add(d);
+                    }
                 }
+                else
+                {
+                    foreach (Depenses d in dep)
+                    {
+                        if (d.Categorie.Nom == cboCategories.SelectedItem.ToString() && d.Nom.ToLower().Contains(txtRechercher.Text))
+                            r.Add(d);
+                    }
+                }
+                lstDepenses.ItemsSource = r;
             }
-            lstDepenses.ItemsSource = r;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            
         }
         private void btn(object sender, RoutedEventArgs e)
         {

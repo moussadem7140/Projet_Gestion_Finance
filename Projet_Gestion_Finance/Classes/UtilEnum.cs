@@ -11,15 +11,9 @@ using Projet_Gestion_Finance.Models;
 
 namespace  Projet_Gestion_Finance.classes
 {
-    /// <summary>
-    /// Classe utilitaire pour les énumérations. Fournit des méthodes permettant d'obtenir les
-    /// descriptions associées aux constantes des énumérations lorsque celles-ci sont disponibles.
-    /// NOTE POUR LES ÉTUDIANTS : N'essayez pas de comprendre le code suivant.
-    /// </summary>
+    
     public static class UtilEnum
     {
-     
-
         /// <summary>
         /// Extension permettant d'obtenir la description pour une constante d'une énumération, si disponible.
         /// S'il n'y a pas de description associée à la constante de l'énumération, permet d'obtenir la valeur
@@ -46,27 +40,16 @@ namespace  Projet_Gestion_Finance.classes
         }
         public static int GetSemainesRestantes(DateTime date)
         {
-            // Trouver le dernier jour du mois
             DateTime dernierJourMois = new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
 
-            // Nombre de jours restants
             int joursRestants = (dernierJourMois - date).Days;
 
-            // Convertir en semaines
             int semaines = (int)Math.Ceiling(joursRestants / 7.0);
 
             return semaines;
         }
 
-        /// <summary>
-        /// Permet d'obtenir toutes les descriptions associées aux constantes d'une énumération, si disponible.
-        /// S'il n'y a pas de description associée à une constante de l'énumération, permet d'obtenir
-        /// la valeur de celle-ci.
-        /// </summary>
-        /// <returns>
-        /// Les descriptions associées aux constantes de l'énumération ou bien les valeurs
-        /// s'il n'y a pas de description.
-        /// </returns>
+       
         public static string[] GetAllDescriptions<T>()
         {
             Type enumType = typeof (T);
