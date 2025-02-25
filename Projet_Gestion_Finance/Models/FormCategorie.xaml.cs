@@ -45,8 +45,7 @@ namespace Projet_Gestion_Finance.Models
         }
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-           
-            Titre.Text = $"{Etat} d'une Categorie";
+            Titre.Text = $"{Etat} une Categorie";
             btnCreer.Content = $"{Etat}";
             if (Etat != EtatFormulaire.Créer)
             {
@@ -63,12 +62,91 @@ namespace Projet_Gestion_Finance.Models
         }   
         private void btnCreer_Click(object sender, RoutedEventArgs e)
         {
-           
+            try
+            {
+                switch (Etat)
+                {
+                    case EtatFormulaire.Créer:
+                        if (validerCategorie())
+                        {
+                            Dal.CreerCategorie(new Categorie(0, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+                            DialogResult = true;
+                        }
+                        break;
+                    case EtatFormulaire.Modifier:
+                        //string message1 = ValiderCourse();
+                        if (validerCategorie())
+                        {
+                        
+                        Dal.ModifierCategorie(new Categorie(Categorie.Id, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+                        DialogResult = true;
+                        }
+                        
+                        break;
+                    case EtatFormulaire.Supprimer:
+                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
+                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            Dal.SupprimerCategorie(Categorie);
+                            DialogResult = true;
+                        }
+                        else
+                            DialogResult = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            
+            DialogResult = false;
+        }
+        private bool validerCategorie()
+        {
+            bool valide = true;
+            if (string.IsNullOrEmpty(txtNom.Text))
+            {
+                txtNomErreur.Content = "Saisissez un nom";
+                txtNom.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else
+            {
+                txtNomErreur.Content = "";
+                txtNom.BorderBrush = null;
+
+            }
+            if (String.IsNullOrEmpty(txtLimite.Text))
+            {
+                txtLimiteErreur.Content = "Saisiser une limite";
+                txtLimite.BorderBrush = Brushes.Red;
+                valide = false;
+
+            }
+            else
+            {
+                txtLimiteErreur.Content = "";
+                txtLimite.BorderBrush = null;
+            }
+            if (String.IsNullOrEmpty(txtDescription.Text))
+            {
+                txtDescriptionErreur.Content = "Saisiser une limite";
+                txtDescription.BorderBrush = Brushes.Red;
+                valide = false;
+
+            }
+            else
+            {
+                txtDescriptionErreur.Content = "";
+                txtDescription.BorderBrush = null;
+            }
+
+            return valide;
         }
     }
 }
