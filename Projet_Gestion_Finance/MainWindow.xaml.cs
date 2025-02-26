@@ -182,7 +182,7 @@ namespace Projet_Gestion_Finance
                 {
                     foreach (Depenses d in dep)
                     {
-                        if (d.Nom.ToLower().Contains(txtRechercher.Text))
+                        if (d.Nom.ToLower().Contains(txtRechercher.Text.ToLower()))
                             r.Add(d);
                     }
 

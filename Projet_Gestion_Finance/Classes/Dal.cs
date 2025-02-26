@@ -340,7 +340,7 @@ namespace Projet_Gestion_Finance.Models
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                        Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
                     depenses.Add(depense);
                 }
                 dr.Close();
@@ -392,7 +392,7 @@ namespace Projet_Gestion_Finance.Models
                     int i = 0;
                     while (debut.AddMonths(i).Date <= arriveSemaine.Date)
                     {
-                        if (debut.AddDays(i).Date >= departSemaine.Date)
+                        if (debut.AddMonths(i).Date >= departSemaine.Date)
                             depenses.Add(new Depenses(depense, debut.AddMonths(i)));
                         i++;
                     }
