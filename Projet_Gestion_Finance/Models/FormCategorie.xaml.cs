@@ -84,7 +84,7 @@ namespace Projet_Gestion_Finance.Models
 
                         break;
                     case EtatFormulaire.Supprimer:
-                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
+                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la Categorie",
                            "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                         if (messageBoxResult == MessageBoxResult.Yes)
                         {
@@ -106,6 +106,10 @@ namespace Projet_Gestion_Finance.Models
         {
             DialogResult = false;
         }
+        /// <summary>
+        /// Permet de valider le formulaire
+        /// </summary>
+        /// <returns>True si l formulaire est valide et false false</returns>
         private bool validerCategorie()
         {
             bool valide = true;

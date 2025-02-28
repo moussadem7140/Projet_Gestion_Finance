@@ -43,6 +43,9 @@ namespace Projet_Gestion_Finance.Models
             Depense = depense;
             Etat = etat;
         }
+        /// <summary>
+        /// Permet de charger les combobox du formulaire
+        /// </summary>
         private void ChargerCbx()
         {
             string[] vect1 = UtilEnum.GetAllDescriptions<Depenses.TypeFrequence>();
@@ -135,6 +138,10 @@ namespace Projet_Gestion_Finance.Models
         {
             DialogResult = false;
         }
+        /// <summary>
+        /// Permet de valider le formulaire
+        /// </summary>
+        /// <returns>True si l formulaire est valide et false false</returns>
         private bool validerDepense()
         {
             bool valide = true;

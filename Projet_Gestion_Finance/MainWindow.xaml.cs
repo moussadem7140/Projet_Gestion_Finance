@@ -29,6 +29,9 @@ namespace Projet_Gestion_Finance
             ChargerMois();
             chargerListes();
         }
+        /// <summary>
+        /// Permet de remplir toutes les liste de départ du programme
+        /// </summary>
         private void chargerListes()
         {
             lstDepenses.ItemsSource = null;
@@ -48,6 +51,9 @@ namespace Projet_Gestion_Finance
             }
 
         }
+        /// <summary>
+        /// Permet d'initialiser les jours dans les date pickers
+        /// </summary>
         private void ChargerMois()
         {
             string[] moisNoms = CultureInfo.CurrentCulture.DateTimeFormat.MonthNames;

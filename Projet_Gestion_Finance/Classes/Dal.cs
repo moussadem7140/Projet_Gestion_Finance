@@ -29,6 +29,10 @@ namespace Projet_Gestion_Finance.Models
             _configuration = new ConfigurationBuilder().AddJsonFile(APPSTTINGS_FILE, false, true).Build();
 
         }
+        /// <summary>
+        /// Permet d'obtenir la liste des categorie
+        /// </summary>
+        /// <param name="mois">le mois dans lequelle nous allons produire les categories</param>
         public static List<Categorie> ObtenirListeCategories(DateTime? mois=null)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -72,6 +76,11 @@ namespace Projet_Gestion_Finance.Models
             }
             return Categories;
         }
+        /// <summary>
+        /// Permet d'obtenir la liste de depenses dans une periode
+        /// </summary>
+        /// <param name="depart">debut de la periode</param>
+        /// <param name="arrive">fin de la periode</param>
         public static List<Depenses> ObtenirListeDepenses(DateTime depart, DateTime arrive)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -103,6 +112,11 @@ namespace Projet_Gestion_Finance.Models
             }
             return DepensesPeriodes(depenses, depart, arrive);
         }
+        /// <summary>
+        /// Permet de créer une catégorie
+        /// </summary>
+        /// <param name="categorie">Categorie qui doit être créer</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
 
         public static void CreerCategorie(Categorie categorie)
         {
@@ -131,7 +145,11 @@ namespace Projet_Gestion_Finance.Models
             }
 
         }
-
+        /// <summary>
+        /// Permet de modifier une categorie
+        /// </summary>
+        /// <param name="categorie">Categorie qui doit être modifier</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
         public static void ModifierCategorie(Categorie categorie)
         {
             if (categorie is null)
@@ -161,6 +179,13 @@ namespace Projet_Gestion_Finance.Models
                     cn.Close();
             }
         }
+        /// <summary>
+        /// Permet de supprimer une categorie
+        /// </summary>
+        /// <param name="categorie">Categorie qui doit être supprimer</param>
+        /// <returns>True si la categorie est supprimée et false sinon</returns>
+        /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
+        /// <exception cref="InvalidOperationException">Lance une exception si la categorie contient au moins une dépense</exception>
         public static bool SupprimerCategorie(Categorie categorie)
         {
             if (categorie is null)
@@ -191,6 +216,12 @@ namespace Projet_Gestion_Finance.Models
             }
             return true;
         }
+        /// <summary>
+        /// Permet d'ajouter une dépense
+        /// </summary>
+        /// <param name="depense">la depense qui doit être ajouter</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
+        /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
         public static void AjouterDepense(Depenses depense)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -229,6 +260,12 @@ namespace Projet_Gestion_Finance.Models
             }
 
         }
+        /// <summary>
+        /// Permet de modifier une dépense
+        /// </summary>
+        /// <param name="depense">la depense qui doit être modifier</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
+        /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
 
         public static void ModifierDepense(Depenses depense)
         {
@@ -268,6 +305,11 @@ namespace Projet_Gestion_Finance.Models
                     cn.Close();
             }
         }
+        /// <summary>
+        /// Permet de supprimer une dépense
+        /// </summary>
+        /// <param name="depense">la depense qui doit être supprimer</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
         public static bool Supprimerdepense(Depenses depense)
         {
             if (depense is null)
@@ -296,7 +338,11 @@ namespace Projet_Gestion_Finance.Models
             return true;
         }
 
-
+        /// <summary>
+        /// Permet d'obtenir une categorie par son Id
+        /// </summary>
+        /// <param name="id">Id de la categorie</param>
+        /// <returns>La categorie trouvée ou null si elle n'existe pas</returns>
         public static Categorie ObtenirCategorie(int id)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -327,6 +373,11 @@ namespace Projet_Gestion_Finance.Models
             return c;
 
         }
+        /// <summary>
+        /// Permet d'obtenir les dépenses d'une categorie
+        /// </summary>
+        /// <param name="categorie">Caategorie des dépenses</param>
+        /// <returns></returns>
         public static List<Depenses> ObtenirlesDepensesCategorie(Categorie categorie)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -356,7 +407,13 @@ namespace Projet_Gestion_Finance.Models
             }
             return depenses;
         }
-       
+       /// <summary>
+       /// Permet d'obtenir la somme des dépenses d'une categorie pendant un mois
+       /// </summary>
+       /// <param name="Categorie">la categorie des dépenses</param>
+       /// <param name="mois">le mois dans lequel on recherche</param>
+       /// <param name="Id">l'id de la depense a exclure si modification</param>
+       /// <returns>retourne le total</returns>
         private static decimal totalCategorie(Categorie Categorie, DateTime mois, int Id)
         {
 
@@ -368,6 +425,13 @@ namespace Projet_Gestion_Finance.Models
             }
             return total;
         }
+        /// <summary>
+        /// Permet d'obtenir les dépenses dans une periode données
+        /// </summary>
+        /// <param name="d">Listes des dépenses générales</param>
+        /// <param name="depart">debut de la periode</param>
+        /// <param name="arrive">fin de la periode</param>
+        /// <returns>retourne la liste filtrée</returns>
         public static List<Depenses> DepensesPeriodes(List<Depenses> d, DateTime depart, DateTime arrive)
         {
             List<Depenses> depenses = new List<Depenses>();
@@ -419,6 +483,12 @@ namespace Projet_Gestion_Finance.Models
             return depenses;
 
         }
+        /// <summary>
+        /// Permet d'avoir les dépenses générales
+        /// </summary>
+        /// <param name="categorie">Categorie des dépenses</param>
+        /// <param name="Id">Id de deépense a exclure si modification</param>
+        /// <returns></returns>
         public static decimal ObtenirDepensesGénéralesMensuel(Categorie categorie, int Id)
         {
             List<Depenses> liste= ObtenirlesDepensesCategorie(categorie);
