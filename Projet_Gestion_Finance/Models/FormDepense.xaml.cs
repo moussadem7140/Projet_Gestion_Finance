@@ -157,9 +157,9 @@ namespace Projet_Gestion_Finance.Models
                 txtNom.BorderBrush = null;
 
             }
-            if (String.IsNullOrEmpty(txtCout.Text))
+            if (String.IsNullOrEmpty(txtCout.Text) || !uint.TryParse(txtCout.Text, out uint a))
             {
-                txtCoutErreur.Content = "Saisiser un cout";
+                txtCoutErreur.Content = "Saisiser un nombre positif";
                 txtCout.BorderBrush = Brushes.Red;
                 valide = false;
 

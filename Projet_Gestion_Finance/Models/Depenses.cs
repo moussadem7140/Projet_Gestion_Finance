@@ -10,6 +10,9 @@ namespace Projet_Gestion_Finance.Classes
 {
     public class Depenses: IComparable
     {
+        /// <summary>
+        /// Différents Types de frequence
+        /// </summary>
 		public enum TypeFrequence
         {
             Hebdomadaire,
@@ -17,6 +20,9 @@ namespace Projet_Gestion_Finance.Classes
             Annuel,
             Occasionnel
         }
+        /// <summary>
+        /// Nom de la dépense
+        /// </summary>
         private string _nom;
 
 		public string Nom
@@ -24,6 +30,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _nom; }
 			set { _nom = value; }
 		}
+        /// <summary>
+        /// Identifiant unique de la dépense
+        /// </summary>
         private int _id;
 
         public int Id
@@ -31,7 +40,18 @@ namespace Projet_Gestion_Finance.Classes
             get { return _id; }
             set { _id = value; }
         }
+        /// <summary>
+        /// Coût de la dépense
+        /// </summary>
         private decimal _cout;
+        public decimal Cout
+        {
+            get { return _cout; }
+            set { _cout = value; }
+        }
+        /// <summary>
+        /// Catégorie de la dépense
+        /// </summary>
 		private Categorie _categorie;
 
 		public Categorie Categorie
@@ -39,12 +59,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _categorie; }
 			set { _categorie = value; }
 		}
-
-		public decimal Cout
-		{
-			get { return _cout; }
-			set { _cout = value; }
-		}
+        /// <summary>
+        /// Cout de la dépense par mois
+        /// </summary>
         private decimal _coutMensuel;
         public decimal CoutMensuel
         {
@@ -56,6 +73,9 @@ namespace Projet_Gestion_Finance.Classes
 
             }
         }
+        /// <summary>
+        /// Date de la dépense
+        /// </summary>
         private DateTime _date;
 
 		public DateTime Date
@@ -63,6 +83,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _date; }
 			set { _date = value; }
 		}
+        /// <summary>
+        /// Type de fréquence de la dépense
+        /// </summary>
 		private TypeFrequence _frequence;
 
 		public TypeFrequence Frequence
@@ -70,6 +93,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _frequence; }
 			set { _frequence = value; }
 		}
+        /// <summary>
+        /// Booléen qui 
+        /// </summary>
 		private bool _obligatoire;
 
 		public bool Obligatoire

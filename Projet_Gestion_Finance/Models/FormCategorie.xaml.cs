@@ -125,9 +125,9 @@ namespace Projet_Gestion_Finance.Models
                 txtNom.BorderBrush = null;
 
             }
-            if (String.IsNullOrEmpty(txtLimite.Text))
+            if (String.IsNullOrEmpty(txtLimite.Text) || !uint.TryParse(txtLimite.Text, out uint a))
             {
-                txtLimiteErreur.Content = "Saisiser une limite";
+                txtLimiteErreur.Content = "Saisiser une limite(nombre positif)";
                 txtLimite.BorderBrush = Brushes.Red;
                 valide = false;
 

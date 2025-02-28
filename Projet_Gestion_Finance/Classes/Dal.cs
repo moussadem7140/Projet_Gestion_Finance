@@ -506,23 +506,5 @@ namespace Projet_Gestion_Finance.Models
             return total;
         }
 
-        //public static void AjusterCategorie(Categorie categorie)
-        //{
-        //    if (categorie is null)
-        //        throw new ArgumentNullException(nameof(categorie), "La categorie ne peut être null");
-        //    decimal total = 0;
-        //    foreach (Depenses depense in ObtenirlesDepensesCategorie(categorie))
-        //    {
-        //       total += depense.Cout;
-        //    }
-        //    if(total > categorie.LimiteDepenses)
-        //    {
-        //        categorie.LimiteDepenses = total;
-        //        ModifierCategorie(categorie);
-        //    }
-
-        //    MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
-
-
-        //}
+        
     } }

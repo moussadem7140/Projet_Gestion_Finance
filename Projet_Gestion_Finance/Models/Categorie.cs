@@ -8,6 +8,9 @@ namespace Projet_Gestion_Finance.Classes
 {
     public class Categorie
     {
+		/// <summary>
+		///Identifiant unique
+		/// </summary>
 		private int _id;
 
 		public int Id
@@ -15,6 +18,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _id; }
 			set { _id = value; }
 		}
+		/// <summary>
+		/// Liste de depenses
+		/// </summary>
 		private List<Depenses> _listeDepenses;
 
 		public List<Depenses> ListeDepenses
@@ -22,7 +28,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _listeDepenses; }
 			set { _listeDepenses = value; }
 		}
-
+		/// <summary>
+		/// Le coût total des dépenses
+		/// </summary>
 		private decimal _coutTotal;
 
 		public decimal CoutTotal
@@ -30,13 +38,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _coutTotal; }
 			set { _coutTotal = value; }
 		}
-        private decimal _coutTotalMensuel;
-
-        public decimal CoutTotalMensuel
-		{
-			get { return _coutTotalMensuel; }
-			set { _coutTotalMensuel = value; }
-		}
+     /// <summary>
+	 /// Marge disponible pour les nouvelles dépenses
+	 /// </summary>
         public decimal Marge
         {
             get
@@ -44,7 +48,9 @@ namespace Projet_Gestion_Finance.Classes
                 return LimiteDepenses - CoutTotal;
             }
         }
-
+		/// <summary>
+		/// Nom de la catégorie
+		/// </summary>
         private string _nom;
 
 		public string Nom
@@ -52,6 +58,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _nom; }
 			set { _nom = value; }
 		}
+		/// <summary>
+		/// Limites dépenses
+		/// </summary>
 		private decimal _limiteDepenses;
 
 		public decimal LimiteDepenses
@@ -59,6 +68,9 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _limiteDepenses; }
 			set { _limiteDepenses = value; }
 		}
+		/// <summary>
+		/// Description de la dépense
+		/// </summary>
 		private string _description;
 
 		public string Description
@@ -66,7 +78,13 @@ namespace Projet_Gestion_Finance.Classes
 			get { return _description; }
 			set { _description = value; }
 		}
-	
+	/// <summary>
+	/// constructeur total
+	/// </summary>
+	/// <param name="id"></param>
+	/// <param name="nom"></param>
+	/// <param name="limiteDepenses"></param>
+	/// <param name="description"></param>
         public Categorie(int id, string nom, decimal limiteDepenses, string description)
         {
 			Id = id;
