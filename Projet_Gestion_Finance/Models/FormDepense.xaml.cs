@@ -64,7 +64,7 @@ namespace Projet_Gestion_Finance.Models
             try
             {
                 ChargerCbx();
-                Titre.Text = $"{Etat} une Depense";
+                Titre.Text = $"{Etat} une dépense";
                 btnModifier.Content = $"{Etat}";
                 if (Etat != EtatFormulaire.Ajouter)
                 {

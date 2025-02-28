@@ -229,6 +229,7 @@ namespace Projet_Gestion_Finance
             UtilEnum.EcrireDepensesDansFichier(lstDepenses.Items.Cast<Depenses>().ToList(), dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value);
             btnImprimerDepense.IsEnabled = false;
             print.IsEnabled = false;
+            MessageBox.Show("Le Fichier a bien été mise à jour", "Impression", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

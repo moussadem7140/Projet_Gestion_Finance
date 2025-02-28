@@ -45,7 +45,7 @@ namespace Projet_Gestion_Finance.Models
         }
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            Titre.Text = $"{Etat} une Categorie";
+            Titre.Text = $"{Etat} une catégorie";
             btnCreer.Content = $"{Etat}";
             if (Etat != EtatFormulaire.Créer)
             {
@@ -127,7 +127,7 @@ namespace Projet_Gestion_Finance.Models
             }
             if (String.IsNullOrEmpty(txtLimite.Text) || !uint.TryParse(txtLimite.Text, out uint a))
             {
-                txtLimiteErreur.Content = "Saisiser une limite(nombre positif)";
+                txtLimiteErreur.Content = "Saisiser une limite(nombre positif)kk";
                 txtLimite.BorderBrush = Brushes.Red;
                 valide = false;
 
