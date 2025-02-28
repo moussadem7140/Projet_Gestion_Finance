@@ -128,7 +128,7 @@ namespace Projet_Gestion_Finance.Models
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                txtCoutErreur.Content = ex.Message;
             }
 
 
