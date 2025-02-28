@@ -175,9 +175,9 @@ namespace Projet_Gestion_Finance.Models
                 dtpDate.BorderBrush = Brushes.Red;
                 valide = false;
             }
-            else if (dtpDate.SelectedDate.Value.Date < DateTime.Now.Date)
+            else if (dtpDate.SelectedDate.Value.Date < DateTime.Now.Date && (Depenses.TypeFrequence)(cbxFrequence.SelectedIndex)==Depenses.TypeFrequence.Occasionnel)
             {
-                dtpDateErreur.Content = "La date ne peut pas être dans le passé";
+                dtpDateErreur.Content = "La date ne peut pas être dans le passé pour une dépense occasionelle";
                 dtpDate.BorderBrush = Brushes.Red;
                 valide = false;
             }

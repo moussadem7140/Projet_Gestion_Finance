@@ -26,17 +26,17 @@
             <ComboBox x:Name="cbxCategorie" Width="250"/>
         </StackPanel>
         <Label Foreground="Red" Name="txtCategorieErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
-        <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70"  Content="Date" Foreground="White" FontWeight="Bold"/>
-            <DatePicker Width="245" Name="dtpDate"/>
-        </StackPanel>
-        <Label Foreground="Red" Name="dtpDateErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
             <Label Width="70" Foreground="White" FontWeight="Bold">Fréquence</Label>
             <ComboBox x:Name="cbxFrequence" Width="250"/>
         </StackPanel>
         <Label Foreground="Red" Name="cbxFrequenceErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
-        <StackPanel  Orientation="Horizontal" Margin="70,5" HorizontalAlignment="Left">
+        <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+            <Label Width="70"  Content="Date" Foreground="White" FontWeight="Bold"/>
+            <DatePicker Width="245" Name="dtpDate"/>
+        </StackPanel>
+        <Label Foreground="Red" Name="dtpDateErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
+         <StackPanel  Orientation="Horizontal" Margin="70,5" HorizontalAlignment="Left">
             <CheckBox x:Name="chkOblig" Foreground="White" FontWeight="Bold">Obligatoire</CheckBox>
         </StackPanel>
         <Label Foreground="Red" Name="chkObligErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
