@@ -374,6 +374,41 @@ namespace Projet_Gestion_Finance.Models
 
         }
         /// <summary>
+        /// Permet d'obtenir une dépense par son Id
+        /// </summary>
+        /// <param name="id">Id de la dépense</param>
+        /// <returns>La dépense trouvée ou null si elle n'existe pas</returns>
+        public static Depenses ObtenirDepense(int id)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            Depenses depense=null;
+            try
+            {
+                cn.Open();
+                string requete = "SELECT d.Nom, d.Categorie, d.Cout, d.Date, d.Frequence, d.Obligatoire, d.Id FROM depenses d Where id =@id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", id);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return depense;
+
+        }
+        /// <summary>
         /// Permet d'obtenir les dépenses d'une categorie
         /// </summary>
         /// <param name="categorie">Caategorie des dépenses</param>

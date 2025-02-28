@@ -142,7 +142,7 @@ namespace Projet_Gestion_Finance
                 {
                     throw new Exception("Veuillez sélectionner une dépense");
                 }
-                FormDepense formModifier = new FormDepense((Depenses)lstDepenses.SelectedItem, EtatFormulaire.Modifier);
+                FormDepense formModifier = new FormDepense(Dal.ObtenirDepense(((Depenses)lstDepenses.SelectedItem).Id), EtatFormulaire.Modifier);
                 formModifier.ShowDialog();
                 chargerListes();
             }
@@ -161,7 +161,7 @@ namespace Projet_Gestion_Finance
                 {
                     throw new Exception("Veuillez sélectionner une dépense");
                 }
-                FormDepense formSupprimer = new FormDepense((Depenses)lstDepenses.SelectedItem, EtatFormulaire.Supprimer);
+                FormDepense formSupprimer = new FormDepense(Dal.ObtenirDepense(((Depenses)lstDepenses.SelectedItem).Id), EtatFormulaire.Supprimer);
                 formSupprimer.ShowDialog();
                 chargerListes();
             }
