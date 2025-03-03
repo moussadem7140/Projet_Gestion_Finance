@@ -210,6 +210,8 @@ namespace Projet_Gestion_Finance
                     }
                 }
                 lstDepenses.ItemsSource = r;
+                btnImprimerDepense.IsEnabled = true;
+                print.IsEnabled = true  ;
             }
             catch (Exception ex)
             {

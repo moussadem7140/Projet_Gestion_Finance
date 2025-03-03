@@ -8,36 +8,36 @@
         Title="FormDepense" Height="450" Width="800" Loaded="Windows_Loaded">
     <StackPanel Margin="10"  >
         <StackPanel.Background>
-            <ImageBrush ImageSource="/Ressource/fondImage.jpg" Stretch="UniformToFill"></ImageBrush>
+            <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
         </StackPanel.Background>
-        <TextBlock Name="Titre" HorizontalAlignment="Left" Margin="10" FontWeight="Bold" Foreground="White"></TextBlock>
+        <TextBlock Name="Titre" HorizontalAlignment="Left" Margin="10" FontWeight="Bold"></TextBlock>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70" Foreground="White" FontWeight="Bold">Nom</Label>
+            <Label Width="70"  FontWeight="Bold">Nom</Label>
             <TextBox x:Name="txtNom" Width="250"></TextBox>
         </StackPanel>
         <Label Foreground="Red" Name="txtNomErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70" Foreground="White" FontWeight="Bold">Coût</Label>
+            <Label Width="70" FontWeight="Bold">Coût</Label>
             <TextBox x:Name="txtCout" Width="250"></TextBox>
         </StackPanel>
         <Label Foreground="Red" Name="txtCoutErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70" Foreground="White" FontWeight="Bold">Catégorie</Label>
+            <Label Width="70" FontWeight="Bold">Catégorie</Label>
             <ComboBox x:Name="cbxCategorie" Width="250"/>
         </StackPanel>
         <Label Foreground="Red" Name="txtCategorieErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70" Foreground="White" FontWeight="Bold">Fréquence</Label>
+            <Label Width="70"  FontWeight="Bold">Fréquence</Label>
             <ComboBox x:Name="cbxFrequence" Width="250"/>
         </StackPanel>
         <Label Foreground="Red" Name="cbxFrequenceErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label Width="70"  Content="Date" Foreground="White" FontWeight="Bold"/>
+            <Label Width="70"  Content="Date"  FontWeight="Bold"/>
             <DatePicker Width="245" Name="dtpDate"/>
         </StackPanel>
         <Label Foreground="Red" Name="dtpDateErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
          <StackPanel  Orientation="Horizontal" Margin="70,5" HorizontalAlignment="Left">
-            <CheckBox x:Name="chkOblig" Foreground="White" FontWeight="Bold">Obligatoire</CheckBox>
+            <CheckBox x:Name="chkOblig" FontWeight="Bold">Obligatoire</CheckBox>
         </StackPanel>
         <Label Foreground="Red" Name="chkObligErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10" Width="750">

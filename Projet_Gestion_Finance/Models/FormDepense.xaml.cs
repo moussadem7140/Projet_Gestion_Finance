@@ -129,6 +129,7 @@ namespace Projet_Gestion_Finance.Models
             catch (Exception ex)
             {
                 txtCoutErreur.Content = ex.Message;
+                txtCout.BorderBrush = Brushes.Red;
             }
 
 
@@ -148,6 +149,12 @@ namespace Projet_Gestion_Finance.Models
             if (string.IsNullOrEmpty(txtNom.Text))
             {
                 txtNomErreur.Content = "Saisissez un nom";
+                txtNom.BorderBrush = Brushes.Red;
+                valide = false;
+            }
+            else if (!txtNom.Text.All(char.IsLetter))
+            {
+                txtNomErreur.Content = "Les valeurs numériques ne sont pas acceptées";
                 txtNom.BorderBrush = Brushes.Red;
                 valide = false;
             }

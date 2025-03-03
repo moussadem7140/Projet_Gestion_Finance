@@ -232,8 +232,8 @@ namespace Projet_Gestion_Finance.Models
                 throw new ArgumentNullException(nameof(depense), "La depenses ne peut être null");
             if(totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), 0) + p*depense.Cout> depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
-            if(ObtenirDepensesGénéralesMensuel(depense.Categorie, 0) + depense.CoutMensuel> depense.Categorie.LimiteDepenses)
-                    throw new InvalidOperationException("La depense dépassera la limite de la categorie \n\rElle n'est pas tenable sur le long terme.");
+            if(ObtenirDepensesGénéralesMensuel(depense.Categorie, 0) + depense.CoutMensuel> depense.Categorie.LimiteDepenses && depense.Frequence!= Depenses.TypeFrequence.Occasionnel)
+                    throw new InvalidOperationException("La depense n'est pas tenable sur le long terme.");
                 cn.Open();
                 //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
                 string requete = "INSERT INTO depenses VALUES(@id, @nom, @cout, @categorie, @date, @frequence, @obligatoire)";
@@ -275,7 +275,7 @@ namespace Projet_Gestion_Finance.Models
             if (totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), depense.Id) + p*depense.Cout > depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
             if (ObtenirDepensesGénéralesMensuel(depense.Categorie, depense.Id) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
-                throw new InvalidOperationException("La depense dépassera la limite de la categorie\n\rElle n'est pas tenable sur le long terme.");
+                throw new InvalidOperationException("La depense n'est pas tenable sur le long terme.");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
 

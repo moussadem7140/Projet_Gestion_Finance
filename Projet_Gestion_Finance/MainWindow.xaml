@@ -15,24 +15,33 @@
                     <StackPanel.Background>
                         <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
                     </StackPanel.Background>
-                    <StackPanel Margin="0,0,75,0" x:Name="spAjouterProduit" Orientation="Horizontal" >
+                    <StackPanel Margin="0,0,75,0" x:Name="spAjouterProduit" Orientation="Horizontal" Width="1254" Height="99">
+                        <Label Content="Nom:" Width="42" Height="32" RenderTransformOrigin="0.5,0.5">
+
+                        </Label>
                         <TextBox x:Name="txtRechercher" Width="250" Height="25" Margin="10"  />
-                        <ComboBox x:Name="cboCategories" Width="150" Margin="10"/>
-                        <Button x:Name="btnRechercherDepense" Margin="10" BorderThickness="0" Click="btnRechercherDepense_Click">
-                            <Image Source="/Ressource/search.png" Width="25" Margin="5" />
-                        </Button>
+                        <Label  Width="70" Height="32" RenderTransformOrigin="0.5,0.5">
+                            Categorie:
+                        </Label>
+                        <ComboBox x:Name="cboCategories"  Width="250" Height="25" Margin="10"/>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Left">
-                                <Label Width="70" Content="A partir du "/>
+                                <Label Content="Du:" Width="42" Height="40" RenderTransformOrigin="0.5,0.5">
+
+                                </Label>
                                 <DatePicker Width="105" x:Name="dtpDebutPeriode" Height="26"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Left">
-                                <Label Width="60" Content="Jusqu'au  "/>
-                                <DatePicker Width="100"  Name="dtpFinPeriode" Height="29"/>
-                            </StackPanel>
+                                <Label Content="Au:" Width="42" Height="40" RenderTransformOrigin="0.5,0.5">
 
+                                </Label>
+                                <DatePicker Width="100"  x:Name="dtpFinPeriode" Height="29"/>
+                            </StackPanel>
+                            <Button x:Name="btnRechercherDepense" Margin="10" BorderThickness="0" Click="btnRechercherDepense_Click">
+                                <Image Source="/Ressource/search.png" Width="25" Margin="5" />
+                            </Button>
                             <Button x:Name="btnImprimerDepense" HorizontalAlignment="Right" Margin="10" BorderThickness="0" Click="btnImprimerDepense_Click" >
-                                <Image Name="print" Source="/Ressource/Print.jpg" Width="130" Height="47" />
+                                <Image x:Name="print" Source="/Ressource/Print.jpg" Width="130" Height="47" />
                             </Button>
                         </StackPanel>
 
