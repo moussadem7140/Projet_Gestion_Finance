@@ -579,7 +579,6 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="categorie">Projet a créer</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
-
         public static void CreerProjet(Projets projet)
         {
             if (projet is null)
@@ -609,6 +608,38 @@ namespace Projet_Gestion_Finance.Models
                     cn.Close();
             }
 
+        }
+        /// <summary>
+        /// Permet de supprimer un projet
+        /// </summary>
+        /// <param name="depense">le projet qui doit être supprimer</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si le projet est null</exception>
+        public static bool Supprimerdepense(Projets projet)
+        {
+            if (projet is null)
+                throw new ArgumentNullException(nameof(projet), "Veillez choisir une categoie");
+
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+
+
+            try
+            {
+                cn.Open();
+                string requete = "DELETE FROM projets WHERE Id = @id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", projet.Id);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return true;
         }
 
     }
