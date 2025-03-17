@@ -574,7 +574,42 @@ namespace Projet_Gestion_Finance.Models
             }
             return projets;
         }
+        /// <summary>
+        /// Permet de créer un projet
+        /// </summary>
+        /// <param name="categorie">Projet a créer</param>
+        /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
 
+        public static void CreerProjet(Projets projet)
+        {
+            if (projet is null)
+                throw new ArgumentNullException(nameof(projet), "La categorie ne peut être null");
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            try
+            {
+                //        public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
+                cn.Open();
+                string requete = "INSERT INTO projets VALUES(null, @nom, @date, @objectif, @cout, @frequence)";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@nom", projet.Nom);
+                cmd.Parameters.AddWithValue("@date", projet.Date);
+                cmd.Parameters.AddWithValue("@objectif", projet.Objectif);
+                cmd.Parameters.AddWithValue("@cout", projet.Cout);
+                cmd.Parameters.AddWithValue("@frequence", projet.Frequence);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+
+        }
 
     }
 }
