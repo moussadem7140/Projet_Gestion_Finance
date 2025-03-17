@@ -540,6 +540,41 @@ namespace Projet_Gestion_Finance.Models
             }
             return total;
         }
+        /// <summary>
+        /// Permet d'obtenir la liste de projets
+        /// </summary>
+        public static List<Projets> ObtenirListeProjets()
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            List<Projets> projets = new List<Projets>();
+            try
+            {
+                cn.Open();
+                //        public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
 
-        
-    } }
+                string requete = "SELECT  d.Id, d.Nom, d.Date, d.Objectif, d.Cout d.Frequence FROM projets d Order by Date";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Projets projet = new Projets(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2) , dr.GetDecimal(3), dr.GetDecimal(4), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(5)));
+                    projets.Add(projet);
+                }
+                dr.Close();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return projets;
+        }
+
+
+    }
+}
