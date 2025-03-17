@@ -75,7 +75,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
         }
 
@@ -94,7 +95,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
 
         }
@@ -113,7 +115,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
 
         }
@@ -148,7 +151,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
 
         }
@@ -167,7 +171,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
         }
 
@@ -215,7 +220,8 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
             }
             
         }
