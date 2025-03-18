@@ -641,6 +641,35 @@ namespace Projet_Gestion_Finance.Models
             }
             return true;
         }
+        public static void ModifierProjet(Projets projet)
+        {
+            if (projet is null)
+                throw new ArgumentNullException(nameof(Projets), "Veillez choisir un projet");
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            try
+            {
+                cn.Open();
+                string requete2 = "UPDATE projets SET Nom=@nom, Cout=@cout, Date=@date, Frequence= @frequence Where Id=@id";
+                MySqlCommand cmd = new MySqlCommand(requete2, cn);
+                cmd = new MySqlCommand(requete2, cn);
+                cmd.Parameters.AddWithValue("@id", projet.Id);
+                cmd.Parameters.AddWithValue("@nom", projet.Nom);
+                cmd.Parameters.AddWithValue("@cout", projet.Cout);
+                cmd.Parameters.AddWithValue("@date", projet.Date);
+                cmd.Parameters.AddWithValue("@frequence", projet.Frequence);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+        }
 
     }
 }
