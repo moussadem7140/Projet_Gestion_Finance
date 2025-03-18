@@ -22,7 +22,7 @@
             <GroupBox Header="Liste des projets">
                 <StackPanel Height="867" Margin="0,0,-70,0">
                     <StackPanel >
-                        <ListView Background="AliceBlue" x:Name="lstCategorie" Width="740" Height="200">
+                        <ListView Background="AliceBlue" x:Name="lstProjets" Width="740" Height="200">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn  Header="NOM" DisplayMemberBinding="{Binding Nom}" Width="150"/>

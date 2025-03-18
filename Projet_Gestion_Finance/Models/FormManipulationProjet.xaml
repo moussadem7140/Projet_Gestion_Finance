@@ -20,12 +20,18 @@
             <Label  Width="75" FontWeight="Bold">Coût</Label>
             <TextBox x:Name="txtCout" Width="250" ></TextBox>
         </StackPanel>
-        <Label Foreground="Red" Name="txtLimiteErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
+        <Label Foreground="Red" Name="txtCoutErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
             <Label Width="75"  FontWeight="Bold">Fréquence</Label>
             <ComboBox x:Name="cbxFrequence" Width="250"/>
         </StackPanel>
         <Label Foreground="Red" Name="cbxFrequenceErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
+        <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
+            <Label  Width="75" FontWeight="Bold">Objectif</Label>
+            <TextBox x:Name="txtObjectif" Width="250" ></TextBox>
+        </StackPanel>
+        <Label Foreground="Red" Name="txtObjectifErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
+
         <StackPanel  Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
             <Label Width="75"  Content="Date"  FontWeight="Bold"/>
             <DatePicker Width="245" Name="dtpDate"/>

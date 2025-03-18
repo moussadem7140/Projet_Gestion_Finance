@@ -586,7 +586,7 @@ namespace Projet_Gestion_Finance.Models
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
-                //        public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
+                //public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
                 cn.Open();
                 string requete = "INSERT INTO projets VALUES(null, @nom, @date, @objectif, @cout, @frequence)";
 
@@ -614,7 +614,7 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="depense">le projet qui doit être supprimer</param>
         /// <exception cref="ArgumentNullException">Lance une exception si le projet est null</exception>
-        public static bool Supprimerdepense(Projets projet)
+        public static bool SupprimerProjet(Projets projet)
         {
             if (projet is null)
                 throw new ArgumentNullException(nameof(projet), "Veillez choisir une categoie");

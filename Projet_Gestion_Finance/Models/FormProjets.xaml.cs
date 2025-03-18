@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projet_Gestion_Finance.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,71 @@ namespace Projet_Gestion_Finance.Models
         public FormProjets()
         {
             InitializeComponent();
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            chargerListes();
+        }
+        private void chargerListes()
+        {
+            lstProjets.ItemsSource = null;
+            List<Projets> cat = Dal.ObtenirListeProjets();
+            lstProjets.ItemsSource = cat;
+        }
+        private void btnCreerCategorie_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                FormManipulationProjet formCreer = new FormManipulationProjet(null, EtatFormulaire.Créer);
+                formCreer.ShowDialog();
+                chargerListes();
+            }
+            catch (Exception ex)
+            {
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
+            }
+        }
+
+        private void btnModifierCategorie_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (lstProjets.SelectedItem == null)
+                {
+                    throw new Exception("Veuillez sélectionner une Categorie");
+                }
+                FormManipulationProjet formModifier = new FormManipulationProjet((Projets)lstProjets.SelectedItem, EtatFormulaire.Modifier);
+                formModifier.ShowDialog();
+                chargerListes();
+            }
+            catch (Exception ex)
+            {
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
+            }
+
+        }
+
+        private void btnSupprimerCategorie_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (lstProjets.SelectedItem == null)
+                {
+                    throw new Exception("Veuillez sélectionner une Categorie");
+                }
+                FormManipulationProjet formSupprimer = new FormManipulationProjet((Projets)lstProjets.SelectedItem, EtatFormulaire.Supprimer);
+                formSupprimer.ShowDialog();
+                chargerListes();
+            }
+            catch (Exception ex)
+            {
+                FrmErreur f = new FrmErreur(ex.Message);
+                f.ShowDialog();
+            }
+
         }
     }
 }
