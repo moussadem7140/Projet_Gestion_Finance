@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
 using Microsoft.VisualBasic;
 using Projet_Gestion_Finance.classes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Projet_Gestion_Finance.Models
 {
 
@@ -350,7 +351,7 @@ namespace Projet_Gestion_Finance.Models
             try
             {
                 cn.Open();
-                String requete = "SELECT Id, Nom, Limite, Description FROM categorie WHERE Id=@id";
+                string requete = "SELECT Id, Nom, Limite, Description FROM categorie WHERE Id=@id";
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@id", id);
                 MySqlDataReader dr = cmd.ExecuteReader();
@@ -543,7 +544,7 @@ namespace Projet_Gestion_Finance.Models
         /// <summary>
         /// Permet d'obtenir la liste de projets
         /// </summary>
-        public static List<Projets> ObtenirListeProjets()
+        public static List<Projets> ObtenirListeProjets(DateTime date)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             List<Projets> projets = new List<Projets>();
@@ -552,13 +553,14 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 //        public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
 
-                string requete = "SELECT  d.Id, d.Nom, d.Date, d.Objectif, d.Cout d.Frequence FROM projets d Order by Date";
+                string requete = "SELECT  d.Id, d.Nom, d.Date, d.Objectif, d.Cout, d.Frequence FROM projets d Order by Date";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
                     Projets projet = new Projets(dr.GetInt32(0), dr.GetString(1), dr.GetDateTime(2) , dr.GetDecimal(3), dr.GetDecimal(4), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(5)));
+                    projet.Avancement= Avancement(date, projet);
                     projets.Add(projet);
                 }
                 dr.Close();
@@ -582,7 +584,7 @@ namespace Projet_Gestion_Finance.Models
         public static void CreerProjet(Projets projet)
         {
             if (projet is null)
-                throw new ArgumentNullException(nameof(projet), "La categorie ne peut être null");
+                throw new ArgumentNullException(nameof(projet), "Le projet ne peut être null");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
@@ -617,7 +619,7 @@ namespace Projet_Gestion_Finance.Models
         public static bool SupprimerProjet(Projets projet)
         {
             if (projet is null)
-                throw new ArgumentNullException(nameof(projet), "Veillez choisir une categoie");
+                throw new ArgumentNullException(nameof(projet), "Veillez choisir un projet");
 
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
@@ -669,6 +671,38 @@ namespace Projet_Gestion_Finance.Models
                 if (cn is not null && cn.State == System.Data.ConnectionState.Open)
                     cn.Close();
             }
+        }
+        public static decimal Avancement(DateTime date, Projets projet)
+        {
+            decimal avancement = 0;
+            if (projet.Frequence == Depenses.TypeFrequence.Mensuel)
+            {
+                int i = 0;
+                while (projet.Date.AddMonths(i).Date <= date.Date)
+                {
+                    avancement += projet.Cout;
+                    i++;
+                }
+            }
+             else if (projet.Frequence == Depenses.TypeFrequence.Hebdomadaire)
+            {
+                int i = 0;
+                while ( projet.Date.AddDays(i * 7).Date <= date.Date)
+                {
+                    avancement += projet.Cout;
+                    i++;
+                }
+            }
+            else
+            {
+                int i = 0;
+                while (projet.Date.AddYears(i).Date <= date.Date)
+                {
+                    avancement += projet.Cout;
+                    i++;
+                }
+            }
+            return avancement;
         }
 
     }

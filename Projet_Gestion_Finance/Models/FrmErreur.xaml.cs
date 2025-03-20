@@ -17,8 +17,14 @@ namespace Projet_Gestion_Finance.Models
     /// <summary>
     /// Logique d'interaction pour FrmErreur.xaml
     /// </summary>
+    /// 
     public partial class FrmErreur : Window
     {
+        public enum EtatErreur
+        {
+            Erreur,
+            Avertissement,
+        }
         private string message;
 
         public string Message
@@ -26,19 +32,36 @@ namespace Projet_Gestion_Finance.Models
             get { return message; }
             set { message = value; }
         }
-        public FrmErreur(string message)
+        public EtatErreur _etat;
+        public EtatErreur Etat
+        {
+            get { return _etat; }
+            set { _etat = value; }
+        }
+        public FrmErreur(string message, EtatErreur etat)
         {
             InitializeComponent();
             Message = message;
+            Etat = etat;
         }
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
-            lblErreur.Text = message;
+            if(Etat == EtatErreur.Avertissement)
+            {
+                lblTitre.Foreground = Brushes.Orange;
+                lblTitre.Text = "Avertissement";
+            }
+            lblErreur.Text = Message;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;   
+            DialogResult = true;   
         }
+        private void Button_Annuler_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+        
     }
     }

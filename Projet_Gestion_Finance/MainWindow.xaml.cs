@@ -75,7 +75,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
         }
@@ -95,7 +95,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
 
@@ -115,7 +115,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
 
@@ -123,18 +123,20 @@ namespace Projet_Gestion_Finance
 
         private void btnAjouterDepense_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                FormDepense formAjouter = new FormDepense(null, EtatFormulaire.Ajouter);
-                formAjouter.ShowDialog();
+            //try
+            //{
+            //    FormDepense formAjouter = new FormDepense(null, EtatFormulaire.Ajouter);
+            //    formAjouter.ShowDialog();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
-            }
-            chargerListes();
+            //}
+            //catch (Exception ex)
+            //{
+            //             FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
+            //f.ShowDialog();
+            //}
+            //chargerListes();
+            FormProjets formAjouter = new FormProjets();
+            formAjouter.ShowDialog();
         }
 
         private void btnModifierDepense_Click(object sender, RoutedEventArgs e)
@@ -151,7 +153,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
 
@@ -171,7 +173,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
         }
@@ -220,7 +222,7 @@ namespace Projet_Gestion_Finance
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
             

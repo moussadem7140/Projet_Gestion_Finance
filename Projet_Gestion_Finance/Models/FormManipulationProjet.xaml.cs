@@ -34,6 +34,7 @@ namespace Projet_Gestion_Finance.Models
 
         public FormManipulationProjet(Projets projet, EtatFormulaire etat)
         {
+            InitializeComponent();
             Projet = projet;
             Etat = etat;
         }
@@ -56,10 +57,11 @@ namespace Projet_Gestion_Finance.Models
                 ChargerCbx();
                 Titre.Text = $"{Etat} un projet";
                 btnCreer.Content = $"{Etat}";
-                if (Etat != EtatFormulaire.Ajouter)
+                if (Etat != EtatFormulaire.Créer)
                 {
                     txtNom.Text = Projet.Nom.ToString();
                     txtCout.Text = Projet.Cout.ToString();
+                    txtObjectif.Text = Projet.Objectif.ToString();
                     dtpDate.SelectedDate = Projet.Date;
                     cbxFrequence.SelectedIndex = (int)Projet.Frequence;
                     if (Etat == EtatFormulaire.Supprimer)
@@ -77,14 +79,14 @@ namespace Projet_Gestion_Finance.Models
             }
 
         }
-        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        private void btnCreer_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
                 switch (Etat)
                 {
-                    case EtatFormulaire.Ajouter:
+                    case EtatFormulaire.Créer:
 
                         if (validerProjet())
                         {
@@ -95,14 +97,21 @@ namespace Projet_Gestion_Finance.Models
                     case EtatFormulaire.Modifier:
                         if (validerProjet())
                         {
-                            Dal.ModifierProjet(new Projets(Projet.Id, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex));
-                            DialogResult = true;
+                            FrmErreur formErreur1 = new FrmErreur("Voulez-vous vraiment Modifier ce projet? Notez que Si vous modifier un Projet toutes les progression seront perdues.", FrmErreur.EtatErreur.Avertissement);
+                            formErreur1.ShowDialog();
+                            if (formErreur1.DialogResult == true)
+                            {
+                                Dal.ModifierProjet(new Projets(Projet.Id, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex));
+                                DialogResult = true;
+                            }
+                            else
+                                DialogResult = false;
                         }
                         break;
                     case EtatFormulaire.Supprimer:
-                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer le projet",
-                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                        if (messageBoxResult == MessageBoxResult.Yes)
+                        FrmErreur formErreur = new FrmErreur("Voulez-vous vraiment supprimer ce projet?", FrmErreur.EtatErreur.Avertissement);
+                        formErreur.ShowDialog();
+                        if (formErreur.DialogResult==true)
                         {
                             Dal.SupprimerProjet(Projet);
                             DialogResult = true;
@@ -153,6 +162,18 @@ namespace Projet_Gestion_Finance.Models
             if (String.IsNullOrEmpty(txtCout.Text) || !uint.TryParse(txtCout.Text, out uint a))
             {
                 txtCoutErreur.Content = "Saisiser un nombre positif";
+                txtCout.BorderBrush = Brushes.Red;
+                valide = false;
+
+            }
+            else
+            {
+                txtCoutErreur.Content = "";
+                txtCout.BorderBrush = null;
+            }
+            if (String.IsNullOrEmpty(txtObjectif.Text) || !uint.TryParse(txtObjectif.Text, out uint b))
+            {
+                txtObjectifErreur.Content = "Saisiser un nombre positif";
                 txtCout.BorderBrush = Brushes.Red;
                 valide = false;
 

@@ -114,9 +114,9 @@ namespace Projet_Gestion_Finance.Models
                         }
                         break;
                     case EtatFormulaire.Supprimer:
-                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la courset",
-                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                        if (messageBoxResult == MessageBoxResult.Yes)
+                        FrmErreur formErreur = new FrmErreur("Voulez-vous vraiment supprimer cette dépense?", FrmErreur.EtatErreur.Avertissement);
+                        formErreur.ShowDialog();
+                        if (formErreur.DialogResult == true)
                         {
                             Dal.Supprimerdepense(Depense);
                             DialogResult = true;

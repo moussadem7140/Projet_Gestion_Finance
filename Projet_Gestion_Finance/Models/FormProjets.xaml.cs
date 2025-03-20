@@ -26,12 +26,13 @@ namespace Projet_Gestion_Finance.Models
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            dtpDate.SelectedDate = DateTime.Now;
             chargerListes();
         }
         private void chargerListes()
         {
             lstProjets.ItemsSource = null;
-            List<Projets> cat = Dal.ObtenirListeProjets();
+            List<Projets> cat = Dal.ObtenirListeProjets(dtpDate.SelectedDate.Value);
             lstProjets.ItemsSource = cat;
         }
         private void btnCreerCategorie_Click(object sender, RoutedEventArgs e)
@@ -44,7 +45,7 @@ namespace Projet_Gestion_Finance.Models
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
         }
@@ -56,7 +57,7 @@ namespace Projet_Gestion_Finance.Models
             {
                 if (lstProjets.SelectedItem == null)
                 {
-                    throw new Exception("Veuillez sélectionner une Categorie");
+                    throw new Exception("Veuillez sélectionner un projet");
                 }
                 FormManipulationProjet formModifier = new FormManipulationProjet((Projets)lstProjets.SelectedItem, EtatFormulaire.Modifier);
                 formModifier.ShowDialog();
@@ -64,7 +65,7 @@ namespace Projet_Gestion_Finance.Models
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
 
@@ -76,7 +77,7 @@ namespace Projet_Gestion_Finance.Models
             {
                 if (lstProjets.SelectedItem == null)
                 {
-                    throw new Exception("Veuillez sélectionner une Categorie");
+                    throw new Exception("Veuillez sélectionner un projet");
                 }
                 FormManipulationProjet formSupprimer = new FormManipulationProjet((Projets)lstProjets.SelectedItem, EtatFormulaire.Supprimer);
                 formSupprimer.ShowDialog();
@@ -84,10 +85,15 @@ namespace Projet_Gestion_Finance.Models
             }
             catch (Exception ex)
             {
-                FrmErreur f = new FrmErreur(ex.Message);
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
 
         }
-    }
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        { 
+            chargerListes();
+        }
+
+        }
 }

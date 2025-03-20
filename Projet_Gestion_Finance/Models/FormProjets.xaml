@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
-        Title="FormProjets" Height="450" Width="800">
+        Title="FormProjets" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
         <StackPanel>
             <StackPanel.Background>
@@ -13,9 +13,9 @@
             </StackPanel.Background>
             <StackPanel Margin="0,0,100,0" Orientation="Horizontal" HorizontalAlignment="Right" Width="485">
                 <TextBlock Text="Etat prévu des projets pour le " Width="175" Height="25" Margin="0,10"  Foreground="Black" FontWeight="Bold" />
-                <DatePicker x:Name="dateDebut" Width="100" Height="25" Margin="0,10" SelectedDate="{Binding DateDebut}" />
-                <Button x:Name="btnRefresh" Click="btn" Margin="10" BorderThickness="0" Height="26" Width="79">
-                    <Image Source="/Ressource/refresh.png" Width="56" Height="25"/>
+                <DatePicker x:Name="dtpDate" Width="100" Height="25" Margin="0,10"/>
+                <Button x:Name="btnRefresh" Margin="10" BorderThickness="0" Height="26" Width="79">
+                    <Image Source="/Ressource/refresh.png" Width="56" Height="25" RenderTransformOrigin="0.777,0.5" MouseLeftButtonDown="btnRefresh_Click"/>
                 </Button>
             </StackPanel>
 
@@ -59,7 +59,7 @@
                                     <GridViewColumn Header="Progression"  Width="150">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ProgressBar Value="{Binding Progression}" Maximum="100" Minimum="0" Foreground="Green" />
+                                                <ProgressBar Value="{Binding Progression}" Maximum="100" Minimum="0" Width="150" Height="20"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

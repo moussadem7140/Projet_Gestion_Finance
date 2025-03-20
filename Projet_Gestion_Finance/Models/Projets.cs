@@ -52,6 +52,47 @@ namespace Projet_Gestion_Finance.Models
             set { _objectif = value; }
         }
 
+        private decimal _avancement;
+
+        public decimal Avancement
+        {
+            get { return _avancement; }
+            set { _avancement = value; }
+        }
+        private decimal _reste;
+        public decimal Reste
+        {
+            get
+            {
+                if (Objectif - Avancement < 0)
+                    return 0;
+                else
+                    return Objectif - Avancement;
+            }
+            set
+            {
+                _reste = value;
+            }
+        }
+        public int Progression
+        {
+            get
+            {
+                if (Reste == 0)
+                {
+                    return 100;
+                }
+                else
+                {
+                    return (int)((Avancement / Objectif) * 100);
+                }
+            }
+            set
+            {
+                Progression = value;
+            }
+        }
+
         public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
         {
             Id = id;
@@ -61,37 +102,6 @@ namespace Projet_Gestion_Finance.Models
             Frequence = frequence;
             Date = date;
         }
-        public decimal Avancement(DateTime date)
-        {
-            decimal avancement = 0;
-            if (Frequence == Depenses.TypeFrequence.Mensuel)
-            {
-                int i = 0;
-                while (date.AddMonths(i) <= Date)
-                {
-                    avancement += Cout;
-                    i++;
-                }
-            }
-            if (Frequence == Depenses.TypeFrequence.Hebdomadaire)
-            {
-                int i = 0;
-                while (date.AddDays(i * 7) <= Date)
-                {
-                    avancement += Cout;
-                    i++;
-                }
-            }
-            else
-            {
-                int i = 0;
-                while (date.AddYears(i) <= Date)
-                {
-                    avancement += Cout;
-                    i++;
-                }
-            }
-            return avancement;
-        }
+       
     }
 }
