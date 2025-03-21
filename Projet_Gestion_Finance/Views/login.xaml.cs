@@ -12,13 +12,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Projet_Gestion_Finance.Models;
 namespace Projet_Gestion_Finance.Views
 {
     /// <summary>
     /// Logique d'interaction pour login.xaml
     /// </summary>
-    public partial class login : Window
+    public partial class Login : Window
     {
         //Dictionary<string, Utilisateur> _dicoUtilisateur = new Dictionary<string, Utilisateur>();
         //Dictionary<string, byte[]> _dicoSalts = new Dictionary<string, byte[]>();
@@ -30,11 +30,15 @@ namespace Projet_Gestion_Finance.Views
             set { gestionFinance = value; }
         }
 
-        public login(GestionFinance gestionFinance)
+        public Login(GestionFinance gestionFinance)
         {
             InitializeComponent();
             GestionFinance = gestionFinance;
             
+        }
+        public Login()
+        {
+            InitializeComponent();
         }
         /// <summary>
         /// Permet à l'utilisateur d'ouvrir le formulaire pour créer un compre si il n'en a pas un
@@ -48,7 +52,14 @@ namespace Projet_Gestion_Finance.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            FrmErreur f = new FrmErreur("", FrmErreur.EtatErreur.Connexion);
+            f.ShowDialog();
+        }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Inscription i= new Inscription();   
+            i.ShowDialog();
         }
 
         //public bool VerifierChamps()
