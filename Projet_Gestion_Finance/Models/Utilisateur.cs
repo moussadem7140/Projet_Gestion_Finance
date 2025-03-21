@@ -80,21 +80,30 @@ namespace Projet_Gestion_Finance.Models
 			get { return _mdp; }
 			set { _mdp = value; }
 		}
+		private byte[] _salt;
+
+		public byte[] Salt
+		{
+			get { return _salt; }
+			set { _salt = value; }
+		}
+
 		/// <summary>
 		/// Constructeur sans paramètre d'un utilisateur
 		/// </summary>
-        public Utilisateur()
+		public Utilisateur()
         {
 
         }
 
-        public Utilisateur(string nom, string prenom, string id, byte[] mDP,string mail)
+        public Utilisateur(string nom, string prenom, string id, byte[] mDP,string mail, byte[] salt)
         {
             Nom = nom;
             Prenom = prenom;
             Id = id;
             MDP = mDP;
             Mail = mail;
+            Salt = salt;
             LstDepenses = new List<Depenses>();
             Revenue = 0;
         }

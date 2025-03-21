@@ -34,12 +34,14 @@ namespace Projet_Gestion_Finance.Views
                 string prenom = txtPrenomIns.Text.Trim();
                 string mail = txtMailIns.Text.Trim();
                 string mdp = txtMdpIns.Password.Trim();
-                string id = nom.Substring(0, 2).Trim().ToUpper() + prenom.Substring(0, 2).Trim().ToUpper();
+                string id = nom.Substring(0, 3).Trim().ToUpper() + prenom.Substring(0, 3).Trim().ToUpper();
 
                 byte[] salt = Classes.Utils.CreerSALT();
-                GestionFinance.Dicosalts.Add(id, salt);
-                Utilisateur utilisateur = new Utilisateur(nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail);
-                GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
+                //GestionFinance.Dicosalts.Add(id, salt);
+                Utilisateur utilisateur = new Utilisateur(nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail,salt);
+                //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
+                Dal.AjouterUtilisateur(utilisateur);
+                MessageBox.Show("Utilisateur ajouté avec succès");
             }
         }
 
@@ -93,6 +95,13 @@ namespace Projet_Gestion_Finance.Views
                 estValide = false;
             }
             return estValide;
+        }
+
+        private void TextBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            login login = new login(GestionFinance);
+            login.ShowDialog();
+            this.Close();
         }
     }
 }
