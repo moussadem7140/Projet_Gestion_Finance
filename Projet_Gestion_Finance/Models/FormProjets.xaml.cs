@@ -1,4 +1,5 @@
 ﻿using Projet_Gestion_Finance.Classes;
+using Projet_Gestion_Finance.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,6 +101,16 @@ namespace Projet_Gestion_Finance.Models
         { 
             chargerListes();
         }
-
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            Login l = new Login();
+            l.Show();
+            this.Close();
         }
+        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        {
+            Utilisateurs u = new Utilisateurs(Dal.ObtenirUtilisateur(User));
+            u.ShowDialog();
+        }
+    }
 }

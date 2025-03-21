@@ -249,10 +249,16 @@ namespace Projet_Gestion_Finance
             MessageBox.Show("Le Fichier a bien été mise à jour", "Impression", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        private void btn_Click(object sender, RoutedEventArgs e)
         {
             Login l = new Login();
-            l.ShowDialog();
+            l.Show();
+            this.Close();
+        }
+        private void btnModifier_Click(object sender, RoutedEventArgs e)
+        {
+            Utilisateurs u = new Utilisateurs(Dal.ObtenirUtilisateur(User));
+            u.ShowDialog();
         }
     }
 }

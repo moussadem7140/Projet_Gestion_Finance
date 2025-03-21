@@ -25,6 +25,7 @@ namespace Projet_Gestion_Finance.Models
             Erreur,
             Avertissement,
             Connexion,
+            Inscripton
         }
         private string message;
 
@@ -68,21 +69,37 @@ namespace Projet_Gestion_Finance.Models
                 btn.Content = "Gérer mes dépenses";
                 btn1.Content = "Gérer mes projets";
             }
+            else if(Etat==EtatErreur.Inscripton)
+            {
+
+                lblTitre.Foreground = Brushes.Green;
+                lblTitre.Text = "Inscription réussi";
+            }
+
             lblErreur.Text = Message;
         }
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
-            if(Etat==EtatErreur.Connexion)
+            if (Etat == EtatErreur.Connexion)
+            {
                 (new MainWindow(User)).ShowDialog();
-            DialogResult = true;   
+                this.Close();
+            }
+            else
+                DialogResult = true;
+
         }
         private void Button_Annuler_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
             if (Etat == EtatErreur.Connexion)
-                (new FormProjets(User)).ShowDialog();
+            {
+                (new FormProjets(User)).Show();
+                this.Close();
+            }
+            else
+                DialogResult = false;
         }
-        
+
     }
     }

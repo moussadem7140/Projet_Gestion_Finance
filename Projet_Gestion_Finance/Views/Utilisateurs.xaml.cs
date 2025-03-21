@@ -1,5 +1,4 @@
-﻿using Projet_Gestion_Finance.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,38 +12,40 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Projet_Gestion_Finance.Models;
-
 namespace Projet_Gestion_Finance.Views
 {
     /// <summary>
-    /// Logique d'interaction pour Inscription.xaml
+    /// Logique d'interaction pour Demarrages.xaml
     /// </summary>
-    public partial class Inscription : Window
+    public partial class Utilisateurs : Window
     {
-        public static GestionFinance GestionFinance = new GestionFinance();
-        public Inscription()
+        public Utilisateur sUtilisateur;
+        public Utilisateurs(Utilisateur u)
         {
             InitializeComponent();
+            sUtilisateur= u;
         }
-
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            txtNomIns.Text = sUtilisateur.Nom;
+            txtPrenomIns.Text= sUtilisateur.Prenom;
+            txtMailIns.Text= sUtilisateur.Mail;
+            txtRevenuIns.Text = sUtilisateur.Revenue.ToString();
+        }
         private void btnInscription_Click(object sender, RoutedEventArgs e)
         {
             if (ValiderChamps())
             {
-                string nom = txtNomIns.Text.Trim();
-                string prenom = txtPrenomIns.Text.Trim();
-                string mail = txtMailIns.Text.Trim();
-                string mdp = txtMdpIns.Password.Trim();
-                string id = nom.Substring(0, 3).Trim().ToUpper() + prenom.Substring(0, 3).Trim().ToUpper();
-                string revenu = txtRevenuIns.Text;
-                byte[] salt = Classes.Utils.CreerSALT();
+                sUtilisateur.Nom = txtNomIns.Text.Trim();
+                sUtilisateur.Prenom = txtPrenomIns.Text.Trim();
+                sUtilisateur.Mail = txtMailIns.Text.Trim();
+                sUtilisateur.MDP = Classes.Utils.HacherMotDePasse(txtMdpIns.Password.Trim(), sUtilisateur.Salt);
+                sUtilisateur.Id = sUtilisateur.Nom.Substring(0, 3).Trim().ToUpper() + sUtilisateur.Prenom.Substring(0, 3).Trim().ToUpper();
+                sUtilisateur.Revenue =decimal.Parse(txtRevenuIns.Text);
                 //GestionFinance.Dicosalts.Add(id, salt);
-                Utilisateur utilisateur = new Utilisateur(0, nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail,salt);
-                utilisateur.Revenue = Decimal.Parse(revenu);
                 //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
-                Dal.AjouterUtilisateur(utilisateur);
-                this.Close();
-                (new FrmErreur("l'utilisateur a été créer avec succès", FrmErreur.EtatErreur.Inscripton)).ShowDialog();
+                Dal.ModifierUtilisateur(sUtilisateur);
+                DialogResult= true;
             }
         }
 
@@ -62,7 +63,7 @@ namespace Projet_Gestion_Finance.Views
                 txtNomInsError.Text = "Le nom ne peut pas être vide";
                 estValide = false;
             }
-            else if(txtNomIns.Text.Length < 2)
+            else if (txtNomIns.Text.Length < 2)
             {
                 txtNomInsError.Text = "Le nom doit contenir au moins 2 caractères";
                 estValide = false;
@@ -92,7 +93,7 @@ namespace Projet_Gestion_Finance.Views
                 txtMdpInsError.Text = "Le mot de passe ne peut pas être vide";
                 estValide = false;
             }
-            else if(txtMdpIns.Password != txtMdpConfIns.Password)
+            else if (txtMdpIns.Password != txtMdpConfIns.Password)
             {
                 txtMdpConfInsError.Text = "Les mots de passe ne correspondent pas";
                 estValide = false;
@@ -100,11 +101,5 @@ namespace Projet_Gestion_Finance.Views
             return estValide;
         }
 
-        private void TextBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Login login = new Login();
-            login.ShowDialog();
-            this.Close();
-        }
     }
 }

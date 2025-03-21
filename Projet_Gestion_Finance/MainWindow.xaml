@@ -9,9 +9,7 @@
         WindowState="Maximized"
         Title="Gestion de Finance" Height="835" Width="1280" Loaded="Window_Loaded" >
     <StackPanel Margin="10">
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
-            <Button x:Name="btnSupprimer"   Content="Retourner vers l'accueil"  Width="200" Height="25" Margin="10,0,0,0" Click="btnSupprimer_Click"/>
-        </StackPanel>
+       
         <TabControl Height="924" Width="1280">
             <TabItem Header="Liste des dépenses" FontWeight="Bold">
                 <StackPanel Height="919" Margin="0,0,-16,0">
@@ -73,6 +71,8 @@
                         <Button x:Name="btnAjouterDepense"  Content="Ajouter"  Width="100" Height="25" Click="btnAjouterDepense_Click" />
                         <Button x:Name="btnModifierDepense"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierDepense_Click" />
                         <Button x:Name="btnSupprimerDepense"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerDepense_Click" />
+                        <Button  Content="Retourner vers la connexion" Margin="10,0,0,0"  Width="150" Height="25" Click="btn_Click"/>
+                        <Button  Content="Information d'utilisateur"  Width="150" Height="25" Margin="10,0,0,0" Click="btnModifier_Click" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -137,11 +137,14 @@
                                 <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
                                 <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click" />
                                 <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerCategorie_Click"/>
+                                <Button  Content="Retourner vers la connexion" Margin="10,0,0,0"  Width="175" Height="25" Click="btn_Click"/>
+                                <Button  Content="Information d'utilisateur"  Width="175" Height="25" Margin="10,0,0,0" Click="btnModifier_Click" />
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
             </TabItem>
         </TabControl>
+        
     </StackPanel>
 </Window>

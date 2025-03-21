@@ -125,7 +125,7 @@ namespace Projet_Gestion_Finance.Models
         {
             if (categorie is null)
                 throw new ArgumentNullException(nameof(categorie), "La categorie ne peut être null");
-            if (TotalCategories(User) + categorie.LimiteDepenses > ObtenirUtilisateur(User))
+            if (TotalCategories(User) + categorie.LimiteDepenses > ObtenirUtilisateur(User).Revenue)
                 throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
@@ -160,7 +160,7 @@ namespace Projet_Gestion_Finance.Models
         {
             if (categorie is null)
                 throw new ArgumentNullException(nameof(categorie), "Veillez choisir une Categorie");
-            if (TotalCategories(User, categorie.Id) + categorie.LimiteDepenses > ObtenirUtilisateur(User))
+            if (TotalCategories(User, categorie.Id) + categorie.LimiteDepenses > ObtenirUtilisateur(User).Revenue)
                 throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
@@ -391,21 +391,22 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="id">Id de la categorie</param>
         /// <returns>La categorie trouvée ou null si elle n'existe pas</returns>
-        public static decimal ObtenirUtilisateur(int id)
+        public static Utilisateur ObtenirUtilisateur(int id)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
-            decimal c = 0;
+            Utilisateur c = null;
             try
             {
                 cn.Open();
-                string requete = "SELECT Revenu FROM utilisateurs WHERE idutilisateurs=@id";
+                string requete = "SELECT idutilisateurs,nom,prenom,mdp,identifiant,mail,salt,Revenu FROM utilisateurs Where idUtilisateurs= @id";
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@id", id);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
-                    c = dr.GetDecimal(0);
+                    c = new Utilisateur(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(5), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
+                    c.Revenue = dr.GetDecimal(7);
                 }
                 dr.Close();
             }
@@ -621,6 +622,36 @@ namespace Projet_Gestion_Finance.Models
                     cn.Close();
             }
         }
+        public static void ModifierUtilisateur(Utilisateur utilisateur)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            try
+            {
+                cn.Open();
+                //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+                string requete = "Update  utilisateurs set nom= @nom,prenom=@prenom,mdp=@mdp,identifiant=@identifiant,mail=@mail,salt=@salt,Revenu=@revenu where idutilisateurs= @id)";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@nom", utilisateur.Nom);
+                cmd.Parameters.AddWithValue("@prenom", utilisateur.Prenom);
+                cmd.Parameters.AddWithValue("@mdp", Utils.ConvertirByteSaltEnString(utilisateur.MDP));
+                cmd.Parameters.AddWithValue("@identifiant", utilisateur.Id);
+                cmd.Parameters.AddWithValue("@mail", utilisateur.Mail);
+                cmd.Parameters.AddWithValue("@salt", Utils.ConvertirByteSaltEnString(utilisateur.Salt));
+                cmd.Parameters.AddWithValue("@revenu", utilisateur.Revenue);
+                cmd.Parameters.AddWithValue("@id", utilisateur.IdUnique);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+        }
 
         public static Dictionary<string,Utilisateur> ObtenirUtilisateurs()
         {
@@ -635,7 +666,7 @@ namespace Projet_Gestion_Finance.Models
                 while (dr.Read())
                 {
                     Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0),dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
-                    utilisateur.Revenue = ObtenirUtilisateur(utilisateur.IdUnique);
+                    utilisateur.Revenue = ObtenirUtilisateur(utilisateur.IdUnique).Revenue;
                     dicoUtilisateurs.Add(utilisateur.Id, utilisateur);
                 }
                 dr.Close();
@@ -696,7 +727,7 @@ namespace Projet_Gestion_Finance.Models
         {
             if (projet is null)
                 throw new ArgumentNullException(nameof(projet), "Le projet ne peut être null");
-            if (TotalCategories(User) + projet.Cout > ObtenirUtilisateur(User))
+            if (TotalCategories(User) + projet.Cout > ObtenirUtilisateur(User).Revenue)
                 throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
@@ -761,7 +792,7 @@ namespace Projet_Gestion_Finance.Models
         {
             if (projet is null)
                 throw new ArgumentNullException(nameof(Projets), "Veillez choisir un projet");
-            if (TotalCategories(User) + projet.Cout> ObtenirUtilisateur(User))
+            if (TotalCategories(User) + projet.Cout> ObtenirUtilisateur(User).Revenue)
                 throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try

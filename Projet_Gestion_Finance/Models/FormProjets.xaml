@@ -70,6 +70,8 @@
                         <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
                         <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click"/>
                         <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerCategorie_Click"/>
+                        <Button  Content="Retourner vers la connexion" Margin="10,0,0,0"  Width="175" Height="25" Click="btn_Click"/>
+                        <Button  Content="Information d'utilisateur"  Width="175" Height="25" Margin="10,0,0,0" Click="btnModifier_Click" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

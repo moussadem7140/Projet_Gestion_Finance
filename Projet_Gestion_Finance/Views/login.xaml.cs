@@ -23,12 +23,6 @@ namespace Projet_Gestion_Finance.Views
     {
         public int User;
         Dictionary<string, Utilisateur> _dicoUtilisateurs = new Dictionary<string, Utilisateur>();
-        public Login(GestionFinance gestionFinance)
-        {
-            InitializeComponent();
-            _dicoUtilisateurs = Dal.ObtenirUtilisateurs();
-
-        }
         public Login()
         {
             InitializeComponent();
@@ -48,7 +42,8 @@ namespace Projet_Gestion_Finance.Views
                 string identifiant = txtIdConn.Text.ToUpper().Trim();
                 Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
                 User= utilisateur.IdUnique;
-                (new FrmErreur("Bonsoir "+utilisateur.Nom+" "+ utilisateur.Prenom, FrmErreur.EtatErreur.Connexion, User)).ShowDialog();
+                (new FrmErreur("Bonsoir "+utilisateur.Nom+" "+ utilisateur.Prenom, FrmErreur.EtatErreur.Connexion, User)).Show();
+                this.Close();
             }
         }
 
