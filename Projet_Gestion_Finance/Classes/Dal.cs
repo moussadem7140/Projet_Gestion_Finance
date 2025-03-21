@@ -268,6 +268,10 @@ namespace Projet_Gestion_Finance.Models
         /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
         /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
 
+        public static Utilisateur RecupererUtilisateurs()
+        {
+            return new Utilisateur();
+        }
         public static void ModifierDepense(Depenses depense)
         {
             int p = depense.Frequence == Depenses.TypeFrequence.Hebdomadaire ? UtilEnum.GetSemainesRestantes(depense.Date) : 1;

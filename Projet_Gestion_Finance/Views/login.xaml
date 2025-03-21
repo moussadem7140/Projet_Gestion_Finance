@@ -1,0 +1,38 @@
+﻿<Window x:Class="Projet_Gestion_Finance.Views.login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
+        mc:Ignorable="d"
+        Title="login" Height="400" Width="580" Background="#FF68B67C">
+    <Grid >
+        <StackPanel Orientation="Vertical" Width="410" Height="320" Background="#8EF5F5F5">
+            <TextBlock Margin="0,15,0,0" FontFamily="Arial Rounded MT Bold" FontSize="14" HorizontalAlignment="Center">Nom de l'app</TextBlock>
+            <TextBlock Margin="0,18,0,0" FontSize="14" HorizontalAlignment="Center">Connecter vous a votre compte</TextBlock>
+            <StackPanel Orientation="Vertical" Margin="6,24,6,0" Width="340" Height="60">
+                <Label Margin="0,0,0,3" FontWeight="Bold">Identifiant</Label>
+                <TextBox x:Name="txtIdconn" Width="250" HorizontalAlignment="Left" Height="21" Panel.ZIndex="-1" Margin="4,-3,0,0">
+                    <TextBox.Effect>
+                        <BlurEffect/>
+                    </TextBox.Effect>
+                </TextBox>
+                <TextBlock x:Name="txtMsgErrid" Visibility="Hidden" Foreground="#FFC90E0E"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="6,10,6,0" Width="340" Height="60">
+                <Label Margin="0,0,0,3" FontWeight="Bold">Mot de passe</Label>
+                <PasswordBox x:Name="txtMdp" Width="250" HorizontalAlignment="Left" Height="21" Panel.ZIndex="-1" Margin="4,-3,0,0">
+                    <PasswordBox.Effect>
+                        <BlurEffect/>
+                    </PasswordBox.Effect>
+                </PasswordBox>
+                <TextBlock x:Name="txtMsgErrMdp" Visibility="Hidden" Foreground="#FFC90E0E"></TextBlock>
+            </StackPanel>
+            <Button Width="90" Content="Se Connecter" Margin="0,5,0,0" Background="#FF232732" Foreground="White" Click="Button_Click"/>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <TextBlock Margin="28,0,0,0">Vous n'avez pas encore de compte?</TextBlock>
+                <TextBlock Margin="10,0,0,0" Foreground="#FF0A16B7" TextDecorations="Underline" FontFamily="Book Antiqua" FontSize="14" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">S'inscrire</TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

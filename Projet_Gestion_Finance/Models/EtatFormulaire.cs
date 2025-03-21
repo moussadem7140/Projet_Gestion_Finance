@@ -11,6 +11,7 @@ namespace Projet_Gestion_Finance.Models
         Créer,
         Ajouter,
         Modifier,
-        Supprimer
+        Supprimer,
+        Connexion
     }
 }
