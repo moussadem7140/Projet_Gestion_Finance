@@ -19,10 +19,17 @@ namespace Projet_Gestion_Finance.Views
     /// <summary>
     /// Logique d'interaction pour login.xaml
     /// </summary>
-    public partial class login : Window
+    public partial class Login : Window
     {
+        public int User;
         Dictionary<string, Utilisateur> _dicoUtilisateurs = new Dictionary<string, Utilisateur>();
-        public login(GestionFinance gestionFinance)
+        public Login(GestionFinance gestionFinance)
+        {
+            InitializeComponent();
+            _dicoUtilisateurs = Dal.ObtenirUtilisateurs();
+
+        }
+        public Login()
         {
             InitializeComponent();
             _dicoUtilisateurs = Dal.ObtenirUtilisateurs();
@@ -40,7 +47,8 @@ namespace Projet_Gestion_Finance.Views
             {
                 string identifiant = txtIdConn.Text.ToUpper().Trim();
                 Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
-                MessageBox.Show($"Bienvenue {utilisateur.Nom} {utilisateur.Prenom}");
+                User= utilisateur.IdUnique;
+                (new FrmErreur("Bonsoir "+utilisateur.Nom+" "+ utilisateur.Prenom, FrmErreur.EtatErreur.Connexion, User)).ShowDialog();
             }
         }
 
@@ -66,13 +74,22 @@ namespace Projet_Gestion_Finance.Views
                 txtMsgErrMdp.Text = "Le mot de passe ne peut pas être vide";
                 estValide = false;
             }
-            else if(txtMsgErrid.Text != "")
+            else
             {
-                Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
-                if (!Utils.EstMotDePasseCorrespond(txtMdpConn.Password, utilisateur.Salt, utilisateur.MDP))
+                if (!_dicoUtilisateurs.ContainsKey(identifiant))
                 {
-                    txtMsgErrMdp.Text = "Le mot de passe ne correspond pas";
+                    txtMsgErrid.Text = "L'identifiant n'existe pas";
                     estValide = false;
+
+                }
+                else
+                {
+                    Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
+                    if (!Utils.EstMotDePasseCorrespond(txtMdpConn.Password, utilisateur.Salt, utilisateur.MDP))
+                    {
+                        txtMsgErrMdp.Text = "Le mot de passe ne correspond pas";
+                        estValide = false;
+                    }
                 }
             }
             return estValide;

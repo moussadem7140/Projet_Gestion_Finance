@@ -36,12 +36,13 @@ namespace Projet_Gestion_Finance.Models
             get { return _etat; }
             set { _etat = value; }
         }
-
-        public FormDepense(Depenses depense, EtatFormulaire etat)
+        public int User {  get; set; }
+        public FormDepense(Depenses depense, EtatFormulaire etat, int user=0)
         {
             InitializeComponent();
             Depense = depense;
             Etat = etat;
+            User = user;
         }
         /// <summary>
         /// Permet de charger les combobox du formulaire
@@ -49,7 +50,7 @@ namespace Projet_Gestion_Finance.Models
         private void ChargerCbx()
         {
             string[] vect1 = UtilEnum.GetAllDescriptions<Depenses.TypeFrequence>();
-            List<Categorie> cat = Dal.ObtenirListeCategories();
+            List<Categorie> cat = Dal.ObtenirListeCategories(User);
             for (int i = 0; i < cat.Count; i++)
             {
                 cbxCategorie.Items.Add(cat[i].Nom);
@@ -102,7 +103,7 @@ namespace Projet_Gestion_Finance.Models
                        
                         if (validerDepense())
                         {
-                            Dal.AjouterDepense(new Depenses(0, txtNom.Text, Dal.ObtenirCategorie(cbxCategorie.SelectedIndex + 1), decimal.Parse(txtCout.Text), dtpDate.SelectedDate.Value, (Depenses.TypeFrequence)cbxFrequence.SelectedIndex, chkOblig.IsChecked.Value));
+                            Dal.AjouterDepense(new Depenses(0, txtNom.Text, Dal.ObtenirCategorie(cbxCategorie.SelectedIndex + 1), decimal.Parse(txtCout.Text), dtpDate.SelectedDate.Value, (Depenses.TypeFrequence)cbxFrequence.SelectedIndex, chkOblig.IsChecked.Value), User);
                             DialogResult = true;
                         }
                         break;

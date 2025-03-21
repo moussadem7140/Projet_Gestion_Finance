@@ -36,12 +36,13 @@ namespace Projet_Gestion_Finance.Models
             get { return _etat; }
             set { _etat = value; }
         }
-
-        public FormCategorie(Categorie categorie, EtatFormulaire etat)
+        public int User { get; set; }
+        public FormCategorie(Categorie categorie, EtatFormulaire etat, int user=0)
         {
             InitializeComponent();
             Categorie = categorie;
             Etat = etat;
+            User = user;
         }
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
@@ -69,7 +70,7 @@ namespace Projet_Gestion_Finance.Models
                     case EtatFormulaire.Créer:
                         if (validerCategorie())
                         {
-                            Dal.CreerCategorie(new Categorie(0, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+                            Dal.CreerCategorie(new Categorie(0, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text), User);
                             DialogResult = true;
                         }
                         break;
@@ -78,7 +79,7 @@ namespace Projet_Gestion_Finance.Models
                         if (validerCategorie())
                         {
 
-                            Dal.ModifierCategorie(new Categorie(Categorie.Id, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text));
+                            Dal.ModifierCategorie(new Categorie(Categorie.Id, txtNom.Text, decimal.Parse(txtLimite.Text), txtDescription.Text), User);
                             DialogResult = true;
                         }
 

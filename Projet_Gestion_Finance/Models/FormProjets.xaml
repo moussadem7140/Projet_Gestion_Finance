@@ -18,7 +18,6 @@
                     <Image Source="/Ressource/refresh.png" Width="56" Height="25" RenderTransformOrigin="0.777,0.5" MouseLeftButtonDown="btnRefresh_Click"/>
                 </Button>
             </StackPanel>
-
             <GroupBox Header="Liste des projets">
                 <StackPanel Height="867" Margin="0,0,-70,0">
                     <StackPanel >
@@ -69,7 +68,7 @@
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
                         <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
-                        <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click" />
+                        <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click"/>
                         <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerCategorie_Click"/>
                     </StackPanel>
                 </StackPanel>

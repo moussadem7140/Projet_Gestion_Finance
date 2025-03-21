@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Projet_Gestion_Finance.Models;
 
 namespace Projet_Gestion_Finance.Views
 {
@@ -35,13 +36,12 @@ namespace Projet_Gestion_Finance.Views
                 string mail = txtMailIns.Text.Trim();
                 string mdp = txtMdpIns.Password.Trim();
                 string id = nom.Substring(0, 3).Trim().ToUpper() + prenom.Substring(0, 3).Trim().ToUpper();
-
+                string revenu = txtRevenuIns.Text;
                 byte[] salt = Classes.Utils.CreerSALT();
                 //GestionFinance.Dicosalts.Add(id, salt);
-                Utilisateur utilisateur = new Utilisateur(nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail,salt);
+                Utilisateur utilisateur = new Utilisateur(0, nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail,salt);
                 //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                 Dal.AjouterUtilisateur(utilisateur);
-                MessageBox.Show("Utilisateur ajouté avec succès");
             }
         }
 
@@ -99,7 +99,7 @@ namespace Projet_Gestion_Finance.Views
 
         private void TextBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            login login = new login(GestionFinance);
+            Login login = new Login(GestionFinance);
             login.ShowDialog();
             this.Close();
         }

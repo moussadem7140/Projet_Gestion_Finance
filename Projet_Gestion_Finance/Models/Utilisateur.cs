@@ -9,6 +9,14 @@ namespace Projet_Gestion_Finance.Models
 {
     public class Utilisateur
     {
+		private int _idUnique;
+
+		public int IdUnique
+        {
+			get { return _idUnique; }
+			set { _idUnique = value; }
+		}
+
 		private decimal _revenue;
 
 		public decimal Revenue
@@ -96,8 +104,9 @@ namespace Projet_Gestion_Finance.Models
 
         }
 
-        public Utilisateur(string nom, string prenom, string id, byte[] mDP,string mail, byte[] salt)
+        public Utilisateur(int idUnique, string nom, string prenom, string id, byte[] mDP,string mail, byte[] salt)
         {
+			IdUnique = idUnique;
             Nom = nom;
             Prenom = prenom;
             Id = id;

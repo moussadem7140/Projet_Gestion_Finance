@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Globalization;
 using Projet_Gestion_Finance.classes;
+using Projet_Gestion_Finance.Views;
+
 namespace Projet_Gestion_Finance
 {
     /// <summary>
@@ -22,6 +24,13 @@ namespace Projet_Gestion_Finance
         public MainWindow()
         {
             InitializeComponent();
+
+        }
+        public int User {  get; set; } 
+        public MainWindow(int user)
+        {
+            InitializeComponent();
+            User= user;
 
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -37,13 +46,13 @@ namespace Projet_Gestion_Finance
             lstDepenses.ItemsSource = null;
             lstCategorie.ItemsSource = null;
             cboCategories.Items.Clear();
-            List<Categorie> cat = Dal.ObtenirListeCategories(new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
+            List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
             lstCategorie.ItemsSource = cat;
-            List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value);
+            List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value, User);
             lstDepenses.ItemsSource = dep;
             btnImprimerDepense.IsEnabled = true;
             print.IsEnabled = true;
-            List<Categorie> cat1 = Dal.ObtenirListeCategories();
+            List<Categorie> cat1 = Dal.ObtenirListeCategories(User);
             cat1.Add(new Categorie(1200, "Toutes", 0, "s"));
             foreach (Categorie c in cat1)
             {
@@ -69,7 +78,7 @@ namespace Projet_Gestion_Finance
         {
             try
             {
-                FormCategorie formCreer = new FormCategorie(null, EtatFormulaire.Créer);
+                FormCategorie formCreer = new FormCategorie(null, EtatFormulaire.Créer, User);
                 formCreer.ShowDialog();
                 chargerListes();
             }
@@ -123,20 +132,18 @@ namespace Projet_Gestion_Finance
 
         private void btnAjouterDepense_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    FormDepense formAjouter = new FormDepense(null, EtatFormulaire.Ajouter);
-            //    formAjouter.ShowDialog();
+            try
+            {
+                FormDepense formAjouter = new FormDepense(null, EtatFormulaire.Ajouter, User);
+                formAjouter.ShowDialog();
 
-            //}
-            //catch (Exception ex)
-            //{
-            //             FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
-            //f.ShowDialog();
-            //}
-            //chargerListes();
-            FormProjets formAjouter = new FormProjets();
-            formAjouter.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
+                f.ShowDialog();
+            }
+            chargerListes();
         }
 
         private void btnModifierDepense_Click(object sender, RoutedEventArgs e)
@@ -188,7 +195,7 @@ namespace Projet_Gestion_Finance
                 }
                 lstDepenses.ItemsSource = null;
                 List<Depenses> r = new List<Depenses>();
-                List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value);
+                List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value, User);
                 if (cboCategories.SelectedItem is null && txtRechercher is null)
                     chargerListes();
                 else if (cboCategories.SelectedItem is null || cboCategories.SelectedItem.ToString() == "Toutes")
@@ -230,7 +237,7 @@ namespace Projet_Gestion_Finance
         private void btn(object sender, RoutedEventArgs e)
         {
             lstCategorie.ItemsSource = null;
-            List<Categorie> cat = Dal.ObtenirListeCategories(new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
+            List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
             lstCategorie.ItemsSource = cat;
         }
 
@@ -240,6 +247,12 @@ namespace Projet_Gestion_Finance
             btnImprimerDepense.IsEnabled = false;
             print.IsEnabled = false;
             MessageBox.Show("Le Fichier a bien été mise à jour", "Impression", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+            Login l = new Login();
+            l.ShowDialog();
         }
     }
 }

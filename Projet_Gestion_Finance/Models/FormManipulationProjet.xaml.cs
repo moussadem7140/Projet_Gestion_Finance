@@ -19,6 +19,7 @@ namespace Projet_Gestion_Finance.Models
     public partial class FormManipulationProjet : Window
     {
         private Projets _projet;
+        public int User {  get; set; }
         public Projets Projet
         {
             get { return _projet; }
@@ -32,11 +33,12 @@ namespace Projet_Gestion_Finance.Models
             set { _etat = value; }
         }
 
-        public FormManipulationProjet(Projets projet, EtatFormulaire etat)
+        public FormManipulationProjet(Projets projet, EtatFormulaire etat, int user=0)
         {
             InitializeComponent();
             Projet = projet;
             Etat = etat;
+            User = user;
         }
         /// <summary>
         /// Permet de charger les combobox du formulaire
@@ -90,7 +92,7 @@ namespace Projet_Gestion_Finance.Models
 
                         if (validerProjet())
                         {
-                            Dal.CreerProjet(new Projets(0, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex));
+                            Dal.CreerProjet(new Projets(0, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex), User);
                             DialogResult = true;
                         }
                         break;
@@ -101,7 +103,7 @@ namespace Projet_Gestion_Finance.Models
                             formErreur1.ShowDialog();
                             if (formErreur1.DialogResult == true)
                             {
-                                Dal.ModifierProjet(new Projets(Projet.Id, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex));
+                                Dal.ModifierProjet(new Projets(Projet.Id, txtNom.Text, dtpDate.SelectedDate.Value, decimal.Parse(txtObjectif.Text), decimal.Parse(txtCout.Text), (Depenses.TypeFrequence)cbxFrequence.SelectedIndex), User);
                                 DialogResult = true;
                             }
                             else

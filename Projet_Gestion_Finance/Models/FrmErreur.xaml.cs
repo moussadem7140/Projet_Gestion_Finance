@@ -39,11 +39,20 @@ namespace Projet_Gestion_Finance.Models
             get { return _etat; }
             set { _etat = value; }
         }
-        public FrmErreur(string message, EtatErreur etat)
+        private int _user;
+
+        public int User
+        {
+            get { return _user; }
+            set { _user = value; }
+        }
+
+        public FrmErreur(string message, EtatErreur etat, int user=0)
         {
             InitializeComponent();
             Message = message;
             Etat = etat;
+            User=user;
         }
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
@@ -65,14 +74,14 @@ namespace Projet_Gestion_Finance.Models
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             if(Etat==EtatErreur.Connexion)
-                (new MainWindow()).ShowDialog();
+                (new MainWindow(User)).ShowDialog();
             DialogResult = true;   
         }
         private void Button_Annuler_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             if (Etat == EtatErreur.Connexion)
-                (new FormProjets()).ShowDialog();
+                (new FormProjets(User)).ShowDialog();
         }
         
     }

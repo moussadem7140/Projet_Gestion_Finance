@@ -13,6 +13,7 @@ using System.Globalization;
 using Microsoft.VisualBasic;
 using Projet_Gestion_Finance.classes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Projet_Gestion_Finance.Views;
 namespace Projet_Gestion_Finance.Models
 {
 
@@ -34,7 +35,7 @@ namespace Projet_Gestion_Finance.Models
         /// Permet d'obtenir la liste des categorie
         /// </summary>
         /// <param name="mois">le mois dans lequelle nous allons produire les categories</param>
-        public static List<Categorie> ObtenirListeCategories(DateTime? mois=null)
+        public static List<Categorie> ObtenirListeCategories(int User, DateTime? mois=null)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             List<Categorie> Categories = new List<Categorie>();
@@ -43,9 +44,9 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 //  public Depenses(string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
 
-                string requete = "SELECT c.Id, c.Nom, Limite, Description FROM categorie c order by Id";
-
+                string requete = "SELECT c.Id, c.Nom, Limite, Description FROM categorie c  where Utilisateur = @utilisateur";
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 if (mois is null)
                 {
@@ -82,7 +83,7 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="depart">debut de la periode</param>
         /// <param name="arrive">fin de la periode</param>
-        public static List<Depenses> ObtenirListeDepenses(DateTime depart, DateTime arrive)
+        public static List<Depenses> ObtenirListeDepenses(DateTime depart, DateTime arrive, int User)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             List<Depenses> depenses = new List<Depenses>();
@@ -91,9 +92,10 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 //  public Depenses(string nom, Categorie cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
 
-                string requete = "SELECT d.Nom, d.Categorie, d.Cout, d.Date, d.Frequence, d.Obligatoire, d.Id FROM depenses d Order by Date";
+                string requete = "SELECT d.Nom, d.Categorie, d.Cout, d.Date, d.Frequence, d.Obligatoire, d.Id FROM depenses d where Utilisateur=@utilisateur Order by Date ";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -119,20 +121,23 @@ namespace Projet_Gestion_Finance.Models
         /// <param name="categorie">Categorie qui doit être créer</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
 
-        public static void CreerCategorie(Categorie categorie)
+        public static void CreerCategorie(Categorie categorie, int User)
         {
             if (categorie is null)
                 throw new ArgumentNullException(nameof(categorie), "La categorie ne peut être null");
+            if (TotalCategories(User) + categorie.LimiteDepenses > ObtenirUtilisateur(User))
+                throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
                 cn.Open();
-                string requete = "INSERT INTO categorie VALUES(null, @nom, @limite, @description)";
+                string requete = "INSERT INTO categorie VALUES(null,@utilisateur, @nom, @limite, @description)";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@nom", categorie.Nom);
                 cmd.Parameters.AddWithValue("@limite", categorie.LimiteDepenses);
                 cmd.Parameters.AddWithValue("@description", categorie.Description);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -151,10 +156,12 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="categorie">Categorie qui doit être modifier</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
-        public static void ModifierCategorie(Categorie categorie)
+        public static void ModifierCategorie(Categorie categorie, int User=0)
         {
             if (categorie is null)
                 throw new ArgumentNullException(nameof(categorie), "Veillez choisir une Categorie");
+            if (TotalCategories(User, categorie.Id) + categorie.LimiteDepenses > ObtenirUtilisateur(User))
+                throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
 
@@ -223,7 +230,7 @@ namespace Projet_Gestion_Finance.Models
         /// <param name="depense">la depense qui doit être ajouter</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
         /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
-        public static void AjouterDepense(Depenses depense)
+        public static void AjouterDepense(Depenses depense, int User)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
@@ -237,9 +244,10 @@ namespace Projet_Gestion_Finance.Models
                     throw new InvalidOperationException("La depense n'est pas tenable sur le long terme.");
                 cn.Open();
                 //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
-                string requete = "INSERT INTO depenses VALUES(@id, @nom, @cout, @categorie, @date, @frequence, @obligatoire)";
+                string requete = "INSERT INTO depenses VALUES(@id, @utilisateur, @nom, @cout, @categorie, @date, @frequence, @obligatoire)";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 cmd.Parameters.AddWithValue("@id", depense.Id);
                 cmd.Parameters.AddWithValue("@nom", depense.Nom);
                 cmd.Parameters.AddWithValue("@categorie", depense.Categorie.Id);
@@ -363,6 +371,41 @@ namespace Projet_Gestion_Finance.Models
                 {
                     dr.Read();
                     c = new Categorie(dr.GetInt32(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return c;
+
+        }
+        /// <summary>
+        /// Permet d'obtenir une categorie par son Id
+        /// </summary>
+        /// <param name="id">Id de la categorie</param>
+        /// <returns>La categorie trouvée ou null si elle n'existe pas</returns>
+        public static decimal ObtenirUtilisateur(int id)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            decimal c = 0;
+            try
+            {
+                cn.Open();
+                string requete = "SELECT Revenu FROM utilisateurs WHERE idutilisateurs=@id";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@id", id);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    c = dr.GetDecimal(0);
                 }
                 dr.Close();
             }
@@ -556,7 +599,7 @@ namespace Projet_Gestion_Finance.Models
             {
                 cn.Open();
                 //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
-                string requete = "INSERT INTO utilisateurs(nom,prenom,mdp,identifiant,mail,salt) VALUES(@nom, @prenom, @mdp, @identifiant, @mail, @salt)";
+                string requete = "INSERT INTO utilisateurs(nom,prenom,mdp,identifiant,mail,salt,Revenu) VALUES(@nom, @prenom, @mdp, @identifiant, @mail, @salt,@revenu)";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@nom", utilisateur.Nom);
@@ -565,6 +608,7 @@ namespace Projet_Gestion_Finance.Models
                 cmd.Parameters.AddWithValue("@identifiant", utilisateur.Id);
                 cmd.Parameters.AddWithValue("@mail", utilisateur.Mail);
                 cmd.Parameters.AddWithValue("@salt", Utils.ConvertirByteSaltEnString(utilisateur.Salt));
+                cmd.Parameters.AddWithValue("@revenu", utilisateur.Revenue);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -585,12 +629,13 @@ namespace Projet_Gestion_Finance.Models
             try
             {
                 cn.Open();
-                string requete = "SELECT nom,prenom,mdp,identifiant,mail,salt FROM utilisateurs";
+                string requete = "SELECT idutilisateurs,nom,prenom,mdp,identifiant,mail,salt FROM utilisateurs";
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    Utilisateur utilisateur = new Utilisateur(dr.GetString(0), dr.GetString(1), dr.GetString(3), Utils.ConvertirStringEnByteSalt(dr.GetString(2)), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(5)));
+                    Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0),dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
+                    utilisateur.Revenue = ObtenirUtilisateur(utilisateur.IdUnique);
                     dicoUtilisateurs.Add(utilisateur.Id, utilisateur);
                 }
                 dr.Close();
@@ -609,7 +654,7 @@ namespace Projet_Gestion_Finance.Models
         /// <summary>
         /// Permet d'obtenir la liste de projets
         /// </summary>
-        public static List<Projets> ObtenirListeProjets(DateTime date)
+        public static List<Projets> ObtenirListeProjets(DateTime date, int User)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             List<Projets> projets = new List<Projets>();
@@ -618,9 +663,10 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 //        public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
 
-                string requete = "SELECT  d.Id, d.Nom, d.Date, d.Objectif, d.Cout, d.Frequence FROM projets d Order by Date";
+                string requete = "SELECT  d.Id, d.Nom, d.Date, d.Objectif, d.Cout, d.Frequence FROM projets d where Utilisateur=@utilisateur Order by Date ";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -646,20 +692,23 @@ namespace Projet_Gestion_Finance.Models
         /// </summary>
         /// <param name="categorie">Projet a créer</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la categorie est null</exception>
-        public static void CreerProjet(Projets projet)
+        public static void CreerProjet(Projets projet, int User)
         {
             if (projet is null)
                 throw new ArgumentNullException(nameof(projet), "Le projet ne peut être null");
+            if (TotalCategories(User) + projet.Cout > ObtenirUtilisateur(User))
+                throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
                 //public Projets(int id, string nom, DateTime date, decimal objectif, decimal cout, Depenses.TypeFrequence frequence)
                 cn.Open();
-                string requete = "INSERT INTO projets VALUES(null, @nom, @date, @objectif, @cout, @frequence)";
+                string requete = "INSERT INTO projets VALUES(null, @utilisateur, @nom, @date, @objectif, @cout, @frequence)";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@nom", projet.Nom);
                 cmd.Parameters.AddWithValue("@date", projet.Date);
+                cmd.Parameters.AddWithValue("@utilisateur", User);
                 cmd.Parameters.AddWithValue("@objectif", projet.Objectif);
                 cmd.Parameters.AddWithValue("@cout", projet.Cout);
                 cmd.Parameters.AddWithValue("@frequence", projet.Frequence);
@@ -708,10 +757,12 @@ namespace Projet_Gestion_Finance.Models
             }
             return true;
         }
-        public static void ModifierProjet(Projets projet)
+        public static void ModifierProjet(Projets projet, int User=0)
         {
             if (projet is null)
                 throw new ArgumentNullException(nameof(Projets), "Veillez choisir un projet");
+            if (TotalCategories(User) + projet.Cout> ObtenirUtilisateur(User))
+                throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
@@ -768,6 +819,19 @@ namespace Projet_Gestion_Finance.Models
                 }
             }
             return avancement;
+        }
+        public static decimal TotalCategories(int User, int modif=0)
+        {
+            decimal total = 0;
+            List<Categorie> p = ObtenirListeCategories(User);
+            foreach(Categorie ps in  p)
+            {
+                if (ps.Id != modif)
+                {
+                    total += ps.LimiteDepenses;
+                }
+            }
+            return total;
         }
 
     }

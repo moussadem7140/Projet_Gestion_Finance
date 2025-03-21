@@ -20,9 +20,15 @@ namespace Projet_Gestion_Finance.Models
     /// </summary>
     public partial class FormProjets : Window
     {
+        public int User {  get; set; }
         public FormProjets()
         {
             InitializeComponent();
+        }
+        public FormProjets(int user)
+        {
+            InitializeComponent();
+            User= user;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -32,14 +38,14 @@ namespace Projet_Gestion_Finance.Models
         private void chargerListes()
         {
             lstProjets.ItemsSource = null;
-            List<Projets> cat = Dal.ObtenirListeProjets(dtpDate.SelectedDate.Value);
+            List<Projets> cat = Dal.ObtenirListeProjets(dtpDate.SelectedDate.Value, User);
             lstProjets.ItemsSource = cat;
         }
         private void btnCreerCategorie_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                FormManipulationProjet formCreer = new FormManipulationProjet(null, EtatFormulaire.Créer);
+                FormManipulationProjet formCreer = new FormManipulationProjet(null, EtatFormulaire.Créer, User);
                 formCreer.ShowDialog();
                 chargerListes();
             }
