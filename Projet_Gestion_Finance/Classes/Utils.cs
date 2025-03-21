@@ -55,5 +55,24 @@ namespace Projet_Gestion_Finance.Classes
         {
             return motDePasseDicoUtilisateur.SequenceEqual(HacherMotDePasse(password, salt));
         }
+        /// <summary>
+        /// Convertit un tableau de bytes en chaîne de caractères Base64
+        /// </summary>
+        /// <param name="salt">Tableau de bytes</param>
+        /// <returns>Chaîne de caractères Base64</
+        public static string ConvertirByteSaltEnString(byte[] salt)
+        {
+            return Convert.ToBase64String(salt);
+        }
+        /// <summary>
+        /// Convertit une chaîne de caractères Base64 en tableau de bytes
+        /// </summary>
+        /// <param name="saltString">Chaîne de caractères Base64</param>
+        /// <returns>Tableau de bytes</returns>
+        public static byte[] ConvertirStringEnByteSalt(string saltString)
+        {
+            return Convert.FromBase64String(saltString);
+        }
+
     }
 }

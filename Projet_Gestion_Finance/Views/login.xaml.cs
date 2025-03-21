@@ -20,20 +20,10 @@ namespace Projet_Gestion_Finance.Views
     /// </summary>
     public partial class login : Window
     {
-        //Dictionary<string, Utilisateur> _dicoUtilisateur = new Dictionary<string, Utilisateur>();
-        //Dictionary<string, byte[]> _dicoSalts = new Dictionary<string, byte[]>();
-        private GestionFinance gestionFinance;
-
-        public GestionFinance GestionFinance
-        {
-            get { return gestionFinance; }
-            set { gestionFinance = value; }
-        }
 
         public login(GestionFinance gestionFinance)
         {
             InitializeComponent();
-            GestionFinance = gestionFinance;
             
         }
         /// <summary>

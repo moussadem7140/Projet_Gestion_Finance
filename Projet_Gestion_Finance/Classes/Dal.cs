@@ -545,6 +545,35 @@ namespace Projet_Gestion_Finance.Models
             }
             return total;
         }
+
+        public static void AjouterUtilisateur(Utilisateur utilisateur)
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            try
+            {
+                cn.Open();
+                //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
+                string requete = "INSERT INTO utilisateurs(nom,prenom,mdp,identifiant,mail,salt) VALUES(@nom, @prenom, @mdp, @identifiant, @mail, @salt)";
+
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                cmd.Parameters.AddWithValue("@nom", utilisateur.Nom);
+                cmd.Parameters.AddWithValue("@prenom", utilisateur.Prenom);
+                cmd.Parameters.AddWithValue("@mdp", Utils.ConvertirByteSaltEnString(utilisateur.MDP));
+                cmd.Parameters.AddWithValue("@identifiant", utilisateur.Id);
+                cmd.Parameters.AddWithValue("@mail", utilisateur.Mail);
+                cmd.Parameters.AddWithValue("@salt", Utils.ConvertirByteSaltEnString(utilisateur.Salt));
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+        }
         /// <summary>
         /// Permet d'obtenir la liste de projets
         /// </summary>
