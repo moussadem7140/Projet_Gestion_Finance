@@ -1,4 +1,5 @@
-﻿using Projet_Gestion_Finance.Models;
+﻿using Projet_Gestion_Finance.Classes;
+using Projet_Gestion_Finance.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,41 +21,68 @@ namespace Projet_Gestion_Finance.Views
     /// </summary>
     public partial class login : Window
     {
-
+        Dictionary<string, Utilisateur> _dicoUtilisateurs = new Dictionary<string, Utilisateur>();
         public login(GestionFinance gestionFinance)
         {
             InitializeComponent();
-            
+            _dicoUtilisateurs = Dal.ObtenirUtilisateurs();
+
         }
         /// <summary>
         /// Permet à l'utilisateur d'ouvrir le formulaire pour créer un compre si il n'en a pas un
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            if (VerifierChamps())
+            {
+                string identifiant = txtIdConn.Text.ToUpper().Trim();
+                Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
+                MessageBox.Show($"Bienvenue {utilisateur.Nom} {utilisateur.Prenom}");
+            }
         }
 
-        //public bool VerifierChamps()
-        //{
-        //    //bool estValide = true;
-        //    //if (string.IsNullOrWhiteSpace(txtIdconn.Text))
-        //    //{
-        //    //    txtMsgErrid.Text = "Le nom ne peut pas être vide";
-        //    //    estValide = false;
-        //    //}
-        //    //else if ()
-        //    //if (string.IsNullOrWhiteSpace(txtMdp.Password))
-        //    //{
-        //    //    return "Le mot de passe ne peut pas être vide";
-        //    //}
-        //    //return null;
-        //}
+        public bool VerifierChamps()
+        {
+            // Réinitialisation des messages d'erreur
+            txtMsgErrid.Text = "";
+            txtMsgErrMdp.Text = "";
+            bool estValide = true;
+            string identifiant = txtIdConn.Text.ToUpper().Trim();
+            if (string.IsNullOrWhiteSpace(txtIdConn.Text))
+            {
+                txtMsgErrid.Text = "L'identifiant ne peut pas être vide";
+                estValide = false;
+            }
+            else if (!_dicoUtilisateurs.ContainsKey(identifiant)){
+                txtMsgErrid.Text = "L'identifiant n'existe pas";
+                estValide = false;
+
+            }
+            if (string.IsNullOrWhiteSpace(txtMdpConn.Password))
+            {
+                txtMsgErrMdp.Text = "Le mot de passe ne peut pas être vide";
+                estValide = false;
+            }
+            else if(txtMsgErrid.Text != "")
+            {
+                Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
+                if (!Utils.EstMotDePasseCorrespond(txtMdpConn.Password, utilisateur.Salt, utilisateur.MDP))
+                {
+                    txtMsgErrMdp.Text = "Le mot de passe ne correspond pas";
+                    estValide = false;
+                }
+            }
+            return estValide;
+        }
+
+        private void TextBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Inscription inscription = new Inscription();
+            inscription.ShowDialog();
+            this.Close();
+        }
     }
 }

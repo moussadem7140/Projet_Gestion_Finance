@@ -545,7 +545,10 @@ namespace Projet_Gestion_Finance.Models
             }
             return total;
         }
-
+        /// <summary>
+        /// Permet d'ajouter un utilisateur dans la base de données
+        /// </summary>
+        /// <param name="utilisateur"></param>
         public static void AjouterUtilisateur(Utilisateur utilisateur)
         {
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
@@ -573,6 +576,35 @@ namespace Projet_Gestion_Finance.Models
                 if (cn is not null && cn.State == System.Data.ConnectionState.Open)
                     cn.Close();
             }
+        }
+
+        public static Dictionary<string,Utilisateur> ObtenirUtilisateurs()
+        {
+            MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
+            Dictionary<string, Utilisateur> dicoUtilisateurs = new Dictionary<string, Utilisateur>();
+            try
+            {
+                cn.Open();
+                string requete = "SELECT nom,prenom,mdp,identifiant,mail,salt FROM utilisateurs";
+                MySqlCommand cmd = new MySqlCommand(requete, cn);
+                MySqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Utilisateur utilisateur = new Utilisateur(dr.GetString(0), dr.GetString(1), dr.GetString(3), Utils.ConvertirStringEnByteSalt(dr.GetString(2)), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(5)));
+                    dicoUtilisateurs.Add(utilisateur.Id, utilisateur);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                if (cn is not null && cn.State == System.Data.ConnectionState.Open)
+                    cn.Close();
+            }
+            return dicoUtilisateurs;
         }
         /// <summary>
         /// Permet d'obtenir la liste de projets
