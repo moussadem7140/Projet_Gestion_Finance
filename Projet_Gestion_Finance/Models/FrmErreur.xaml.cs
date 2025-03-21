@@ -24,6 +24,7 @@ namespace Projet_Gestion_Finance.Models
         {
             Erreur,
             Avertissement,
+            Connexion,
         }
         private string message;
 
@@ -51,16 +52,27 @@ namespace Projet_Gestion_Finance.Models
                 lblTitre.Foreground = Brushes.Orange;
                 lblTitre.Text = "Avertissement";
             }
+            else if(Etat == EtatErreur.Connexion)
+            {
+                lblTitre.Foreground = Brushes.Green;
+                lblTitre.Text = "Connexion réussie";
+                btn.Content = "Gérer mes dépenses";
+                btn1.Content = "Gérer mes projets";
+            }
             lblErreur.Text = Message;
         }
 
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
+            if(Etat==EtatErreur.Connexion)
+                (new MainWindow()).ShowDialog();
             DialogResult = true;   
         }
         private void Button_Annuler_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+            if (Etat == EtatErreur.Connexion)
+                (new FormProjets()).ShowDialog();
         }
         
     }
