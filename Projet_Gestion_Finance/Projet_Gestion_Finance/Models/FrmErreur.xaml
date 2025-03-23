@@ -1,0 +1,38 @@
+﻿<Window x:Class="Projet_Gestion_Finance.Models.FrmErreur"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projet_Gestion_Finance.Models"
+        mc:Ignorable="d"
+        Title="FrmErreur" Height="200" Width="500" Loaded="Windows_Loaded">
+    <Grid>
+        <StackPanel>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
+            </StackPanel.Background>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="lblTitre" Text="Erreur" Foreground="Red" FontSize="18"
+ HorizontalAlignment="Center" Margin="0,10,0,5"/>
+
+                <TextBlock x:Name="lblErreur" TextWrapping="Wrap"
+ HorizontalAlignment="Center" TextAlignment="Center"
+ Margin="0,10,0,50" Grid.Row="1" Grid.RowSpan="2"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Margin="0,10,0,0">
+                    <Button Name="btn" Content="OK" Width="125" Height="30"
+  Margin="5" Click="Button_OK_Click"/>
+                    <Button Name="btn1" Content="Annuler" Width="125" Height="30"
+  Margin="5" Click="Button_Annuler_Click"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+
+</Window>
