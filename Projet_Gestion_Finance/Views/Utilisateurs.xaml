@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
         mc:Ignorable="d"
-        Title="Utilisateurs" Height="450" Width="800" Loaded="Window_Loaded"  Background="#A1ABAA">
+        Title="Utilisateurs" Height="500" Width="800" Loaded="Window_Loaded"  Background="#A1ABAA">
     <Grid>
         <Border BorderThickness="2" CornerRadius="3,3,3,3">
             <StackPanel Orientation="Vertical" Width="470" Margin="0,22,-4,-20">
-                <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Inscription</TextBlock>
+                <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Modifier un Utilisateur</TextBlock>
                 <TextBlock FontSize="14" FontFamily="Cambria" HorizontalAlignment="Center" Margin="0,10,0,0">Votre outil de gestion de finances personelles</TextBlock>
                 <StackPanel Orientation="Horizontal" Margin="13,19,16,0">
                     <Label Width="90">Nom</Label>

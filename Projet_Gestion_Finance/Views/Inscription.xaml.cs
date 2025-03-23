@@ -43,8 +43,10 @@ namespace Projet_Gestion_Finance.Views
                 utilisateur.Revenue = Decimal.Parse(revenu);
                 //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                 Dal.AjouterUtilisateur(utilisateur);
+                FrmErreur frmErreur = new FrmErreur("l'utilisateur a été créer avec succès", FrmErreur.EtatErreur.Inscripton);
+                frmErreur.Show();
                 this.Close();
-                (new FrmErreur("l'utilisateur a été créer avec succès", FrmErreur.EtatErreur.Inscripton)).ShowDialog();
+              
             }
         }
 

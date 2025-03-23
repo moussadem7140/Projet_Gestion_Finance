@@ -9,7 +9,7 @@
     <Grid>
         <Border BorderThickness="2" CornerRadius="3,3,3,3">
             <StackPanel Orientation="Vertical" Width="470" Margin="0,22,-4,-27">
-                <TextBlock HorizontalAlignment="Center" Foreground="White" Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Inscription</TextBlock>
+                <TextBlock x:Name="txtblkTitre" HorizontalAlignment="Center" Foreground="White" Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Inscription</TextBlock>
                 <TextBlock FontSize="14" FontFamily="Cambria" HorizontalAlignment="Center" Margin="0,10,0,0">Votre outil de gestion de finances personelles</TextBlock>
                 <StackPanel Orientation="Horizontal" Margin="13,19,16,0">
                     <Label Width="90">Nom</Label>

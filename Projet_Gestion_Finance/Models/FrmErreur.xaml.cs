@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Projet_Gestion_Finance.Views;
 namespace Projet_Gestion_Finance.Models
 {
     /// <summary>
@@ -86,8 +86,15 @@ namespace Projet_Gestion_Finance.Models
                 (new MainWindow(User)).ShowDialog();
                 this.Close();
             }
+            else if (Etat == EtatErreur.Inscripton)
+            {
+                (new Login()).Show();
+                this.Close();
+            }
             else
+            {
                 DialogResult = true;
+            }
 
         }
         private void Button_Annuler_Click(object sender, RoutedEventArgs e)
@@ -97,8 +104,17 @@ namespace Projet_Gestion_Finance.Models
                 (new FormProjets(User)).Show();
                 this.Close();
             }
+            else if (Etat == EtatErreur.Inscripton)
+            {
+                (new Login()).Show();
+                this.Close();
+            }
             else
-                DialogResult = false;
+            {
+                DialogResult = true;
+                this.Close();
+            }
+
         }
 
     }

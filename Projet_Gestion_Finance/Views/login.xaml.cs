@@ -92,8 +92,8 @@ namespace Projet_Gestion_Finance.Views
 
         private void TextBlock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Inscription inscription = new Inscription();
-            inscription.ShowDialog();
+           
+            (new Inscription()).Show();
             this.Close();
         }
     }
