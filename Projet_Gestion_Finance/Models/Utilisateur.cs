@@ -35,7 +35,7 @@ namespace Projet_Gestion_Finance.Models
                 {
                     throw new ArgumentException("Le nom ne peut pas être vide");
                 }
-                _nom = value.Trim(); }
+                _nom = value.Trim().ToUpper(); }
 		}
 
 		private string _prenom;
@@ -48,7 +48,7 @@ namespace Projet_Gestion_Finance.Models
                 {
                     throw new ArgumentException("Le prénom ne peut pas être vide");
                 }
-                _prenom = value.Trim(); }
+                _prenom = value.Trim().ToUpper(); }
 		}
 
 		private string _mail;

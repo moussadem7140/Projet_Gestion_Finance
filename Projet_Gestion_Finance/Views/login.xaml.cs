@@ -42,7 +42,9 @@ namespace Projet_Gestion_Finance.Views
                 string identifiant = txtIdConn.Text.ToUpper().Trim();
                 Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
                 User= utilisateur.IdUnique;
-                (new FrmErreur("Bonsoir "+utilisateur.Nom+" "+ utilisateur.Prenom, FrmErreur.EtatErreur.Connexion, User)).Show();
+                Accueil accueil = new Accueil(utilisateur);
+                accueil.Show();
+                //(new FrmErreur("Bonsoir "+utilisateur.Nom+" "+ utilisateur.Prenom, FrmErreur.EtatErreur.Connexion, User)).Show();
                 this.Close();
             }
         }

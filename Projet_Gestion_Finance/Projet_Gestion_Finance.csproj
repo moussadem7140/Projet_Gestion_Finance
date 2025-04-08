@@ -10,8 +10,13 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Ressource\bonus.png" />
     <None Remove="Ressource\depenses.jpg" />
     <None Remove="Ressource\fondImage.jpg" />
+    <None Remove="Ressource\Icons\edit.png" />
+    <None Remove="Ressource\Icons\list.png" />
+    <None Remove="Ressource\Icons\logout.png" />
+    <None Remove="Ressource\Icons\money.png" />
     <None Remove="Ressource\imagedefond.jpg" />
     <None Remove="Ressource\Print.jpg" />
     <None Remove="Ressource\refresh.png" />
@@ -19,10 +24,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\bonus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Ressource\depenses.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Ressource\fondImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\list.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\logout.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\money.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Ressource\imagedefond.jpg">
