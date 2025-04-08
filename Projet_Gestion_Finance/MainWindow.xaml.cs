@@ -13,30 +13,40 @@ using System.Windows.Shapes;
 using System.Globalization;
 using Projet_Gestion_Finance.classes;
 using Projet_Gestion_Finance.Views;
+using LiveCharts.Wpf;
+using LiveCharts;
+using Microsoft.VisualBasic;
 
 namespace Projet_Gestion_Finance
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     public partial class MainWindow : Window
     {
+        public static ChartValues<Decimal> limites = new ChartValues<Decimal>();
+        public static ChartValues<Decimal> totals = new ChartValues<Decimal>();
+        public static List<string>  labels = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
 
         }
-        public int User {  get; set; } 
+
+        public int User { get; set; }
         public MainWindow(int user)
         {
             InitializeComponent();
-            User= user;
+            User = user;
 
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            
             ChargerMois();
             chargerListes();
+           
         }
         /// <summary>
         /// Permet de remplir toutes les liste de départ du programme
@@ -45,6 +55,11 @@ namespace Projet_Gestion_Finance
         {
             lstDepenses.ItemsSource = null;
             lstCategorie.ItemsSource = null;
+            graphique.Series = null;
+            Labels.Labels = null;
+            totals.Clear();
+            limites.Clear();
+            labels.Clear();
             cboCategories.Items.Clear();
             List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
             lstCategorie.ItemsSource = cat;
@@ -58,6 +73,66 @@ namespace Projet_Gestion_Finance
             {
                 cboCategories.Items.Add(c.Nom);
             }
+            foreach (Categorie c in Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1)))
+            {
+                limites.Add(c.LimiteDepenses);
+                totals.Add(c.CoutTotal);
+                labels.Add(c.Nom);
+            }
+            decimal total = 0;
+            decimal total1 = 0;
+            foreach(Depenses d in dep)
+            {
+                total += d.Cout;
+            }
+            foreach(Projets p in Dal.ObtenirListeProjets(dtpFinPeriode.SelectedDate.Value, User))
+            {
+                total1 += p.Cout;
+            }
+            //var limites = new ChartValues<double> { 500, 800, 300 };
+            //var totals = new ChartValues<double> { 350, 600, 200 };
+            //var labels = new List<string> { "Nourriture", "Voiture", "Loisirs" };
+            SeriesCollection categories = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Limite",
+                    Values = limites,
+                    DataLabels=true,
+                 },
+                new ColumnSeries
+                {
+                    Title = "Utilisé",
+                    Values = totals,
+                    DataLabels =true,
+                }
+            };
+            SeriesCollection ListeDepensesRevenus = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Marge libre",
+                    //Dal.ObtenirUtilisateur(User).Revenue
+                    Values = new ChartValues<decimal>{ 5000 - total -total1 },
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Depenses",
+                    Values =new ChartValues<decimal>{total},
+                    DataLabels = true
+                },
+                new PieSeries
+                {
+                    Title = "Projets",
+                    Values = new ChartValues<decimal> { total1 },
+                    DataLabels = true
+                }
+            };
+
+            depensesRevenues.Series= ListeDepensesRevenus;
+            graphique.Series = categories;
+            Labels.Labels = labels;
 
         }
         /// <summary>
@@ -225,20 +300,21 @@ namespace Projet_Gestion_Finance
                 }
                 lstDepenses.ItemsSource = r;
                 btnImprimerDepense.IsEnabled = true;
-                print.IsEnabled = true  ;
+                print.IsEnabled = true;
             }
             catch (Exception ex)
             {
                 FrmErreur f = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
                 f.ShowDialog();
             }
-            
+
         }
         private void btn(object sender, RoutedEventArgs e)
         {
-            lstCategorie.ItemsSource = null;
-            List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
-            lstCategorie.ItemsSource = cat;
+            chargerListes();
+            //lstCategorie.ItemsSource = null;
+            //List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
+            //lstCategorie.ItemsSource = cat;
         }
 
         private void btnImprimerDepense_Click(object sender, RoutedEventArgs e)
@@ -255,10 +331,8 @@ namespace Projet_Gestion_Finance
             l.Show();
             this.Close();
         }
-        private void btnModifier_Click(object sender, RoutedEventArgs e)
-        {
-            Utilisateurs u = new Utilisateurs(Dal.ObtenirUtilisateur(User));
-            u.ShowDialog();
-        }
+        //Statistiques
+
+       
     }
 }

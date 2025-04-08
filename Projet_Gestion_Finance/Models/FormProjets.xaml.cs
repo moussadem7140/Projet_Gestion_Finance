@@ -1,8 +1,11 @@
-﻿using Projet_Gestion_Finance.Classes;
+﻿using LiveCharts.Wpf;
+using LiveCharts;
+using Projet_Gestion_Finance.Classes;
 using Projet_Gestion_Finance.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +24,9 @@ namespace Projet_Gestion_Finance.Models
     /// </summary>
     public partial class FormProjets : Window
     {
+        public static ChartValues<Decimal> limites = new ChartValues<Decimal>();
+        public static ChartValues<Decimal> totals = new ChartValues<Decimal>();
+        public static List<string> labels = new List<string>();
         public int User {  get; set; }
         public FormProjets()
         {
@@ -41,6 +47,33 @@ namespace Projet_Gestion_Finance.Models
             lstProjets.ItemsSource = null;
             List<Projets> cat = Dal.ObtenirListeProjets(dtpDate.SelectedDate.Value, User);
             lstProjets.ItemsSource = cat;
+            foreach (Projets c in cat)
+            {
+                limites.Add(c.Objectif);
+                totals.Add(c.Avancement);
+                labels.Add(c.Nom);
+            }
+            //var limites = new ChartValues<double> { 500, 800, 300 };
+            //var totals = new ChartValues<double> { 350, 600, 200 };
+            //var labels = new List<string> { "Nourriture", "Voiture", "Loisirs" };
+            SeriesCollection categories = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Objectif",
+                    Values = limites,
+                    DataLabels=true,
+                 },
+                new ColumnSeries
+                {
+                    Title = "Avancement",
+                    Values = totals,
+                    DataLabels =true,
+                }
+            };
+            graphique.Series = categories;
+            Labels.Labels = labels;
+
         }
         private void btnCreerCategorie_Click(object sender, RoutedEventArgs e)
         {
@@ -107,10 +140,6 @@ namespace Projet_Gestion_Finance.Models
             l.Show();
             this.Close();
         }
-        private void btnModifier_Click(object sender, RoutedEventArgs e)
-        {
-            Utilisateurs u = new Utilisateurs(Dal.ObtenirUtilisateur(User));
-            u.ShowDialog();
-        }
+     
     }
 }
