@@ -25,7 +25,7 @@
   <Class Name="Projet_Gestion_Finance.Models.FormCategorie" BaseTypeListCollapsed="true">
     <Position X="2.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAEAIAAAAgAIAAgAAAAAQCAAAAAAAAAAAAgAA=</HashCode>
+      <HashCode>AAABAAAAEAIAAAAgAIAAgAAAAAQCAAAAAAAAAAAAgAA=</HashCode>
       <FileName>Models\FormCategorie.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -33,15 +33,39 @@
   <Class Name="Projet_Gestion_Finance.Models.FormDepense" BaseTypeListCollapsed="true">
     <Position X="6.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAIEIAAAAAAAAAAgAAAAAACAAAABAAAAgAAgAA=</HashCode>
+      <HashCode>AAABAgAIEIAAAAAAAAAAgAAAAAACAAAABAAAAgAAgAA=</HashCode>
       <FileName>Models\FormDepense.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projet_Gestion_Finance.Views.Accueil" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAFAEABBABAAAAAAAkAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Views\Accueil.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projet_Gestion_Finance.Views.Inscription" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAgIAEBBAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Views\Inscription.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projet_Gestion_Finance.Views.Login" BaseTypeListCollapsed="true">
+    <Position X="10.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAEAAABAAAAAIBAAAAAAAAA=</HashCode>
+      <FileName>Views\login.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Enum Name="Projet_Gestion_Finance.Models.EtatFormulaire">
     <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABABAAAAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABABAAAAAAEAAAAAAEAAAAAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>Models\EtatFormulaire.cs</FileName>
     </TypeIdentifier>
   </Enum>

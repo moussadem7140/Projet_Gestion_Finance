@@ -136,7 +136,7 @@ namespace Projet_Gestion_Finance.Models
         }
         private void btn_Click(object sender, RoutedEventArgs e)
         {
-            Login l = new Login();
+            Accueil l = new Accueil(Dal.ObtenirUtilisateur(User));
             l.Show();
             this.Close();
         }

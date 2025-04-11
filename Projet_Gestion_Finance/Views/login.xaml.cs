@@ -96,7 +96,6 @@ namespace Projet_Gestion_Finance.Views
         {
            
             (new Inscription()).Show();
-            this.Close();
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
         mc:Ignorable="d"
-        Title="Inscription" Height="540" Width="470" Background="#A1ABAA" WindowStartupLocation="CenterScreen">
+        Title="Inscription" Height="540" Width="470" Background="#A1ABAA" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Border BorderThickness="2" CornerRadius="3,3,3,3">
             <StackPanel Orientation="Vertical" Width="470" Margin="0,22,-4,-27">

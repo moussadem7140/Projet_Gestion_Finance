@@ -10,7 +10,7 @@
         WindowState="Maximized"
         Title="Gestion de Finance" Height="835" Width="1280" Loaded="Window_Loaded" >
     <StackPanel Margin="10">
-       
+
         <TabControl Height="924" Width="1280">
             <TabItem Header="Liste des dépenses" FontWeight="Bold">
                 <StackPanel Height="919" Margin="0,0,-16,0">
@@ -72,8 +72,7 @@
                         <Button x:Name="btnAjouterDepense"  Content="Ajouter"  Width="100" Height="25" Click="btnAjouterDepense_Click" />
                         <Button x:Name="btnModifierDepense"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierDepense_Click" />
                         <Button x:Name="btnSupprimerDepense"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerDepense_Click" />
-                        <Button  Content="Retourner vers la connexion" Margin="10,0,0,0"  Width="150" Height="25" Click="btn_Click"/>
-                        <Button  Content="Information d'utilisateur"  Width="150" Height="25" Margin="10,0,0,0"/>
+                        <Button  Content="Retour vers l'accueil" Margin="10,0,0,0"  Width="150" Height="25" Click="btn_Click"/>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -138,8 +137,7 @@
                                 <Button x:Name="btnCreerCategorie"  Content="Creer"  Width="100" Height="25" Click="btnCreerCategorie_Click"/>
                                 <Button x:Name="btnModifierCategorie"  Content="Modifier"  Width="100" Height="25" Margin="10,0,0,0" Click="btnModifierCategorie_Click" />
                                 <Button x:Name="btnSupprimerCategorie"   Content="Supprimer"  Width="100" Height="25" Margin="10,0,0,0" Click="btnSupprimerCategorie_Click"/>
-                                <Button  Content="Retourner vers la connexion" Margin="10,0,0,0"  Width="175" Height="25" Click="btn_Click"/>
-                                <Button  Content="Information d'utilisateur"  Width="175" Height="25" Margin="10,0,0,0"/>
+                                <Button  Content="Retour vers l'accueil" Margin="10,0,0,0"  Width="175" Height="25" Click="btn_Click"/>
                             </StackPanel>
                         </StackPanel>
                     </GroupBox>
@@ -147,20 +145,19 @@
             </TabItem>
             <TabItem Header="Statistiques" FontWeight="Bold">
                 <StackPanel Orientation="Horizontal" ScrollViewer.CanContentScroll="True">
-                    <lvc:CartesianChart Name="graphique" Height="500" Width="500" Margin="0,0,100,0">
+                    <lvc:CartesianChart x:Name="graphique" Height="595" Width="602">
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Catégories" Name="Labels"/>
+                            <lvc:Axis Title="Catégories" x:Name="Labels"/>
                         </lvc:CartesianChart.AxisX>
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis Title="Montant ($)" />
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
-                    <lvc:PieChart Name="depensesRevenues"
-                      LegendLocation="Right"  Height="500" Width="500" Margin="0">
-                    </lvc:PieChart>
+                    <lvc:PieChart x:Name="depensesRevenues"
+                      LegendLocation="Right"  Height="594" Width="565"/>
                 </StackPanel>
             </TabItem>
         </TabControl>
-        
+
     </StackPanel>
 </Window>

@@ -34,7 +34,7 @@ namespace Projet_Gestion_Finance.Views
             Utilisateur = utilisateur;
             InitializeComponent();
         }
-
+       
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -52,19 +52,23 @@ namespace Projet_Gestion_Finance.Views
 
         private void StackPanel_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-
+            MainWindow C = new MainWindow(Utilisateur.IdUnique);
+            C.Show();
+            this.Close();
         }
 
         private void StackPanel_MouseDown_2(object sender, MouseButtonEventArgs e)
         {
-
+            FormProjets p = new FormProjets(Utilisateur.IdUnique);
+            p.Show();
+            this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = Utilisateur;
             txtInitiales.Text = " " + Utilisateur.Prenom[0].ToString().ToUpper() + Utilisateur.Nom[0].ToString().ToUpper();
-            //txtNom.Text = " " + Utilisateur.Nom.ToUpper() + " " + Utilisateur.Prenom.ToUpper();
+            txtNom.Text = "   Salut " + Utilisateur.Nom.ToUpper() + " " + Utilisateur.Prenom.ToUpper()+",";
             //txtRevenu.Text = "$" + " " + Utilisateur.Revenue.ToString();
         }
         /// <summary>
@@ -74,7 +78,9 @@ namespace Projet_Gestion_Finance.Views
         /// <param name="e"></param>
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            Login g = new Login();
+            g.Show();
+            this.Close();
         }
         /// <summary>
         /// Permet de gérer l'événement de clic sur l'image de modification de profile
@@ -83,7 +89,9 @@ namespace Projet_Gestion_Finance.Views
         /// <param name="e"></param>
         private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-
+          Inscription i = new Inscription(Utilisateur);
+            i.Show();
+            this.Close();
         }
     }
 }

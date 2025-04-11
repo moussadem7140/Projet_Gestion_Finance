@@ -25,7 +25,8 @@ namespace Projet_Gestion_Finance.Models
             Erreur,
             Avertissement,
             Connexion,
-            Inscripton
+            Inscripton,
+            Inscription1
         }
         private string message;
 
@@ -71,11 +72,14 @@ namespace Projet_Gestion_Finance.Models
             }
             else if(Etat==EtatErreur.Inscripton)
             {
-
                 lblTitre.Foreground = Brushes.Green;
-                lblTitre.Text = "Inscription réussi";
+                lblTitre.Text = "Inscription réussie";
             }
-
+            else if (Etat == EtatErreur.Inscription1)
+            {
+                lblTitre.Foreground = Brushes.Green;
+                lblTitre.Text = "Modification réussie";
+            }
             lblErreur.Text = Message;
         }
 

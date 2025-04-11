@@ -629,7 +629,7 @@ namespace Projet_Gestion_Finance.Models
             {
                 cn.Open();
                 //public Depenses(string nom, int cat, decimal cout, DateTime date, TypeFrequence frequence, bool obligatoire)
-                string requete = "Update  utilisateurs set nom= @nom,prenom=@prenom,mdp=@mdp,identifiant=@identifiant,mail=@mail,salt=@salt,Revenu=@revenu where idutilisateurs= @id)";
+                string requete = "Update  utilisateurs set nom= @nom,prenom=@prenom,mdp=@mdp,identifiant=@identifiant,mail=@mail,salt=@salt,Revenu=@revenu where idutilisateurs= @id";
 
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 cmd.Parameters.AddWithValue("@nom", utilisateur.Nom);
@@ -665,7 +665,7 @@ namespace Projet_Gestion_Finance.Models
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0),dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
+                    Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0),dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(5), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
                     utilisateur.Revenue = ObtenirUtilisateur(utilisateur.IdUnique).Revenue;
                     dicoUtilisateurs.Add(utilisateur.Id, utilisateur);
                 }
