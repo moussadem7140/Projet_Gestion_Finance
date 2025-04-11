@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Projet_Gestion_Finance.Classes;
 using Projet_Gestion_Finance.Models;
+using System.Media;
 
 namespace Projet_Gestion_Finance.Views
 {
@@ -34,7 +35,7 @@ namespace Projet_Gestion_Finance.Views
             Utilisateur = utilisateur;
             InitializeComponent();
         }
-       
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -55,6 +56,8 @@ namespace Projet_Gestion_Finance.Views
             MainWindow C = new MainWindow(Utilisateur.IdUnique);
             C.Show();
             this.Close();
+            var player = new SoundPlayer("Ressource/argent.wav");
+            player.Play();
         }
 
         private void StackPanel_MouseDown_2(object sender, MouseButtonEventArgs e)
@@ -62,6 +65,8 @@ namespace Projet_Gestion_Finance.Views
             FormProjets p = new FormProjets(Utilisateur.IdUnique);
             p.Show();
             this.Close();
+            var player = new SoundPlayer("Ressource/argent.wav");
+            player.Play();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -70,6 +75,8 @@ namespace Projet_Gestion_Finance.Views
             txtInitiales.Text = " " + Utilisateur.Prenom[0].ToString().ToUpper() + Utilisateur.Nom[0].ToString().ToUpper();
             txtNom.Text = "   Salut " + Utilisateur.Nom.ToUpper() + " " + Utilisateur.Prenom.ToUpper()+",";
             //txtRevenu.Text = "$" + " " + Utilisateur.Revenue.ToString();
+            var player = new SoundPlayer("Ressource/bienvenu.wav");
+            player.Play();
         }
         /// <summary>
         /// Permet de gérer l'événement de clic sur l'image de déconnexion
