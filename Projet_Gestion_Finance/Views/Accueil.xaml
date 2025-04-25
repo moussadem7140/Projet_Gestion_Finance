@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
+        xmlns:local="clr-namespace:Projet_Gestion_Finance.Views" 
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="Accueil" Height="550" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
+        Title="Accueil" Height="800" Width="880" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -31,7 +32,7 @@
         <Border Background="#FFFFFF" Grid.Column="1">
             <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="40" Margin="20,18,0,0"  FontWeight="Bold" HorizontalAlignment="Left" Foreground="#E52C3E50">Gestion des finances</TextBlock>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderBrush="Red" BorderThickness="2">-->
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Vertical" Width="510" HorizontalAlignment="Center" Margin="0,18,0,0">
                             <Grid>
@@ -66,11 +67,33 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical">
-
+                        <StackPanel Orientation="Vertical" Margin="0,30,0,0">
+                            <Label Margin="12,23,0,10" Width="228" HorizontalAlignment="Left" Height="30" FontSize="16" FontWeight="Bold">Vos Statistiques</Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="120">Début de la période</Label>
+                            <DatePicker Width="105" x:Name="dtpDebutPeriode" Height="26"/>
+                            <Label Width="110" Margin="30,0,0,0">Fin de la période</Label>
+                            <DatePicker Width="105" x:Name="dtpFinPeriode" Height="26" Margin="0,0,0,0"/>
+                            <Button x:Name="btnValider" Content="Valider" Width="75" Height="26" Margin="30,0,0,0" Click="btnValider_Click" Background="#CC31B11B"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" ScrollViewer.CanContentScroll="True">
+                                <lvc:CartesianChart x:Name="graphique" Height="255" Width="462" HorizontalAlignment="Left" Margin="39,30,0,34">
+                                    <lvc:CartesianChart.AxisX>
+                                        <lvc:Axis Title="Catégories" x:Name="Labels"/>
+                                    </lvc:CartesianChart.AxisX>
+                                    <lvc:CartesianChart.AxisY>
+                                        <lvc:Axis Title="Montant ($)" />
+                                    </lvc:CartesianChart.AxisY>
+                                </lvc:CartesianChart>
+                                <lvc:PieChart x:Name="depensesRevenues"
+                                    LegendLocation="Right"  Height="334" Width="395"/>
+                            </StackPanel>
+                            <!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>-->
                         </StackPanel>
                     </StackPanel>
-                </ScrollViewer>
+                    </StackPanel>
+                <!--</ScrollViewer>-->
             </StackPanel>
         </Border>
     </Grid>

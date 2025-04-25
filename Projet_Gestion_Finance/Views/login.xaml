@@ -10,20 +10,20 @@
         <StackPanel Orientation="Vertical" Width="410" Height="320" Background="#8EF5F5F5">
             <TextBlock Margin="0,15,0,0" FontFamily="Arial Rounded MT Bold" FontSize="14" HorizontalAlignment="Center">Nom de l'app</TextBlock>
             <TextBlock Margin="0,18,0,0" FontSize="14" HorizontalAlignment="Center">Connecter vous a votre compte</TextBlock>
-            <StackPanel Orientation="Vertical" Margin="6,24,6,0" Width="340" Height="60">
+            <StackPanel Orientation="Vertical" Margin="6,24,6,0" Width="340" Height="70">
                 <Label Margin="0,0,0,3" FontWeight="Bold">Identifiant</Label>
                 <TextBox x:Name="txtIdConn" Width="250" HorizontalAlignment="Left" Height="21" Panel.ZIndex="-1" Margin="4,-3,0,0">
                 </TextBox>
-                <TextBlock x:Name="txtMsgErrid" Foreground="#FFC90E0E"></TextBlock>
+                <TextBlock x:Name="txtMsgErrid" Foreground="#FFC90E0E" Height="20"></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Margin="6,10,6,0" Width="340" Height="60">
+            <StackPanel Orientation="Vertical" Margin="6,5,6,7" Width="340" Height="70">
                 <Label Margin="0,0,0,3" FontWeight="Bold">Mot de passe</Label>
                 <PasswordBox x:Name="txtMdpConn" Width="250" HorizontalAlignment="Left" Height="21" Panel.ZIndex="-1" Margin="4,-3,0,0">
                 </PasswordBox>
-                <TextBlock x:Name="txtMsgErrMdp" Foreground="#FFC90E0E"></TextBlock>
+                <TextBlock x:Name="txtMsgErrMdp" Foreground="#FFC90E0E" Height="18"></TextBlock>
             </StackPanel>
             <Button Width="90" Content="Se Connecter" Margin="0,5,0,0" Background="#FF232732" Foreground="White" Click="Button_Click"/>
-            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                 <TextBlock Margin="28,0,0,0">Vous n'avez pas encore de compte?</TextBlock>
                 <TextBlock Margin="10,0,0,0" Foreground="#FF0A16B7" TextDecorations="Underline" FontFamily="Book Antiqua" FontSize="14" MouseRightButtonDown="TextBlock_MouseRightButtonDown">S'inscrire</TextBlock>
             </StackPanel>
