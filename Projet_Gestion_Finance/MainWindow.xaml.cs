@@ -111,20 +111,20 @@ namespace Projet_Gestion_Finance
             {
                 new PieSeries
                 {
-                    Title = "Marge libre",
+                    Title = "Marge de revenue non utilisées",
                     //Dal.ObtenirUtilisateur(User).Revenue
                     Values = new ChartValues<decimal>{ 5000 - total -total1 },
                     DataLabels = true
                 },
                 new PieSeries
                 {
-                    Title = "Depenses",
+                    Title = "Parts utilisées par les Depenses ",
                     Values =new ChartValues<decimal>{total},
                     DataLabels = true
                 },
                 new PieSeries
                 {
-                    Title = "Projets",
+                    Title = "Parts utilisées par les projets",
                     Values = new ChartValues<decimal> { total1 },
                     DataLabels = true
                 }

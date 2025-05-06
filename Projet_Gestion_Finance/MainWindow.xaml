@@ -8,7 +8,7 @@
         xmlns:locals="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="Gestion de Finance" Height="835" Width="1280" Loaded="Window_Loaded" >
+        Title="Gestion de Finance" Height="835" Width="1280" Loaded="Window_Loaded">
     <StackPanel Margin="10">
 
         <TabControl Height="924" Width="1280">
@@ -145,7 +145,7 @@
             </TabItem>
             <TabItem Header="Statistiques" FontWeight="Bold">
                 <StackPanel Orientation="Horizontal" ScrollViewer.CanContentScroll="True">
-                    <lvc:CartesianChart x:Name="graphique" Height="595" Width="602">
+                    <lvc:CartesianChart x:Name="graphique" Height="400" Width="600">
                         <lvc:CartesianChart.AxisX>
                             <lvc:Axis Title="Catégories" x:Name="Labels"/>
                         </lvc:CartesianChart.AxisX>
@@ -154,7 +154,7 @@
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
                     <lvc:PieChart x:Name="depensesRevenues"
-                      LegendLocation="Right"  Height="594" Width="565"/>
+                      LegendLocation="Right"  Height="600" Width="600" Margin="50"/>
                 </StackPanel>
             </TabItem>
         </TabControl>

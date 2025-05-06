@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
         mc:Ignorable="d"
-        Title="Inscription" Height="540" Width="470" Background="#A1ABAA" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Grid>
+        Title="Inscription" Height="540" Width="470"  WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid >
+        <Grid.Background>
+            <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
         <Border BorderThickness="2" CornerRadius="3,3,3,3">
             <StackPanel Orientation="Vertical" Width="470" Margin="0,22,-4,-27">
-                <TextBlock x:Name="txtblkTitre" HorizontalAlignment="Center" Foreground="White" Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Inscription</TextBlock>
+                <TextBlock x:Name="txtblkTitre" HorizontalAlignment="Center"  Margin="0,11,0,0" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" FontSize="16">Inscription</TextBlock>
                 <TextBlock FontSize="14" FontFamily="Cambria" HorizontalAlignment="Center" Margin="0,10,0,0">Votre outil de gestion de finances personelles</TextBlock>
                 <StackPanel Orientation="Horizontal" Margin="13,19,16,0">
                     <Label Width="90">Nom</Label>
@@ -53,7 +56,7 @@
                         <TextBlock x:Name="txtMdpConfInsError" Foreground="Red" FontSize="10" FontWeight="Bold" Margin="0,0,0,0"></TextBlock>
                     </StackPanel>
                 </StackPanel>
-                <Button x:Name="btnInscription" Content="S'inscrire" Width="100" Height="30" Background="#FFC107" Foreground="White" FontWeight="Bold" FontSize="12" Click="btnInscription_Click"/>
+                <Button x:Name="btnInscription" Content="S'inscrire" Width="100" Height="30" Background="#992C3E50" Foreground="White" FontWeight="Bold" FontSize="12" Click="btnInscription_Click"/>
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                     <TextBlock Margin="28,0,0,0">Vous avez déjà un compte?</TextBlock>
                     <TextBlock Margin="10,0,0,0" Foreground="#FF0A16B7" TextDecorations="Underline" FontFamily="Book Antiqua" FontSize="14" MouseRightButtonDown="TextBlock_MouseRightButtonDown">Se Connecter</TextBlock>
