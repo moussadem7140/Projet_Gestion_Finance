@@ -16,6 +16,7 @@
     <None Remove="Ressource\depenses.jpg" />
     <None Remove="Ressource\fondImage.jpg" />
     <None Remove="Ressource\Icons\edit.png" />
+    <None Remove="Ressource\Icons\home.png" />
     <None Remove="Ressource\Icons\list.png" />
     <None Remove="Ressource\Icons\logout.png" />
     <None Remove="Ressource\Icons\money.png" />
@@ -45,6 +46,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Ressource\Icons\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ressource\Icons\home.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Ressource\Icons\list.png">

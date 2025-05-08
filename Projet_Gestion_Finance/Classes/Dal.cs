@@ -160,8 +160,8 @@ namespace Projet_Gestion_Finance.Models
         {
             if (categorie is null)
                 throw new ArgumentNullException(nameof(categorie), "Veillez choisir une Categorie");
-            if (TotalCategories(User, categorie.Id) + categorie.LimiteDepenses > ObtenirUtilisateur(User).Revenue)
-                throw new InvalidOperationException("Cette limite dépasse vos revenu");
+            //if (TotalCategories(User, categorie.Id) + categorie.LimiteDepenses > ObtenirUtilisateur(User).Revenue)
+            //    throw new InvalidOperationException("Cette limite dépasse vos revenu");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
 
 
@@ -257,6 +257,16 @@ namespace Projet_Gestion_Finance.Models
                 cmd.Parameters.AddWithValue("@obligatoire", depense.Obligatoire);
                 cmd.ExecuteNonQuery();
                 ModifierCategorie(new Categorie(depense.Categorie.Id, depense.Categorie.Nom, depense.Categorie.LimiteDepenses, depense.Categorie.Description));
+            }
+            catch(InvalidOperationException ex)
+            {
+                FrmErreur f = new FrmErreur(ex.Message,FrmErreur.EtatErreur.Avertissement);
+                f.ShowDialog();
+                if(f.DialogResult == true)
+                {
+                    f.Close();
+                }
+
             }
             catch (Exception ex)
             {

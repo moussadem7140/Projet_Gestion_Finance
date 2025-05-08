@@ -134,12 +134,12 @@ namespace Projet_Gestion_Finance.Models
         { 
             chargerListes();
         }
-        private void btn_Click(object sender, RoutedEventArgs e)
+
+        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Accueil l = new Accueil(Dal.ObtenirUtilisateur(User));
             l.Show();
             this.Close();
         }
-     
     }
 }

@@ -94,8 +94,9 @@ namespace Projet_Gestion_Finance.Views
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Login g = new Login();
-            g.Show();
+            g.ShowDialog();
             this.Close();
+
         }
         /// <summary>
         /// Permet de gérer l'événement de clic sur l'image de modification de profile
@@ -106,7 +107,6 @@ namespace Projet_Gestion_Finance.Views
         {
           Inscription i = new Inscription(Utilisateur);
             i.Show();
-            this.Close();
         }
 
         private void chargerListes(DateTime dateDebut,DateTime dateFin)

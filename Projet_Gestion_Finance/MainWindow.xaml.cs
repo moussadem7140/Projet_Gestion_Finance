@@ -16,6 +16,7 @@ using Projet_Gestion_Finance.Views;
 using LiveCharts.Wpf;
 using LiveCharts;
 using Microsoft.VisualBasic;
+using System.Reflection.Emit;
 
 namespace Projet_Gestion_Finance
 {
@@ -46,95 +47,12 @@ namespace Projet_Gestion_Finance
             
             ChargerMois();
             chargerListes();
-           
+
         }
         /// <summary>
         /// Permet de remplir toutes les liste de départ du programme
         /// </summary>
-        private void chargerListes()
-        {
-            lstDepenses.ItemsSource = null;
-            lstCategorie.ItemsSource = null;
-            graphique.Series = null;
-            Labels.Labels = null;
-            totals.Clear();
-            limites.Clear();
-            labels.Clear();
-            cboCategories.Items.Clear();
-            List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
-            lstCategorie.ItemsSource = cat;
-            List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value, User);
-            lstDepenses.ItemsSource = dep;
-            btnImprimerDepense.IsEnabled = true;
-            print.IsEnabled = true;
-            List<Categorie> cat1 = Dal.ObtenirListeCategories(User);
-            cat1.Add(new Categorie(1200, "Toutes", 0, "s"));
-            foreach (Categorie c in cat1)
-            {
-                cboCategories.Items.Add(c.Nom);
-            }
-            foreach (Categorie c in Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1)))
-            {
-                limites.Add(c.LimiteDepenses);
-                totals.Add(c.CoutTotal);
-                labels.Add(c.Nom);
-            }
-            decimal total = 0;
-            decimal total1 = 0;
-            foreach(Depenses d in dep)
-            {
-                total += d.Cout;
-            }
-            foreach(Projets p in Dal.ObtenirListeProjets(dtpFinPeriode.SelectedDate.Value, User))
-            {
-                total1 += p.Cout;
-            }
-            //var limites = new ChartValues<double> { 500, 800, 300 };
-            //var totals = new ChartValues<double> { 350, 600, 200 };
-            //var labels = new List<string> { "Nourriture", "Voiture", "Loisirs" };
-            SeriesCollection categories = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Limite",
-                    Values = limites,
-                    DataLabels=true,
-                 },
-                new ColumnSeries
-                {
-                    Title = "Utilisé",
-                    Values = totals,
-                    DataLabels =true,
-                }
-            };
-            SeriesCollection ListeDepensesRevenus = new SeriesCollection
-            {
-                new PieSeries
-                {
-                    Title = "Marge de revenue non utilisées",
-                    //Dal.ObtenirUtilisateur(User).Revenue
-                    Values = new ChartValues<decimal>{ 5000 - total -total1 },
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Parts utilisées par les Depenses ",
-                    Values =new ChartValues<decimal>{total},
-                    DataLabels = true
-                },
-                new PieSeries
-                {
-                    Title = "Parts utilisées par les projets",
-                    Values = new ChartValues<decimal> { total1 },
-                    DataLabels = true
-                }
-            };
-
-            depensesRevenues.Series= ListeDepensesRevenus;
-            graphique.Series = categories;
-            Labels.Labels = labels;
-
-        }
+       
         /// <summary>
         /// Permet d'initialiser les jours dans les date pickers
         /// </summary>
@@ -259,6 +177,44 @@ namespace Projet_Gestion_Finance
                 f.ShowDialog();
             }
         }
+        private void chargerListes()
+        {
+            lstDepenses.ItemsSource = null;
+            lstCategorie.ItemsSource = null;
+            totals.Clear();
+            limites.Clear();
+            labels.Clear();
+            cboCategories.Items.Clear();
+            List<Categorie> cat = Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1));
+            lstCategorie.ItemsSource = cat;
+            List<Depenses> dep = Dal.ObtenirListeDepenses(dtpDebutPeriode.SelectedDate.Value, dtpFinPeriode.SelectedDate.Value, User);
+            lstDepenses.ItemsSource = dep;
+            btnImprimerDepense.IsEnabled = true;
+            print.IsEnabled = true;
+            List<Categorie> cat1 = Dal.ObtenirListeCategories(User);
+            cat1.Add(new Categorie(1200, "Toutes", 0, "s"));
+            foreach (Categorie c in cat1)
+            {
+                cboCategories.Items.Add(c.Nom);
+            }
+            foreach (Categorie c in Dal.ObtenirListeCategories(User, new DateTime((int)CombosAnnee.SelectedItem, ComboMois.SelectedIndex + 1, 1)))
+            {
+                limites.Add(c.LimiteDepenses);
+                totals.Add(c.CoutTotal);
+                labels.Add(c.Nom);
+            }
+            decimal total = 0;
+            decimal total1 = 0;
+            foreach (Depenses d in dep)
+            {
+                total += d.Cout;
+            }
+            foreach (Projets p in Dal.ObtenirListeProjets(dtpFinPeriode.SelectedDate.Value, User))
+            {
+                total1 += p.Cout;
+            }
+
+        }
 
         private void btnRechercherDepense_Click(object sender, RoutedEventArgs e)
         {
@@ -325,14 +281,14 @@ namespace Projet_Gestion_Finance
             MessageBox.Show("Le Fichier a bien été mise à jour", "Impression", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btn_Click(object sender, RoutedEventArgs e)
+        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Accueil l = new Accueil(Dal.ObtenirUtilisateur(User));
             l.Show();
             this.Close();
         }
 
-      
+
         //Statistiques
 
 

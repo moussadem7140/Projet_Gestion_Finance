@@ -24,7 +24,6 @@ namespace Projet_Gestion_Finance.Views
     {
         public bool Modification { get; set; }
         public Utilisateur User { get; set; }   
-        public static GestionFinance GestionFinance = new GestionFinance();
         public Inscription()
         {
             InitializeComponent();
@@ -46,11 +45,11 @@ namespace Projet_Gestion_Finance.Views
         }
         private void btnInscription_Click(object sender, RoutedEventArgs e)
         {
-           
-                if (ValiderChamps())
+
+            if (ValiderChamps())
+            {
+                if (User is null)
                 {
-                    if(User is null)
-                    {
                     string nom = txtNomIns.Text.Trim();
                     string prenom = txtPrenomIns.Text.Trim();
                     string mail = txtMailIns.Text.Trim();
@@ -63,10 +62,16 @@ namespace Projet_Gestion_Finance.Views
                     utilisateur.Revenue = Decimal.Parse(revenu);
                     //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                     Dal.AjouterUtilisateur(utilisateur);
-                    this.Close();
+   
+                    FrmErreur erreur = new FrmErreur($"Compte créé avec succès \n Votre Identifiant : {utilisateur.Id}", FrmErreur.EtatErreur.Inscripton);
+                    erreur.ShowDialog();
+                    if (erreur.DialogResult == true)
+                    {
+                        erreur.Close();
                     }
-                    
-                  else
+                    this.Close();
+                }
+                else
                 {
                     string nom = txtNomIns.Text.Trim();
                     string prenom = txtPrenomIns.Text.Trim();
@@ -77,19 +82,16 @@ namespace Projet_Gestion_Finance.Views
                     byte[] salt = Classes.Utils.CreerSALT();
                     //GestionFinance.Dicosalts.Add(id, salt);
                     Utilisateur utilisateur = new Utilisateur(User.IdUnique, nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail, salt);
-                    utilisateur.Revenue = Decimal.Parse(revenu.Remove(revenu.Length-1));
+                    utilisateur.Revenue = Decimal.Parse(revenu.Remove(revenu.Length - 1));
                     User = utilisateur;
                     //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                     Dal.ModifierUtilisateur(User);
                     (new Accueil(User)).Show();
                     this.Close();
                 }
+                
             }
-            
-          
-           
         }
-
         public bool ValiderChamps()
         {
             // Réinitialisation des messages d'erreur

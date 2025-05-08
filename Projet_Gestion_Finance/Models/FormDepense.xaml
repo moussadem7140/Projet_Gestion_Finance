@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
-        Title="FormDepense" Height="450" Width="800" Loaded="Windows_Loaded">
-    <StackPanel Margin="10"  >
-        <StackPanel.Background>
-            <ImageBrush ImageSource="/Ressource/imagedefond.jpg" Stretch="UniformToFill"></ImageBrush>
-        </StackPanel.Background>
+        Title="FormDepense" Height="425" Width="500" Loaded="Windows_Loaded" Background="#FF68B67C">
+    <StackPanel Margin="30,0,0,0" HorizontalAlignment="Center" Background="#FF68B67C">
         <TextBlock Name="Titre" HorizontalAlignment="Left" Margin="10" FontWeight="Bold"></TextBlock>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
             <Label Width="70"  FontWeight="Bold">Nom</Label>
@@ -39,9 +36,9 @@
          <StackPanel  Orientation="Horizontal" Margin="70,5" HorizontalAlignment="Left">
             <CheckBox x:Name="chkOblig" FontWeight="Bold">Obligatoire</CheckBox>
         </StackPanel>
-        <Label Foreground="Red" Name="chkObligErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
-        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10" Width="750">
-            <Button x:Name="btnModifier" Width="100"  Margin="5,10" Click="btnModifier_Click">Modifier</Button>
+        <Label Foreground="Red" Name="chkObligErreur" Padding="0" FontSize="10" Height="15" Width="470" FontWeight="Bold"></Label>
+        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10" Width="410">
+            <Button x:Name="btnModifier" Width="100"  Margin="5,10" Padding="5" Click="btnModifier_Click">Modifier</Button>
             <Button x:Name="btnAnnuler" Width="100" Margin="5,10" Click="btnAnnuler_Click">Annuler</Button>
         </StackPanel>
     </StackPanel>
