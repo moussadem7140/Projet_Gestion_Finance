@@ -77,10 +77,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Views"
         mc:Ignorable="d"
-        Title="login" Height="400" Width="580" Background="#FF68B67C">
+        Title="login" Height="400" Width="580" Background="#E52C3E50">
     <Grid >
         <Border Width="420" Height="370"
-                Background="#FF68B67C" CornerRadius="12"
+               CornerRadius="12"
                 BorderBrush="#AAFFFFFF" BorderThickness="1"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Padding="13">

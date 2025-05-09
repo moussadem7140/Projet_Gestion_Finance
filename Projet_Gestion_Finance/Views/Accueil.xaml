@@ -12,10 +12,12 @@
             <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        --><!--<Grid.RowDefinitions>
+        -->
+<!--<Grid.RowDefinitions>
             <RowDefinition Height="90"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>--><!--
+        </Grid.RowDefinitions>-->
+<!--
         <StackPanel Orientation="Vertical" Grid.Column="0" Background="#E52C3E50" Margin="-10,0,10,0">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,38,0,0">
                 <Ellipse Fill="#FFFFFF" Width="125" Height="119"/>
@@ -32,7 +34,9 @@
         <Border Background="#FFFFFF" Grid.Column="1">
             <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="40" Margin="20,18,0,0"  FontWeight="Bold" HorizontalAlignment="Left" Foreground="#E52C3E50">Gestion des finances</TextBlock>
-                --><!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderBrush="Red" BorderThickness="2">--><!--
+                -->
+<!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderBrush="Red" BorderThickness="2">-->
+<!--
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Vertical" Width="510" HorizontalAlignment="Center" Margin="0,18,0,0">
                         <Grid>
@@ -89,11 +93,15 @@
                                 <lvc:PieChart x:Name="depensesRevenues"
                                     LegendLocation="Right"  Height="334" Width="395"/>
                             </StackPanel>
-                            --><!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>--><!--
+                            -->
+<!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>-->
+<!--
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-                --><!--</ScrollViewer>--><!--
+                -->
+<!--</ScrollViewer>-->
+<!--
             </StackPanel>
         </Border>
     </Grid>
@@ -132,7 +140,7 @@
 
         <!-- Contenu principal avec ScrollViewer -->
         <Border Background="#FFFFFF" Grid.Column="1">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" RenderTransformOrigin="0.636,0.541">
                 <StackPanel Orientation="Vertical">
                     <TextBlock FontSize="40" Margin="20,18,0,0" FontWeight="Bold" HorizontalAlignment="Left" Foreground="#E52C3E50">GestuPro</TextBlock>
 
@@ -190,7 +198,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" ScrollViewer.CanContentScroll="True">
-                                <lvc:CartesianChart x:Name="graphique" Height="255" Width="462" HorizontalAlignment="Left" Margin="39,30,0,34">
+                                <lvc:CartesianChart x:Name="graphique" Height="196" Width="191" HorizontalAlignment="Left" Margin="39,30,0,34">
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis Title="Catégories" x:Name="Labels"/>
                                     </lvc:CartesianChart.AxisX>
@@ -198,9 +206,18 @@
                                         <lvc:Axis Title="Montant ($)" />
                                     </lvc:CartesianChart.AxisY>
                                 </lvc:CartesianChart>
-                                <lvc:PieChart x:Name="depensesRevenues"
-            LegendLocation="Right"  Height="334" Width="395"/>
                             </StackPanel>
+                            <lvc:PieChart x:Name="depensesRevenues"
+            LegendLocation="Right"  Height="144" Width="255" RenderTransformOrigin="0.5,0.487">
+                                <lvc:PieChart.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleY="1.229"/>
+                                        <RotateTransform Angle="-0.903"/>
+                                        <TranslateTransform Y="2.627"/>
+                                    </TransformGroup>
+                                </lvc:PieChart.RenderTransform>
+                            </lvc:PieChart>
                             <!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>-->
                         </StackPanel>
                     </StackPanel>
