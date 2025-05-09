@@ -108,7 +108,11 @@ namespace Projet_Gestion_Finance.Views
           Inscription i = new Inscription(Utilisateur);
             i.Show();
         }
-
+        private void Image_MouseDown2(object sender, MouseButtonEventArgs e)
+        {
+           video v = new video();
+            v.Show();
+        }
         private void chargerListes(DateTime dateDebut,DateTime dateFin)
         {
             graphique.Series = null;

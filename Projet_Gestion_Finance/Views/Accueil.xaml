@@ -132,10 +132,12 @@
             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                 <TextBlock FontSize="19" Margin="0,10,0,0" FontWeight="Bold" HorizontalAlignment="Left" Foreground="#FFFFFF" Name="txtNom"></TextBlock>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
-                <Image Source="/Ressource/Icons/edit.png" Width="50" Height="50" Margin="40,0,0,0" MouseDown="Image_MouseDown_1"></Image>
-                <Image Source="/Ressource/Icons/logout.png" Width="50" Height="50" Margin="35,0,0,0" MouseDown="Image_MouseDown"></Image>
+            <StackPanel Orientation="Horizontal" Width="200" Margin="0,15,0,0">
+                <Image Source="/Ressource/Icons/edit.png" Width="50" Height="50" Margin="15,0,0,0" MouseDown="Image_MouseDown_1"></Image>
+                <Image Source="/Ressource/Icons/logout.png" Width="50" Height="50" Margin="15,0,0,0" MouseDown="Image_MouseDown"></Image>
+                <Image Source="/Ressource/Icons/video.png" Width="50" Height="50" Margin="15,0,0,0" MouseDown="Image_MouseDown2"></Image>
             </StackPanel>
+      
         </StackPanel>
 
         <!-- Contenu principal avec ScrollViewer -->
@@ -194,11 +196,12 @@
                             <DatePicker Width="105" x:Name="dtpDebutPeriode" Height="26"/>
                             <Label Width="110" Margin="30,0,0,0">Fin de la période</Label>
                             <DatePicker Width="105" x:Name="dtpFinPeriode" Height="26"/>
-                            <Button x:Name="btnValider" Content="Valider" Width="75" Height="26" Margin="30,0,0,0" Click="btnValider_Click" Background="#CC31B11B"/>
+
+                            <Button x:Name="btnValider" Content="Valider" Width="80" Height="26" Margin="30,0,0,0" Click="btnValider_Click" Background="#CC31B11B"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" ScrollViewer.CanContentScroll="True">
-                                <lvc:CartesianChart x:Name="graphique" Height="196" Width="191" HorizontalAlignment="Left" Margin="39,30,0,34">
+                                <lvc:CartesianChart x:Name="graphique" Height="196" Width="390">
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis Title="Catégories" x:Name="Labels"/>
                                     </lvc:CartesianChart.AxisX>
@@ -207,20 +210,20 @@
                                     </lvc:CartesianChart.AxisY>
                                 </lvc:CartesianChart>
                             </StackPanel>
-                            <lvc:PieChart x:Name="depensesRevenues"
-            LegendLocation="Right"  Height="144" Width="255" RenderTransformOrigin="0.5,0.487">
-                                <lvc:PieChart.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleY="1.229"/>
-                                        <RotateTransform Angle="-0.903"/>
-                                        <TranslateTransform Y="2.627"/>
-                                    </TransformGroup>
-                                </lvc:PieChart.RenderTransform>
-                            </lvc:PieChart>
                             <!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>-->
                         </StackPanel>
                     </StackPanel>
+                    <lvc:PieChart x:Name="depensesRevenues"
+            LegendLocation="Right"  Height="144" Width="255" RenderTransformOrigin="0.5,0.487">
+                        <lvc:PieChart.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform AngleY="1.229"/>
+                                <RotateTransform Angle="-0.903"/>
+                                <TranslateTransform Y="2.627"/>
+                            </TransformGroup>
+                        </lvc:PieChart.RenderTransform>
+                    </lvc:PieChart>
                 </StackPanel>
             </ScrollViewer>
         </Border>

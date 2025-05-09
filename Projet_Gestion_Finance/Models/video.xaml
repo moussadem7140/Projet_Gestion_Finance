@@ -1,0 +1,12 @@
+﻿<Window x:Class="Projet_Gestion_Finance.Models.video"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lecteur Vidéo" Height="450" Width="800" Background="#E52C3E50">
+    <Grid>
+        <MediaElement x:Name="videoPlayer"
+                      LoadedBehavior="Manual"
+                      UnloadedBehavior="Manual"
+                      Stretch="UniformToFill"
+                      MediaEnded="videoPlayer_MediaEnded"/>
+    </Grid>
+</Window>
