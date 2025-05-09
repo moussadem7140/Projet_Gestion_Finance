@@ -137,7 +137,7 @@
                 <Image Source="/Ressource/Icons/logout.png" Width="50" Height="50" Margin="15,0,0,0" MouseDown="Image_MouseDown"></Image>
                 <Image Source="/Ressource/Icons/video.png" Width="50" Height="50" Margin="15,0,0,0" MouseDown="Image_MouseDown2"></Image>
             </StackPanel>
-      
+
         </StackPanel>
 
         <!-- Contenu principal avec ScrollViewer -->
@@ -188,42 +188,55 @@
                     </StackPanel>
 
                     <!-- Statistiques -->
-                    <StackPanel Orientation="Vertical" Margin="0,30,0,0">
-                        <Label Margin="12,23,0,10" Width="228" HorizontalAlignment="Left" Height="30" FontSize="16" FontWeight="Bold">Vos Statistiques</Label>
+                    <StackPanel Orientation="Vertical" Margin="10,30,0,0">
+                        <Label Margin="0,0,0,10" HorizontalAlignment="Left" Height="30" FontSize="16" FontWeight="Bold">
+                            Vos Statistiques
+                        </Label>
 
-                        <StackPanel Orientation="Horizontal">
+                        <!-- Période -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,10">
                             <Label Width="120">Début de la période</Label>
                             <DatePicker Width="105" x:Name="dtpDebutPeriode" Height="26"/>
                             <Label Width="110" Margin="30,0,0,0">Fin de la période</Label>
                             <DatePicker Width="105" x:Name="dtpFinPeriode" Height="26"/>
-
-                            <Button x:Name="btnValider" Content="Valider" Width="80" Height="26" Margin="30,0,0,0" Click="btnValider_Click" Background="#CC31B11B"/>
+                            <Button x:Name="btnValider" Content="Valider" Width="80" Height="26" Margin="30,0,0,0"
+                Click="btnValider_Click" Background="#CC31B11B"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" ScrollViewer.CanContentScroll="True">
-                                <lvc:CartesianChart x:Name="graphique" Height="196" Width="390">
-                                    <lvc:CartesianChart.AxisX>
-                                        <lvc:Axis Title="Catégories" x:Name="Labels"/>
-                                    </lvc:CartesianChart.AxisX>
-                                    <lvc:CartesianChart.AxisY>
-                                        <lvc:Axis Title="Montant ($)" />
-                                    </lvc:CartesianChart.AxisY>
-                                </lvc:CartesianChart>
-                            </StackPanel>
-                            <!--<ScrollBar Orientation="Vertical" Minimum="0" Maximum="100" Value="50" HorizontalAlignment="Right" Margin="390,0,0,0"/>-->
+
+                        <!-- Description + Graphique en barres -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,20">
+                           
+                            <lvc:CartesianChart x:Name="graphique"
+                            Height="216"
+                            Width="330"
+                            HorizontalAlignment="Left">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Title="Catégories" x:Name="Labels"/>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Title="Montant ($)" />
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <TextBlock TextWrapping="Wrap" FontWeight="Bold" Text="Graphique des dépenses par catégorie"
+VerticalAlignment="Center"
+Margin="19,10,10,10"
+Width="180" FontFamily="Arial Black" FontSize="14"/>
+                        </StackPanel>
+
+                        <!-- Description + Graphique circulaire -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                           
+                            <lvc:PieChart x:Name="depensesRevenues"
+                      LegendLocation="Right"
+                      Height="183"
+                      Width="315"
+                      HorizontalAlignment="Left"/>
+                            <TextBlock TextWrapping="Wrap" FontWeight="Bold" Text="Répartition du revenu par rapport aux dépenses et aux projets "
+VerticalAlignment="Center"
+Margin="19,10,10,10"
+Width="180" FontFamily="Arial Black" FontSize="14"/>
                         </StackPanel>
                     </StackPanel>
-                    <lvc:PieChart x:Name="depensesRevenues"
-            LegendLocation="Right"  Height="144" Width="255" RenderTransformOrigin="0.5,0.487">
-                        <lvc:PieChart.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform AngleY="1.229"/>
-                                <RotateTransform Angle="-0.903"/>
-                                <TranslateTransform Y="2.627"/>
-                            </TransformGroup>
-                        </lvc:PieChart.RenderTransform>
-                    </lvc:PieChart>
                 </StackPanel>
             </ScrollViewer>
         </Border>

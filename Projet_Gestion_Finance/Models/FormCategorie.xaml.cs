@@ -85,21 +85,23 @@ namespace Projet_Gestion_Finance.Models
 
                         break;
                     case EtatFormulaire.Supprimer:
-                        MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la Categorie",
-                           "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                        if (messageBoxResult == MessageBoxResult.Yes)
-                        {
+                        //MessageBoxResult messageBoxResult = MessageBox.Show("Désirez-vous supprimer la Categorie",
+                        //   "Suppression d'un contact", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                        //if (messageBoxResult == MessageBoxResult.Yes)
+                        //{
                             Dal.SupprimerCategorie(Categorie);
                             DialogResult = true;
-                        }
-                        else
-                            DialogResult = false;
+                        //}
+                        //else
+                        //    DialogResult = false;
                         break;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                //MessageBox.Show(ex.Message, "Action Invalide", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                FrmErreur F = new FrmErreur(ex.Message, FrmErreur.EtatErreur.Erreur);
+                F.Show();
             }
         }
 

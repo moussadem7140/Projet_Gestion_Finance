@@ -23,7 +23,8 @@ namespace Projet_Gestion_Finance.Views
     public partial class Inscription : Window
     {
         public bool Modification { get; set; }
-        public Utilisateur User { get; set; }   
+        public Utilisateur User { get; set; }
+        public bool t {  get; set; }
         public Inscription()
         {
             InitializeComponent();
@@ -32,15 +33,20 @@ namespace Projet_Gestion_Finance.Views
         {
             InitializeComponent();
             User= user;
+
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
            if(User is not null)
             {
+                txtblkTitre.Text = "Modification";
                 txtNomIns.Text = User.Nom;
                 txtPrenomIns.Text= User.Prenom;
                 txtMailIns.Text= User.Mail;
                 txtRevenuIns.Text= User.Revenue.ToString()+"$";
+                btnInscription.Content = "Modifier";
+                p.Text = "";
+                s.Text = "";
             }
         }
         private void btnInscription_Click(object sender, RoutedEventArgs e)
