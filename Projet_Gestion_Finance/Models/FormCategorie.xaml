@@ -5,21 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet_Gestion_Finance.Models"
         mc:Ignorable="d"
-        Title="FormCategorie" Height="360" Width="500" Loaded="Windows_Loaded" Background="#FF68B67C">
+        Title="FormCategorie" Height="360" Width="500" Loaded="Windows_Loaded" Background="#E52C3E50">
     <StackPanel Margin="10">
-        <TextBlock Name="Titre" HorizontalAlignment="Left" Margin="10" FontWeight="Bold">Création d'une catégorie</TextBlock>
+        <TextBlock Foreground="White" Name="Titre" HorizontalAlignment="Left" Margin="10" FontWeight="Bold">Création d'une catégorie</TextBlock>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left" >
-            <Label  Width="75" FontWeight="Bold">Nom</Label>
+            <Label  Width="75" FontWeight="Bold" Foreground="White">Nom</Label>
             <TextBox x:Name="txtNom" Width="250"></TextBox>
         </StackPanel>
         <Label Foreground="Red" Name="txtNomErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
-            <Label  Width="75" FontWeight="Bold">Limite</Label>
+            <Label Foreground="White"  Width="75" FontWeight="Bold">Limite</Label>
             <TextBox x:Name="txtLimite" Width="250" ></TextBox>
         </StackPanel>
         <Label Foreground="Red" Name="txtLimiteErreur" Padding="0" FontSize="10" Height="15" Width="632" FontWeight="Bold"></Label>
         <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left" >
-            <Label  Width="75" Height="50" FontWeight="Bold">Description</Label>
+            <Label Foreground="White" Width="75" Height="50" FontWeight="Bold">Description</Label>
             <TextBox x:Name="txtDescription" Width="250" Height="36"></TextBox>
         </StackPanel>
         <Label Foreground="Red" Name="txtDescriptionErreur" Padding="0" FontSize="10" Height="15" Width="452" FontWeight="Bold"></Label>
