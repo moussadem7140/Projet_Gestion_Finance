@@ -78,18 +78,11 @@ namespace Projet_Gestion_Finance.Models
         {
             get
             {
+                if (Objectif == 0)
+                    return 0;
                 if (Reste == 0)
-                {
                     return 100;
-                }
-                else
-                {
-                    return (int)((Avancement / Objectif) * 100);
-                }
-            }
-            set
-            {
-                Progression = value;
+                return (int)((Avancement / Objectif) * 100);
             }
         }
 

@@ -59,7 +59,7 @@ namespace Projet_Gestion_Finance.Classes
         /// Convertit un tableau de bytes en chaîne de caractères Base64
         /// </summary>
         /// <param name="salt">Tableau de bytes</param>
-        /// <returns>Chaîne de caractères Base64</
+        /// <returns>Chaîne de caractères Base64</returns>
         public static string ConvertirByteSaltEnString(byte[] salt)
         {
             return Convert.ToBase64String(salt);

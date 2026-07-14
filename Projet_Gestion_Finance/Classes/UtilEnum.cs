@@ -9,7 +9,7 @@ using System.IO;
 using System.Reflection;
 using Projet_Gestion_Finance.Models;
 
-namespace  Projet_Gestion_Finance.classes
+namespace Projet_Gestion_Finance.Classes
 {
     
     public static class UtilEnum

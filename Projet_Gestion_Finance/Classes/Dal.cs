@@ -11,7 +11,6 @@ using Projet_Gestion_Finance.Classes;
 using System.Security.Cryptography.X509Certificates;
 using System.Globalization;
 using Microsoft.VisualBasic;
-using Projet_Gestion_Finance.classes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Projet_Gestion_Finance.Views;
 namespace Projet_Gestion_Finance.Models
@@ -52,7 +51,7 @@ namespace Projet_Gestion_Finance.Models
                 {
                     while (dr.Read())
                     {
-                        Categorie Categorie = new Categorie(dr.GetUInt16(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                        Categorie Categorie = new Categorie(dr.GetInt32(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
                         Categories.Add(Categorie);
                     }
                 }
@@ -60,7 +59,7 @@ namespace Projet_Gestion_Finance.Models
                 {
                     while (dr.Read())
                     {
-                        Categorie Categorie = new Categorie(dr.GetUInt16(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
+                        Categorie Categorie = new Categorie(dr.GetInt32(0), dr.GetString(1), dr.GetDecimal(2), dr.GetString(3));
                         Categorie.CoutTotal = totalCategorie(Categorie, mois.Value, 0);
                         Categories.Add(Categorie);
                     }
@@ -99,7 +98,7 @@ namespace Projet_Gestion_Finance.Models
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                    Depenses depense = new Depenses(dr.GetInt32(6), dr.GetString(0), ObtenirCategorie(dr.GetInt32(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
                     depenses.Add(depense);
                 }
                 dr.Close();
@@ -170,7 +169,6 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 string requete2 = "UPDATE categorie SET Nom=@nom, Limite=@limite, Description=@description Where id= @id";
                 MySqlCommand cmd = new MySqlCommand(requete2, cn);
-                cmd = new MySqlCommand(requete2, cn);
                 cmd.Parameters.AddWithValue("@id", categorie.Id);
                 cmd.Parameters.AddWithValue("@nom", categorie.Nom);
                 cmd.Parameters.AddWithValue("@limite", categorie.LimiteDepenses);
@@ -232,12 +230,12 @@ namespace Projet_Gestion_Finance.Models
         /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
         public static void AjouterDepense(Depenses depense, int User)
         {
+            if (depense is null)
+                throw new ArgumentNullException(nameof(depense), "La dépense ne peut être null");
             MySqlConnection cn = new MySqlConnection(_configuration.GetConnectionString(CONNECTION_STRING));
             try
             {
             int p = depense.Frequence== Depenses.TypeFrequence.Hebdomadaire? UtilEnum.GetSemainesRestantes(depense.Date) : 1;
-            if (depense is null)
-                throw new ArgumentNullException(nameof(depense), "La depenses ne peut être null");
             if(totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), 0) + p*depense.Cout> depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
             if(ObtenirDepensesGénéralesMensuel(depense.Categorie, 0) + depense.CoutMensuel> depense.Categorie.LimiteDepenses && depense.Frequence!= Depenses.TypeFrequence.Occasionnel)
@@ -285,16 +283,11 @@ namespace Projet_Gestion_Finance.Models
         /// <param name="depense">la depense qui doit être modifier</param>
         /// <exception cref="ArgumentNullException">Lance une exception si la depense est null</exception>
         /// <exception cref="InvalidOperationException">Lance une exception si le coût de la dépense est trop élévé</exception>
-
-        public static Utilisateur RecupererUtilisateurs()
-        {
-            return new Utilisateur();
-        }
         public static void ModifierDepense(Depenses depense)
         {
-            int p = depense.Frequence == Depenses.TypeFrequence.Hebdomadaire ? UtilEnum.GetSemainesRestantes(depense.Date) : 1;
             if (depense is null)
-                throw new ArgumentNullException(nameof(depense), "Veillez choisir une depense");
+                throw new ArgumentNullException(nameof(depense), "Veuillez choisir une dépense");
+            int p = depense.Frequence == Depenses.TypeFrequence.Hebdomadaire ? UtilEnum.GetSemainesRestantes(depense.Date) : 1;
             if (totalCategorie(depense.Categorie, new DateTime(depense.Date.Year, depense.Date.Month, 1), depense.Id) + p*depense.Cout > depense.Categorie.LimiteDepenses)
                 throw new InvalidOperationException("La depense dépasse la limite mensuelle de la catégorie");
             if (ObtenirDepensesGénéralesMensuel(depense.Categorie, depense.Id) + depense.CoutMensuel > depense.Categorie.LimiteDepenses)
@@ -307,7 +300,6 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 string requete2 = "UPDATE depenses SET Nom=@nom, Categorie=@categorie, Cout=@cout, Date=@date, Frequence= @frequence, Obligatoire=@obligatoire  Where Id=@id";
                 MySqlCommand cmd = new MySqlCommand(requete2, cn);
-                cmd = new MySqlCommand(requete2, cn);
                 cmd.Parameters.AddWithValue("@id", depense.Id);
                 cmd.Parameters.AddWithValue("@nom", depense.Nom);
                 cmd.Parameters.AddWithValue("@categorie", depense.Categorie.Id);
@@ -451,7 +443,7 @@ namespace Projet_Gestion_Finance.Models
                 if (dr.HasRows)
                 {
                     dr.Read();
-                    depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                    depense = new Depenses(dr.GetInt32(6), dr.GetString(0), ObtenirCategorie(dr.GetInt32(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
                 }
                 dr.Close();
             }
@@ -485,7 +477,7 @@ namespace Projet_Gestion_Finance.Models
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                        Depenses depense = new Depenses(dr.GetUInt16(6), dr.GetString(0), ObtenirCategorie(dr.GetUInt16(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
+                        Depenses depense = new Depenses(dr.GetInt32(6), dr.GetString(0), ObtenirCategorie(dr.GetInt32(1)), dr.GetDecimal(2), dr.GetDateTime(3), (Depenses.TypeFrequence)Enum.Parse(typeof(Depenses.TypeFrequence), dr.GetString(4)), dr.GetBoolean(5));
                     depenses.Add(depense);
                 }
                 dr.Close();
@@ -670,13 +662,13 @@ namespace Projet_Gestion_Finance.Models
             try
             {
                 cn.Open();
-                string requete = "SELECT idutilisateurs,nom,prenom,mdp,identifiant,mail,salt FROM utilisateurs";
+                string requete = "SELECT idutilisateurs,nom,prenom,mdp,identifiant,mail,salt,Revenu FROM utilisateurs";
                 MySqlCommand cmd = new MySqlCommand(requete, cn);
                 MySqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0),dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(5), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
-                    utilisateur.Revenue = ObtenirUtilisateur(utilisateur.IdUnique).Revenue;
+                    Utilisateur utilisateur = new Utilisateur(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetString(4), Utils.ConvertirStringEnByteSalt(dr.GetString(3)), dr.GetString(5), Utils.ConvertirStringEnByteSalt(dr.GetString(6)));
+                    utilisateur.Revenue = dr.GetDecimal(7);
                     dicoUtilisateurs.Add(utilisateur.Id, utilisateur);
                 }
                 dr.Close();
@@ -810,7 +802,6 @@ namespace Projet_Gestion_Finance.Models
                 cn.Open();
                 string requete2 = "UPDATE projets SET Nom=@nom, Cout=@cout, Date=@date, Frequence= @frequence Where Id=@id";
                 MySqlCommand cmd = new MySqlCommand(requete2, cn);
-                cmd = new MySqlCommand(requete2, cn);
                 cmd.Parameters.AddWithValue("@id", projet.Id);
                 cmd.Parameters.AddWithValue("@nom", projet.Nom);
                 cmd.Parameters.AddWithValue("@cout", projet.Cout);

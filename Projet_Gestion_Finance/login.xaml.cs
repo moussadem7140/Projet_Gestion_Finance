@@ -61,32 +61,23 @@ namespace Projet_Gestion_Finance.Views
                 txtMsgErrid.Text = "L'identifiant ne peut pas être vide";
                 estValide = false;
             }
-            else if (!_dicoUtilisateurs.ContainsKey(identifiant)){
+            else if (!_dicoUtilisateurs.ContainsKey(identifiant))
+            {
                 txtMsgErrid.Text = "L'identifiant n'existe pas";
                 estValide = false;
-
             }
             if (string.IsNullOrWhiteSpace(txtMdpConn.Password))
             {
                 txtMsgErrMdp.Text = "Le mot de passe ne peut pas être vide";
                 estValide = false;
             }
-            else
+            else if (_dicoUtilisateurs.ContainsKey(identifiant))
             {
-                if (!_dicoUtilisateurs.ContainsKey(identifiant))
+                Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
+                if (!Utils.EstMotDePasseCorrespond(txtMdpConn.Password, utilisateur.Salt, utilisateur.MDP))
                 {
-                    txtMsgErrid.Text = "L'identifiant n'existe pas";
+                    txtMsgErrMdp.Text = "Le mot de passe ne correspond pas";
                     estValide = false;
-
-                }
-                else
-                {
-                    Utilisateur utilisateur = _dicoUtilisateurs[identifiant];
-                    if (!Utils.EstMotDePasseCorrespond(txtMdpConn.Password, utilisateur.Salt, utilisateur.MDP))
-                    {
-                        txtMsgErrMdp.Text = "Le mot de passe ne correspond pas";
-                        estValide = false;
-                    }
                 }
             }
             return estValide;

@@ -1,11 +1,10 @@
 ﻿using System;
+using Projet_Gestion_Finance.Classes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using Projet_Gestion_Finance.Classes;
-using Projet_Gestion_Finance.classes;
 namespace Projet_Gestion_Finance.Classes
 {
     public class Depenses: IComparable
