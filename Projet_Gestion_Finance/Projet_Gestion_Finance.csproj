@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
+    <None Remove="Classes\appsettings.json" />
     <None Remove="Ressource\argent.wav" />
     <None Remove="Ressource\bienvenu.wav" />
     <None Remove="Ressource\bonus.png" />
@@ -28,8 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json">
+    <Content Include="Classes\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>appsettings.json</TargetPath>
     </Content>
     <Content Include="Ressource\argent.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

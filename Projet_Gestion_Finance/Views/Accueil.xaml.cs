@@ -171,8 +171,7 @@ namespace Projet_Gestion_Finance.Views
                 new PieSeries
                 {
                     Title = "Marge libre",
-                    //Dal.ObtenirUtilisateur(User).Revenue
-                    Values = new ChartValues<decimal>{ 5000 - total -total1 },
+                    Values = new ChartValues<decimal>{ utilisateur.Revenue - total - total1 },
                     DataLabels = true
                 },
                 new PieSeries

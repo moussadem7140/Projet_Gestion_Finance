@@ -61,11 +61,11 @@ namespace Projet_Gestion_Finance.Views
                     string mail = txtMailIns.Text.Trim();
                     string mdp = txtMdpIns.Password.Trim();
                     string id = nom.Substring(0, 3).Trim().ToUpper() + prenom.Substring(0, 3).Trim().ToUpper();
-                    string revenu = txtRevenuIns.Text;
+                    decimal revenu = decimal.Parse(txtRevenuIns.Text.Replace("$", "").Trim());
                     byte[] salt = Classes.Utils.CreerSALT();
                     //GestionFinance.Dicosalts.Add(id, salt);
                     Utilisateur utilisateur = new Utilisateur(0, nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail, salt);
-                    utilisateur.Revenue = Decimal.Parse(revenu);
+                    utilisateur.Revenue = revenu;
                     //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                     Dal.AjouterUtilisateur(utilisateur);
    
@@ -84,11 +84,11 @@ namespace Projet_Gestion_Finance.Views
                     string mail = txtMailIns.Text.Trim();
                     string mdp = txtMdpIns.Password.Trim();
                     string id = nom.Substring(0, 3).Trim().ToUpper() + prenom.Substring(0, 3).Trim().ToUpper();
-                    string revenu = txtRevenuIns.Text;
+                    decimal revenu = decimal.Parse(txtRevenuIns.Text.Replace("$", "").Trim());
                     byte[] salt = Classes.Utils.CreerSALT();
                     //GestionFinance.Dicosalts.Add(id, salt);
                     Utilisateur utilisateur = new Utilisateur(User.IdUnique, nom, prenom, id, Classes.Utils.HacherMotDePasse(mdp, salt), mail, salt);
-                    utilisateur.Revenue = Decimal.Parse(revenu.Remove(revenu.Length - 1));
+                    utilisateur.Revenue = revenu;
                     User = utilisateur;
                     //GestionFinance.DicoUtilisateurs.Add(id, utilisateur);
                     Dal.ModifierUtilisateur(User);
@@ -106,6 +106,7 @@ namespace Projet_Gestion_Finance.Views
             txtMailInsError.Text = string.Empty;
             txtMdpInsError.Text = string.Empty;
             txtMdpConfInsError.Text = string.Empty;
+            txtRevenuInsError.Text = string.Empty;
             bool estValide = true;
             if (string.IsNullOrWhiteSpace(txtNomIns.Text))
             {
@@ -146,6 +147,16 @@ namespace Projet_Gestion_Finance.Views
             {
                 txtMdpConfInsError.Text = "Les mots de passe ne correspondent pas";
                 estValide = false;
+            }
+            string revenuBrut = txtRevenuIns.Text.Replace("$", "").Trim();
+            if (string.IsNullOrWhiteSpace(revenuBrut) || !decimal.TryParse(revenuBrut, out decimal revenuVal) || revenuVal < 0)
+            {
+                txtRevenuInsError.Text = "Saisissez un revenu valide (nombre positif)";
+                estValide = false;
+            }
+            else
+            {
+                txtRevenuInsError.Text = string.Empty;
             }
             return estValide;
         }

@@ -115,8 +115,7 @@ namespace Projet_Gestion_Finance.Models
             }
             else
             {
-                DialogResult = true;
-                this.Close();
+                DialogResult = false;
             }
 
         }

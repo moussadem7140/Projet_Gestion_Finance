@@ -1,5 +1,4 @@
-﻿using Projet_Gestion_Finance.classes;
-using Projet_Gestion_Finance.Classes;
+﻿using Projet_Gestion_Finance.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,15 +174,15 @@ namespace Projet_Gestion_Finance.Models
             }
             if (String.IsNullOrEmpty(txtObjectif.Text) || !uint.TryParse(txtObjectif.Text, out uint b))
             {
-                txtObjectifErreur.Content = "Saisiser un nombre positif";
-                txtCout.BorderBrush = Brushes.Red;
+                txtObjectifErreur.Content = "Saisissez un nombre positif";
+                txtObjectif.BorderBrush = Brushes.Red;
                 valide = false;
 
             }
             else
             {
-                txtCoutErreur.Content = "";
-                txtCout.BorderBrush = null;
+                txtObjectifErreur.Content = "";
+                txtObjectif.BorderBrush = null;
             }
             if (dtpDate.SelectedDate == null)
             {

@@ -130,7 +130,7 @@ namespace Projet_Gestion_Finance.Models
             }
             if (String.IsNullOrEmpty(txtLimite.Text) || !uint.TryParse(txtLimite.Text, out uint a))
             {
-                txtLimiteErreur.Content = "Saisiser une limite(nombre positif)kk";
+                txtLimiteErreur.Content = "Saisissez une limite (nombre positif)";
                 txtLimite.BorderBrush = Brushes.Red;
                 valide = false;
 

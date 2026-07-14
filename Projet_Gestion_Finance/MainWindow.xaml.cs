@@ -11,7 +11,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Globalization;
-using Projet_Gestion_Finance.classes;
 using Projet_Gestion_Finance.Views;
 using LiveCharts.Wpf;
 using LiveCharts;
